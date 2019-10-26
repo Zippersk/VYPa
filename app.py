@@ -1,21 +1,12 @@
-# -----------------------------------------------------------------------------
-# calc.py
-#
-# A simple calculator with variables -- all in one file.
-# -----------------------------------------------------------------------------
 import sys
-from VYPcode.utils import print_code_header, print_code_aliases
-
-from tokens import *
-
-# Build the lexer
 import ply.lex as lex
+import ply.yacc as yacc
+from VYPcode.utils import print_code_header, print_code_aliases
+from tokens import *
+from rules import *
+
 
 lexer = lex.lex()
-
-from rules import *
-import ply.yacc as yacc
-
 parser = yacc.yacc(outputdir="generated")
 
 
