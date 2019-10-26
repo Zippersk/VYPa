@@ -3,7 +3,7 @@ tokens = (
     'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'ASSIGMENT',
     'LPAREN', 'RPAREN', 'CLASS', 'ELSE', 'IF', 'INT', 'NEW', 'RETURN', 'STRING', 'SUPER', 'THIS', 'VOID', 'WHILE',
     'LBRACKET', 'RBRACKET', 'NEGATION', 'LESS', 'LESSEQUAL', 'GREATER', 'GREATEREQUAL', 'EQUAL', 'NOTEQUAL',
-    'AND', 'OR', 'LINECOMMENT', 'BLOCKCOMMENTSTART', 'BLOCKCOMMENTEND', 'WORD'
+    'AND', 'OR', 'LINECOMMENT', 'BLOCKCOMMENT', 'WORD', 'COMMA', 'SEMICOLON'
 )
 
 # Tokens
@@ -15,7 +15,7 @@ t_DIVIDE = r'/'
 t_ASSIGMENT = r'='
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
-t_NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
+t_NAME = r'(?!(new|false|true|if|else|return|class|void|int|string|super|this|while)\b)[a-zA-Z_][a-zA-Z0-9_]*'
 t_CLASS = r'class'
 t_ELSE = r'else'
 t_IF = r'if'
@@ -38,17 +38,24 @@ t_EQUAL = r'=='
 t_NOTEQUAL = r'!='
 t_AND = r'&&'
 t_OR = r'\|\|'
-t_LINECOMMENT = r'//'
-t_BLOCKCOMMENTSTART = r'/\*'
-t_BLOCKCOMMENTEND = r'\*/'
-t_WORD = r'"[\x00-\x1f]*"'
+t_WORD = r'\"([^\\\n]|(\\.))*?\"'
+t_COMMA = r','
+t_SEMICOLON = r';'
 
 
 # Ignored characters
 t_ignore = " \t"
 
 
-# Parsing rules
+def t_LINECOMMENT(t):
+    r'\/\/.*'
+    pass
+
+def t_BLOCKCOMMENT(t):
+    r'\/\*(\*(?!\/)|[^*])*\*\/'
+    pass
+
+
 def t_NUMBER(t):
     r'[0-9]+'
     try:

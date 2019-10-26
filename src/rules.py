@@ -1,6 +1,7 @@
 from src.VYPcode.operations import *
 
 # Parsing rules
+from src.VYPcode.scopes import pop_scope, new_scope, push_scope
 
 precedence = (
     ('left', 'PLUS', 'MINUS'),
@@ -11,15 +12,64 @@ precedence = (
 # dictionary of names
 names = {}
 
+def p_program(t):
+    '''program : statement
+               | function
+               | class'''
+
+
+def p_function(t):
+    '''function : function_type NAME LPAREN functions_params RPAREN function_body
+                | function_type NAME LPAREN VOID RPAREN function_body'''
+    pass
+
+def p_class(t):
+    '''class : CLASS NAME '''
+    pass
+
+
+def p_variable_type(t):
+    '''variable_type : STRING
+                     | INT'''
+
+
+def p_function_type(t):
+    '''function_type : STRING
+                     | INT
+                     | VOID'''
+
+
+def p_functions_params(t):
+    '''functions_params : variable_type NAME
+                        | variable_type NAME COMMA functions_params'''
+
+
+def p_function_body(t):
+    '''function_body : new_scope statements_block'''
+
+
+def p_statements_block(t):
+    "statements_block : LBRACKET statements RBRACKET"""
+    pop_scope()
+
+def p_statements(t):
+    '''statements : statement statements
+                  | '''
+
+def p_new_scope(t):
+    "new_scope :"
+    s = new_scope()
+    push_scope(s)
+
 
 def p_statement_assign(t):
-    'statement : NAME ASSIGMENT expression'
+    '''statement : NAME ASSIGMENT expression
+                 | variable_type NAME ASSIGMENT expression'''
     names[t[1]] = t[3]
 
 
 def p_statement_expr(t):
     'statement : expression'
-    print(t[1])
 
 
 def p_expression_binop(t):
