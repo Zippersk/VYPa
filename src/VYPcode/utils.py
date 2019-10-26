@@ -1,5 +1,5 @@
-from VYPcode.operations import ALIAS
-from output import Output
+from src.VYPcode.operations import ALIAS
+from src.output import Output
 
 
 def print_code_header():

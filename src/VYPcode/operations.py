@@ -1,4 +1,4 @@
-from VYPcode.operationsBaseClasses import *
+from src.VYPcode.operationsBaseClasses import *
 
 
 class ADDI(ThreeArgsOperation):

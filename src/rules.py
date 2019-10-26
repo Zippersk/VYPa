@@ -1,4 +1,4 @@
-from VYPcode.operations import *
+from src.VYPcode.operations import *
 
 # Parsing rules
 
