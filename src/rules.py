@@ -13,7 +13,7 @@ names = {}
 
 
 def p_statement_assign(t):
-    'statement : NAME EQUALS expression'
+    'statement : NAME ASSIGMENT expression'
     names[t[1]] = t[3]
 
 

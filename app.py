@@ -2,6 +2,9 @@ import sys
 import ply.lex as lex
 import ply.yacc as yacc
 from src.VYPcode.utils import print_code_header, print_code_aliases
+from src.tokens import *
+from src.rules import *
+
 
 lexer = lex.lex()
 parser = yacc.yacc(outputdir="generated")
