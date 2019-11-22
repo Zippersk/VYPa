@@ -24,3 +24,8 @@ class SETWORD(ThreeArgsOperation):
 class CREATE(TwoArgsOperation):
     def __init__(self, first, second):
         super().__init__("CREATE", first, second)
+
+
+class COPY(TwoArgsOperation):
+    def __init__(self, first: object, second: object) -> object:
+        super().__init__("COPY", first, second)

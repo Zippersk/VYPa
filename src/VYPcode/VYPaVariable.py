@@ -7,9 +7,13 @@ class VYPaVariable:
     def __init__(self, type, name):
         self.type = type
         self.name = name
+        self.value = None
 
-    def push_value_to_register(self):
-        MAIN_INSTRUCTION_TAPE.add(CREATE("$DST", ))
+    def set_value(self, value):
+        self.value = value
+
+    def get_value(self):
+        return self.value
 
     @staticmethod
     def declare(type, name):

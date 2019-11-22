@@ -42,7 +42,6 @@ t_WORD = r'\"([^\\\n]|(\\.))*?\"'  # should be all printable characters
 t_COMMA = r','
 t_SEMICOLON = r';'
 
-
 # Ignored characters
 t_ignore = " \t"
 

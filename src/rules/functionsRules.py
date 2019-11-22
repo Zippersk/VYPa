@@ -1,12 +1,13 @@
 from src.VYPcode.VYPaFunction import VYPaFunction
 from src.VYPcode.VYPaVariable import VYPaVariable
+from src.VYPcode.buildInFunctions import printVYPa, is_build_in_function
 from src.VYPcode.instructions import ADDI
 from src.VYPcode.scopes import pop_scope, push_scope
 
 
 def p_function(t):
     '''function : function_head statements_block'''
-    t[0] = t[1].AddBody(t[2])
+    #t[0] = t[1].AddBody(t[2])
 
 
 def p_function_head(t):
@@ -30,8 +31,13 @@ def p_functions_params(t):
 
 
 def p_function_call(t):
-    '''expresion : NAME LPAREN function_params RPAREN'''
-    pass
+    '''statement : NAME LPAREN function_params RPAREN'''
+    build_in_function = is_build_in_function(t[1], t[3])
+    if build_in_function:
+        build_in_function.call()
+    else:
+        # TODO: handle logic for user defined functions
+        pass
 
 
 def p_function_call_params(t):

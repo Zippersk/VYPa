@@ -1,5 +1,5 @@
 from src.VYPcode.VYPaVariable import VYPaVariable
-from src.VYPcode.instructions import ADDI, SETWORD, CREATE
+from src.VYPcode.instructions import ADDI, SETWORD, CREATE, COPY
 from src.VYPcode.scopes import pop_scope, push_scope
 from src.instructionsTape import MAIN_INSTRUCTION_TAPE
 
@@ -61,9 +61,8 @@ def p_expression_uminus(t):
 
 def p_expression_string(t):
     'expression : WORD'
-    MAIN_INSTRUCTION_TAPE.add(CREATE("$DST", len(t[1])))
-    MAIN_INSTRUCTION_TAPE.add(SETWORD("$DST", 0, t[1]))
     t[0] = VYPaVariable("string", None)
+    t[0].set_value(t[1])
 
 
 def p_expression_number(t):
