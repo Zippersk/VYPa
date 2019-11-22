@@ -38,7 +38,7 @@ t_EQUAL = r'=='
 t_NOTEQUAL = r'!='
 t_AND = r'&&'
 t_OR = r'\|\|'
-t_WORD = r'\"([^\\\n]|(\\.))*?\"'
+t_WORD = r'\"([^\\\n]|(\\.))*?\"'  # should be all printable characters
 t_COMMA = r','
 t_SEMICOLON = r';'
 
