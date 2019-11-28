@@ -1,4 +1,7 @@
+from src.VYPcode.VYPaOperations.operations import ADDI
+from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
 from src.VYPcode.scopes.scopes import get_current_scope
+from src.instructionsTape import MAIN_INSTRUCTION_TAPE
 
 
 class VYPaFunction:
@@ -7,6 +10,9 @@ class VYPaFunction:
         self.type = type
         self.params = params
         self.name = name
+
+    def setup_SP(self):
+        get_current_scope().instruction_tape.add(ADDI(VYPaRegister.StackPointer, len(self.params), VYPaRegister.StackPointer))
 
     @staticmethod
     def declare(type, name, params):

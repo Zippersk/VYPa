@@ -1,8 +1,16 @@
+from collections import OrderedDict
+
+from src.VYPcode.VYPaOperations.operations import ADDI
+from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
+from src.instructionsTape import InstructionTape, MAIN_INSTRUCTION_TAPE
+
+
 class VYPaScope:
     def __init__(self):
-        self.variables = {}
-        self.functions = {}
-        self.tempVariablesCount = 0
+        self.variables = OrderedDict()
+        self.functions = OrderedDict()
+        self.stack_offset = 0
+        self.instruction_tape = InstructionTape()
 
     def get_variable(self, name: str):
         """
@@ -34,6 +42,13 @@ class VYPaScope:
         else:
             Exception(f"Variable {variable} already exists")
 
-    def get_temp_variable_name(self):
-        self.tempVariablesCount += 1
-        return f"$temp_{self.tempVariablesCount}"
+    def get_variable_index(self, name):
+        # get index of variable
+        return list(self.variables).index(name)
+
+    def pop(self):
+        for variable in self.variables.values():
+            variable.compute_stack_offset()
+        self.stack_offset = len(self.variables)
+        self.instruction_tape.insert_in_beginning(ADDI(VYPaRegister.StackPointer, self.stack_offset, VYPaRegister.StackPointer))
+        MAIN_INSTRUCTION_TAPE.merge(self.instruction_tape)

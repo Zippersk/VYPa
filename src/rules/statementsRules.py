@@ -1,9 +1,11 @@
 from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
 from src.VYPcode.VYPaVariables.IntVariable import IntVariable
 from src.VYPcode.VYPaVariables.StringVariable import StringVariable
-from src.VYPcode.VYPaOperations.operations import ADDI, SUBI, MULI, DIVI
-from src.VYPcode.scopes.scopes import pop_scope, push_scope, get_variable, get_current_scope
-from src.instructionsTape import MAIN_INSTRUCTION_TAPE
+from src.VYPcode.VYPaOperations.operations import ADDI, SUBI, MULI, DIVI, SET
+from src.VYPcode.VYPaVariables.VYPaVariable import VYPaVariable
+from src.VYPcode.VYPaVariables.VariableAddress import VariableAddress
+from src.VYPcode.scopes.scopes import pop_scope, push_scope, get_current_scope
+from src.VYPcode.utils import declare_variable
 
 
 def p_new_scope(p):
@@ -25,20 +27,14 @@ def p_statements(t):
 
 def p_statement_assign(t):
     '''statement : NAME ASSIGMENT expression'''
-    variable = get_variable(t[1])
-    variable.assign(t[3])  # assign value from accumulator
+    #  set value from accumulator register to variable
+    get_current_scope().instruction_tape.add(SET(VariableAddress(t[1]), t[3]))
 
 
 def p_statement_declaration_assign(t):
     '''statement : type NAME ASSIGMENT expression'''
-    if t[1] == "int":
-        t[0] = IntVariable(t[2])
-    elif t[1] == "string":
-        t[0] = StringVariable(t[2])
-    elif t[1] == "void":
-        Exception("variable can not have type void")
-
-    t[0].assign(t[4])
+    declare_variable(t[1], t[2])
+    get_current_scope().instruction_tape.add(SET(VariableAddress(t[2]), t[4]))
 
 
 def p_expression_binop(t):
@@ -47,42 +43,35 @@ def p_expression_binop(t):
                   | expression TIMES expression
                   | expression DIVIDE expression'''
     if t[2] == '+':
-        MAIN_INSTRUCTION_TAPE.add(ADDI(t[1], t[3]))
+        get_current_scope().instruction_tape.add(ADDI(t[1], t[3]))
     elif t[2] == '-':
-        MAIN_INSTRUCTION_TAPE.add(SUBI(t[1], t[3]))
+        get_current_scope().instruction_tape.add(SUBI(t[1], t[3]))
     elif t[2] == '*':
-        MAIN_INSTRUCTION_TAPE.add(MULI(t[1], t[3]))
+        get_current_scope().instruction_tape.add(MULI(t[1], t[3]))
     elif t[2] == '/':
-        MAIN_INSTRUCTION_TAPE.add(DIVI(t[1], t[3]))
-
+        get_current_scope().instruction_tape.add(DIVI(t[1], t[3]))
     t[0] = VYPaRegister.Accumulator
 
 
 def p_expression_uminus(t):
     'expression : MINUS expression %prec UMINUS'
     # %prec UMINUS overrides the default rule precedence--setting it to that of UMINUS in the precedence specifier.
-    MAIN_INSTRUCTION_TAPE.add(SUBI(VYPaRegister.Accumulator, 0, t[2]))
+    get_current_scope().instruction_tape.add(SUBI(0, t[2]))
     t[0] = VYPaRegister.Accumulator
 
 
 def p_expression_string(t):
     'expression : WORD'
-    t[0] = StringVariable(get_current_scope().get_temp_variable_name())
-    t[0].assign(t[1])
+    t[0] = t[1]
 
 
 def p_expression_number(t):
     'expression : NUMBER'
-    t[0] = IntVariable(get_current_scope().get_temp_variable_name())
-    t[0].assign(t[1])
+    t[0] = t[1]
 
 
 def p_expression_variable(t):
     'expression : NAME'
-    try:
-        t[0] = get_variable(t[1]).imm
-    except LookupError:
-        print("Undefined name '%s'" % t[1])
-        t[0] = 0
+    t[0] = VariableAddress(t[1])
 
 

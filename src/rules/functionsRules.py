@@ -1,6 +1,10 @@
 from src.VYPcode.VYPaFunctions.VYPaFunction import VYPaFunction
+from src.VYPcode.VYPaOperations.operations import SET
+from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
+from src.VYPcode.VYPaVariables.IntVariable import IntVariable
 from src.VYPcode.VYPaVariables.VYPaVariable import VYPaVariable
 from src.VYPcode.VYPaFunctions.buildInFunctions import is_build_in_function
+from src.VYPcode.scopes.scopes import get_current_scope
 
 
 def p_function(t):
@@ -23,13 +27,16 @@ def p_functions_params(t):
     '''functions_params : type NAME
                         | type NAME COMMA functions_params'''
     if t[3]:
-        t[0] = t[3].append(VYPaVariable.declare([1], t[2]))
+        t[0] = t[3].append(VYPaVariable.declare_variable(t[1], t[2]))
     else:
-        t[0] = [VYPaVariable.declare([1], t[2])]
+        t[0] = [VYPaVariable.declare_variable(t[1], t[2])]
 
 
 def p_function_call(t):
     '''statement : NAME LPAREN function_params RPAREN'''
+    for num, param in enumerate(t[3], 1):
+        get_current_scope().instruction_tape.add(SET(f"[{VYPaRegister.StackPointer}+{num}]", param))
+
     build_in_function = is_build_in_function(t[1], t[3])
     if build_in_function:
         build_in_function.call()

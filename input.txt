@@ -20,4 +20,6 @@ void main(void) { // Program Main function
 
 void main(void) { // Program Main function
     int a = 5 + 10 + 15;
+    int b = 4;
+    print(b);
 }

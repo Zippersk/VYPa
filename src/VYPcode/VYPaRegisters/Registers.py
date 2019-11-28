@@ -8,4 +8,5 @@ class RegisterBase:
 
 class VYPaRegister:
     Accumulator = RegisterBase("ACC")
+    StackPointer = RegisterBase("SP")
     DestinationReg = RegisterBase("DST")   # Destination register for results of CREATE instruction
