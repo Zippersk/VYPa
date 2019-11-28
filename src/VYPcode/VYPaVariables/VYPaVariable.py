@@ -8,7 +8,7 @@ class VYPaVariable:
     def __init__(self, type, name):
         self.type = type
         self.name = name
-        self.imm = f"${get_scope_level()}_{name}"  # Immediate Addressing (imm)
+        self.imm = f"{get_scope_level()}_{name}"  # Immediate Addressing (imm)
 
     def call(self):
         MAIN_INSTRUCTION_TAPE.add(COPY(VYPaRegister.Accumulator, self.imm))  # add variable to accumulator

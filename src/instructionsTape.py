@@ -24,8 +24,8 @@ class InstructionTape:
     def add_constant_section(self):
         constants_instructions_tape = InstructionTape()
         constants_instructions_tape.add(CONSTANT("INT_SIZE", "4"))
-        constants_instructions_tape.add(ALIAS(VYPaRegister.Accumulator, "$1"))
-        constants_instructions_tape.add(ALIAS(VYPaRegister.DestinationReg, "$2"))
+        constants_instructions_tape.add(ALIAS(VYPaRegister.Accumulator.name, "$1"))
+        constants_instructions_tape.add(ALIAS(VYPaRegister.DestinationReg.name, "$2"))
         self.__instructions = constants_instructions_tape.merge(MAIN_INSTRUCTION_TAPE).get_instructions()
 
 
