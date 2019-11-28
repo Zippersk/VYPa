@@ -19,5 +19,5 @@ void main(void) { // Program Main function
 // main
 
 void main(void) { // Program Main function
-    print("Hello world!");
+    int a = 5 + 10 + 15;
 }

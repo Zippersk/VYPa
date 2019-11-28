@@ -1,6 +1,6 @@
 from typing import List
-from src.VYPcode.instructions import ALIAS, OperationBase
-from src.output import Output
+from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
+from src.VYPcode.VYPaOperations.operations import ALIAS, OperationBase, CONSTANT
 
 
 class InstructionTape:
@@ -23,9 +23,9 @@ class InstructionTape:
 
     def add_constant_section(self):
         constants_instructions_tape = InstructionTape()
-        constants_instructions_tape.add(ALIAS("FP", "$0"))
-        constants_instructions_tape.add(ALIAS("ACC", "$1"))
-        constants_instructions_tape.add(ALIAS("DST", "$2"))  # Destination register for results of CREATE instruction
+        constants_instructions_tape.add(CONSTANT("INT_SIZE", "4"))
+        constants_instructions_tape.add(ALIAS(VYPaRegister.Accumulator, "$1"))
+        constants_instructions_tape.add(ALIAS(VYPaRegister.DestinationReg, "$2"))
         self.__instructions = constants_instructions_tape.merge(MAIN_INSTRUCTION_TAPE).get_instructions()
 
 

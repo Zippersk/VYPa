@@ -1,8 +1,6 @@
-from src.VYPcode.VYPaFunction import VYPaFunction
-from src.VYPcode.VYPaVariable import VYPaVariable
-from src.VYPcode.buildInFunctions import printVYPa, is_build_in_function
-from src.VYPcode.instructions import ADDI
-from src.VYPcode.scopes import pop_scope, push_scope
+from src.VYPcode.VYPaFunctions.VYPaFunction import VYPaFunction
+from src.VYPcode.VYPaVariables.VYPaVariable import VYPaVariable
+from src.VYPcode.VYPaFunctions.buildInFunctions import is_build_in_function
 
 
 def p_function(t):
