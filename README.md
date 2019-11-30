@@ -7,6 +7,9 @@
 #### Usage
 `python app.py input.txt`
 
+### TEST
+`python -m unittest`
+
 #### Authors
 * xhorky23
 * xmucka03
