@@ -30,5 +30,8 @@ class InstructionTape:
         constants_instructions_tape.add(ALIAS(VYPaRegister.DestinationReg.name, "$2"))
         self.__instructions = constants_instructions_tape.merge(MAIN_INSTRUCTION_TAPE).get_instructions()
 
+    def clear(self):
+        self.__instructions.clear()
+
 
 MAIN_INSTRUCTION_TAPE = InstructionTape()

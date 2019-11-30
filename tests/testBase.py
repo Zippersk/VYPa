@@ -6,25 +6,31 @@ from subprocess import PIPE
 
 from app import parser
 import src.output as printer
+from src.instructionsTape import MAIN_INSTRUCTION_TAPE
 
 
 class TestBaseCases:
     class TestBase(unittest.TestCase):
-        STDIN = ""
+        STDIN = None
+        STDOUT = None
+        STDERR = None
         source_code = ""
-        STDOUT = ""
         return_code = 0
         test_dir = os.path.dirname(os.path.realpath(__file__))
         interpreter_path = os.path.join(test_dir, "vypint-1.0.jar")
-        source_file_path = os.path.join(test_dir, "temp", str(uuid.uuid1()) + ".txt")
 
         def run_parser(self):
             printer.Output = printer.Printer(self.source_file_path)
             parser.parse(self.source_code)
             printer.Output.print()
+            printer.Output.file = None
+            print("\n\nRunning test with source code: \n")
+            printer.Output.print()
+            MAIN_INSTRUCTION_TAPE.clear()
 
         def run_vypa_interpreter(self):
-            process = subprocess.run(["java", "-jar", self.interpreter_path, self.source_file_path], stdout=PIPE, input=self.STDIN, encoding='ascii')
+            process = subprocess.run(f"java -jar {self.interpreter_path} {self.source_file_path}", stdout=PIPE, input=self.STDIN, encoding='ascii')
+            self.assertEqual(process.stderr, self.STDERR)
             self.assertEqual(process.stdout, self.STDOUT)
             self.assertEqual(process.returncode, self.return_code)
 
@@ -32,7 +38,13 @@ class TestBaseCases:
             self.run_parser()
             self.run_vypa_interpreter()
 
+        def setUp(self):
+            self.source_file_path = os.path.join(self.test_dir, "temp", str(uuid.uuid1()) + ".txt")
+
         def tearDown(self):
+            pass
             os.remove(self.source_file_path)
+
+
 
 
