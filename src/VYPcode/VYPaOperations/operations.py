@@ -69,3 +69,13 @@ class DESTROY(OneArgsOperation):
 class SET(TwoArgsOperation):
     def __init__(self, first, second):
         super().__init__("SET", first, second)
+
+
+class LABEL(OneArgsOperation):
+    def __init__(self, first):
+        super().__init__("LABEL", first)
+
+
+class JUMP(OneArgsOperation):
+    def __init__(self, first):
+        super().__init__("JUMP", first)

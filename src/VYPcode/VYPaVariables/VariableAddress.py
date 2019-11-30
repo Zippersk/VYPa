@@ -1,5 +1,4 @@
 from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
-from src.VYPcode.VYPaVariables.VYPaVariable import VYPaVariable
 from src.VYPcode.scopes.VYPaScope import VYPaScope
 from src.VYPcode.scopes.scopes import get_scopes
 

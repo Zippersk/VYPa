@@ -1,4 +1,4 @@
-from src.VYPcode.VYPaOperations.operations import ADDI
+from src.VYPcode.VYPaOperations.operations import ADDI, LABEL
 from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
 from src.VYPcode.scopes.scopes import get_current_scope
 from src.instructionsTape import MAIN_INSTRUCTION_TAPE

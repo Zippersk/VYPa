@@ -1,3 +1,5 @@
+from src.error import Exit, Error
+
 tokens = (
     'NAME', 'NUMBER',
     'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'ASSIGMENT',
@@ -41,6 +43,7 @@ t_OR = r'\|\|'
 t_WORD = r'\"([^\\\n]|(\\.))*?\"'  # should be all printable characters
 t_COMMA = r','
 t_SEMICOLON = r';'
+t_NUMBER = r'[0-9]+'
 
 # Ignored characters
 t_ignore = " \t"
@@ -50,19 +53,10 @@ def t_LINECOMMENT(t):
     r'\/\/.*'
     pass
 
+
 def t_BLOCKCOMMENT(t):
     r'\/\*(\*(?!\/)|[^*])*\*\/'
     pass
-
-
-def t_NUMBER(t):
-    r'[0-9]+'
-    try:
-        t.value = int(t.value)
-    except ValueError:
-        print("Integer value too large %d", t.value)
-        t.value = 0
-    return t
 
 
 def t_newline(t):
@@ -71,5 +65,4 @@ def t_newline(t):
 
 
 def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
-    t.lexer.skip(1)
+    Exit(Error.LexicalError, "Illegal character '%s'" % t.value[0])

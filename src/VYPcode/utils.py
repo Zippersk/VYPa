@@ -4,8 +4,8 @@ from src.VYPcode.VYPaVariables.StringVariable import StringVariable
 
 def declare_variable(type, name):
     if type == "int":
-        IntVariable(name)
+        IntVariable(name).declare()
     elif type == "string":
-        StringVariable(name)
+        StringVariable(name).declare()
     elif type == "void":
         Exception("variable can not have type void")

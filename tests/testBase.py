@@ -11,11 +11,13 @@ from src.instructionsTape import MAIN_INSTRUCTION_TAPE
 
 class TestBaseCases:
     class TestBase(unittest.TestCase):
+
         STDIN = None
         STDOUT = None
         STDERR = None
         source_code = ""
         return_code = 0
+
         test_dir = os.path.dirname(os.path.realpath(__file__))
         interpreter_path = os.path.join(test_dir, "vypint-1.0.jar")
 
@@ -42,9 +44,4 @@ class TestBaseCases:
             self.source_file_path = os.path.join(self.test_dir, "temp", str(uuid.uuid1()) + ".txt")
 
         def tearDown(self):
-            pass
             os.remove(self.source_file_path)
-
-
-
-

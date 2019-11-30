@@ -2,7 +2,7 @@ from collections import OrderedDict
 
 from src.VYPcode.VYPaOperations.operations import ADDI
 from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
-from src.instructionsTape import InstructionTape, MAIN_INSTRUCTION_TAPE
+from src.instructionsTape import InstructionTape
 
 
 class VYPaScope:
@@ -51,4 +51,3 @@ class VYPaScope:
             variable.compute_stack_offset()
         self.stack_offset = len(self.variables)
         self.instruction_tape.insert_in_beginning(ADDI(VYPaRegister.StackPointer, self.stack_offset, VYPaRegister.StackPointer))
-        MAIN_INSTRUCTION_TAPE.merge(self.instruction_tape)

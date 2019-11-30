@@ -1,5 +1,5 @@
 from src.VYPcode.VYPaFunctions.VYPaFunction import VYPaFunction
-from src.VYPcode.VYPaOperations.operations import SET
+from src.VYPcode.VYPaOperations.operations import SET, LABEL
 from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
 from src.VYPcode.VYPaVariables.IntVariable import IntVariable
 from src.VYPcode.VYPaVariables.VYPaVariable import VYPaVariable
@@ -15,6 +15,7 @@ def p_function(t):
 def p_function_head(t):
     '''function_head : type NAME LPAREN functions_params RPAREN
                 | type NAME LPAREN functions_params_empty RPAREN'''
+    get_current_scope().instruction_tape.add(LABEL(f"func_{t[2]}"))
     t[0] = VYPaFunction.declare(t[1], t[2], t[4])
 
 
