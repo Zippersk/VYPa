@@ -8,9 +8,8 @@ class ADDI(ThreeArgsOperation):
 
 
 class SUBI(ThreeArgsOperation):
-    def __init__(self, second, third):
-        first = VYPaRegister.Accumulator  # result of all arithmetic operations are stored in ACC register
-        super().__init__("SUBI", first, second, third)
+    def __init__(self, second, third, destination=VYPaRegister.Accumulator):
+        super().__init__("SUBI", destination, second, third)
 
 
 class MULI(ThreeArgsOperation):
@@ -51,8 +50,7 @@ class SETWORD(ThreeArgsOperation):
 
 
 class CREATE(TwoArgsOperation):
-    def __init__(self, second):
-        first = VYPaRegister.DestinationReg  # we are always using this register for allocations
+    def __init__(self, first, second):
         super().__init__("CREATE", first, second)
 
 
@@ -79,3 +77,13 @@ class LABEL(OneArgsOperation):
 class JUMP(OneArgsOperation):
     def __init__(self, first):
         super().__init__("JUMP", first)
+
+
+class CALL(TwoArgsOperation):
+    def __init__(self, first, second):
+        super().__init__("CALL", first, second)
+
+
+class RETURN(OneArgsOperation):
+    def __init__(self, first):
+        super().__init__("RETURN", first)

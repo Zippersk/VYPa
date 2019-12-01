@@ -12,4 +12,4 @@ class Error(Enum):
 
 def Exit(code, reason):
     print(reason)
-    Exit(code)
+    exit(code)

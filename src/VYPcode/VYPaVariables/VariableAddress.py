@@ -1,31 +1,36 @@
-from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
-from src.VYPcode.scopes.VYPaScope import VYPaScope
-from src.VYPcode.scopes.scopes import get_scopes
+﻿from src.VYPcode.Stack import Stack
+from src.VYPcode.VYPaVariables.VYPaVariable import VYPaVariable
+from src.VYPcode.scopes.ProgramTree import PT
+from src.error import Exit, Error
 
 
-class VariableAddress:
-    def __init__(self, name):
-        self.variable, self.scopes_between = self.get_variable_and_scopes(name)
+class VariableAddress(VYPaVariable):
+    def __init__(self, variable):
+        super().__init__(variable.type, variable.name)
+        self.variable = variable
+        self.variable_scope = variable.scope
+        self.called_scope = PT.get_current_scope()
+        self.is_param = False
 
-    def get_variable_and_scopes(self, name: str):
-        """
-
-        @param name: name of the variable
-        @return: get variable, and scopes that are between current scope and scope where is variable declared
-        """
-        scopes: [VYPaScope] = []
-        for scope in reversed(get_scopes()):
-            variable = scope.get_variable(name)
-            scopes.append(scopes)
-            if variable:
-                # remove local scope because we dont need to sub offset of local scope
-                return variable, scopes[:-1],
-
-        Exception("Variable not defined!")
+    def set_as_param(self):
+        self.is_param = True
 
     def __str__(self):
-        offset = self.variable.stack_offset - 1
-        for scope in self.scopes_between:
-            offset += scope.offset
+        if self.name == "Anonymous":
+            return str(self.value)
+        else:
+            scope = self.called_scope
+            offset_in_declared_scopes = len(self.scope.variables) - self.scope.get_variable_index(self.name)
+            if not self.is_param:
+                offset_in_declared_scopes -= 1
 
-        return f"[{VYPaRegister.StackPointer}-{offset}]"
+            offset_between_scopes = 0
+            while True:
+                if self.variable_scope == scope:
+                    break
+                elif scope.previous_scope:
+                    scope = scope.previous_scope
+                else:
+                    Exit(Error.SyntaxError, "Could not reach variable from scope")
+
+            return Stack.get(-(offset_in_declared_scopes + offset_between_scopes))
