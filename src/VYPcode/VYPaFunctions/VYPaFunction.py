@@ -1,5 +1,5 @@
 from src.VYPcode.Stack import Stack
-from src.VYPcode.VYPaOperations.operations import ADDI, JUMP, LABEL, SUBI, SET, CALL
+from src.VYPcode.VYPaOperations.operations import ADDI, JUMP, LABEL, SUBI, SET, CALL, DUMPSTACK, RETURN
 
 from src.VYPcode.scopes.ProgramTree import PT
 from src.error import Exit, Error
@@ -33,3 +33,7 @@ class VYPaFunction:
     def throw_if_not_declared(self):
         if not self.declared:
             Exit(Error.SyntaxError, "Function not declared")
+
+    def deallocate_and_return(self):
+        Stack.deallocate(len(self.params) + len(self.scope.variables))
+        PT.get_current_scope().instruction_tape.add(RETURN(Stack.pop()))

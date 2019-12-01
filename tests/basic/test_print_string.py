@@ -1,7 +1,7 @@
 from tests.testBase import TestBaseCases
 
 
-class TestsPrintInteger(TestBaseCases.TestBase):
+class TestsPrintString(TestBaseCases.TestBase):
     STDIN = ""
     source_code = """
         void main(void) {

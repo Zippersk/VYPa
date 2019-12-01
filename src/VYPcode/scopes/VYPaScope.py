@@ -7,10 +7,13 @@ class VYPaScope:
         self.nested_scopes = []
         self.variables = OrderedDict()
         self.functions = OrderedDict()
-        self.stack_offset = 0
+        self.relative_SP = 0
 
         from src.instructionsTape import InstructionTape  # TODO: Fix circular dependencies
         self.instruction_tape = InstructionTape()
+
+    def add_relative_SP(self, offset):
+        self.relative_SP += offset
 
     def get_variable(self, name: str):
         """

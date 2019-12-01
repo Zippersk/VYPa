@@ -3,7 +3,6 @@ from src.VYPcode.Stack import Stack
 from src.VYPcode.VYPaFunctions.VYPaFunction import VYPaFunction
 from src.VYPcode.VYPaOperations.operations import RETURN, JUMP
 from src.VYPcode.VYPaVariables.VYPaVariable import VYPaVariable
-from src.VYPcode.VYPaVariables.VariableAddress import VariableAddress
 from src.VYPcode.scopes.ProgramTree import PT
 from src.VYPcode.utils import declare_variable
 
@@ -41,9 +40,9 @@ def p_function_call(t):
     Stack.allocate(1)  # Allocate memory for SP (it will be used for return)
 
     if t[1] == "print":
-        param: VariableAddress
+        param: VYPaVariable
         for param in t[3]:
-            Stack.push(param.set_as_param())
+            Stack.push(param)
             # TODO: add some prefix to these functions so user can not redefine it
             if param.is_int():
                 PT.get_global_scope().get_function("printInt").call([param])
@@ -54,7 +53,7 @@ def p_function_call(t):
                 pass
     else:
         for param in t[3]:
-            Stack.push(param.set_as_param())
+            Stack.push(param)
 
         try:
             PT.get_global_function(t[1]).call(t[3])

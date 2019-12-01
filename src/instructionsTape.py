@@ -9,20 +9,18 @@ from src.VYPcode.VYPaOperations.operations import ALIAS, OperationBase, CONSTANT
 class InstructionTape:
 
     def __init__(self):
-        self.__instructions: List[OperationBase] = []
+        self.__instructions: List[str] = []
 
     def __str__(self):
         print(self.__instructions)
 
     def add(self, instruction):
-        self.__instructions.append(instruction)
+        self.__instructions.append(str(instruction))
 
     def insert_in_beginning(self, instruction):
         self.__instructions.insert(0, instruction)
 
     def merge(self, another_instructions_tape):
-        for instruction in another_instructions_tape.__instructions:
-            instruction.evaluate_operands()
         self.__instructions += another_instructions_tape.__instructions
         return self
 

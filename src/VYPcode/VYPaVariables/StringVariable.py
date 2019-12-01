@@ -7,7 +7,7 @@ from src.VYPcode.scopes.ProgramTree import PT
 
 
 class StringVariable(VYPaVariable):
-    def __init__(self, name="Anonymous"):
+    def __init__(self, name="*Anonymous"):
         super().__init__("string", name)
 
     def declare(self):

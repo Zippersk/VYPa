@@ -1,8 +1,10 @@
+from src.VYPcode.Stack import Stack
+from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
 from src.VYPcode.scopes.ProgramTree import PT
 
 
 class VYPaVariable:
-    def __init__(self, type, name="Anonymous"):
+    def __init__(self, type, name="*Anonymous"):
         self.type = type
         self.name = name
         self.value = None
@@ -23,4 +25,13 @@ class VYPaVariable:
     def is_str(self):
         return self.type == "string"
 
+    def __str__(self):
+        if self.name == "*Anonymous":
+            return str(self.value)
+        elif self.name == "*ACC":
+            return str(VYPaRegister.Accumulator)
+        else:
+            all_variables = len(self.scope.variables)
+            position = self.scope.get_variable_index(self.name)
 
+            return Stack.get(-(all_variables - position + self.scope.relative_SP - 1))

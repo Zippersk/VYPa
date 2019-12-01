@@ -87,3 +87,8 @@ class CALL(TwoArgsOperation):
 class RETURN(OneArgsOperation):
     def __init__(self, first):
         super().__init__("RETURN", first)
+
+
+class DUMPSTACK(NoArgsOperation):
+    def __init__(self):
+        super().__init__("DUMPSTACK")

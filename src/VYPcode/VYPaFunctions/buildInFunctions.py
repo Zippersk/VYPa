@@ -1,6 +1,6 @@
 from src.VYPcode.Stack import Stack
 from src.VYPcode.VYPaFunctions.VYPaFunction import VYPaFunction
-from src.VYPcode.VYPaOperations.operations import LABEL, WRITEI, RETURN
+from src.VYPcode.VYPaOperations.operations import LABEL, WRITEI, RETURN, DUMPSTACK
 from src.VYPcode.VYPaVariables.IntVariable import IntVariable
 from src.VYPcode.VYPaVariables.StringVariable import StringVariable
 from src.VYPcode.scopes.ProgramTree import PT
@@ -18,20 +18,17 @@ class VYPaBuildInFunctionClass(VYPaFunction):
 
     def register(self):
         PT.push_scope()
-        for param in self.params:
-            declare_variable(param.type, param.name)
 
         for instruction in self.instructions.get_instructions():
             PT.get_current_scope().instruction_tape.add(instruction)
 
+        self.deallocate_and_return()
         PT.pop_scope()
-        PT.get_current_scope().instruction_tape.add(RETURN(Stack.pop()))
 
 
 class PrintIntVYPa(VYPaBuildInFunctionClass):
     def __init__(self):
         super().__init__("void", "printInt", [IntVariable("number")])
-        Stack.set(Stack.get(-1), 0, self.instructions)
         self.instructions.add(WRITEI(Stack.top()))
 
 

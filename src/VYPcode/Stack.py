@@ -31,17 +31,10 @@ class Stack:
         return value
 
     @staticmethod
-    def allocate_at_beginning(how_much_variables_to_allocate=1, instruction_tape=None):
-        if instruction_tape is None:
-            instruction_tape = PT.get_current_scope().instruction_tape
-
-        instruction_tape.add(ADDI(VYPaRegister.StackPointer, how_much_variables_to_allocate, VYPaRegister.StackPointer))
-
-    @staticmethod
     def allocate(how_much_variables_to_allocate=1, instruction_tape=None):
         if instruction_tape is None:
             instruction_tape = PT.get_current_scope().instruction_tape
-
+        PT.get_current_scope().add_relative_SP(how_much_variables_to_allocate)
         instruction_tape.add(ADDI(VYPaRegister.StackPointer, how_much_variables_to_allocate, VYPaRegister.StackPointer))
 
     @staticmethod
@@ -49,6 +42,7 @@ class Stack:
         if instruction_tape is None:
             instruction_tape = PT.get_current_scope().instruction_tape
 
+        PT.get_current_scope().add_relative_SP(-how_much_variables_to_remove)
         instruction_tape.add(SUBI(VYPaRegister.StackPointer, how_much_variables_to_remove, VYPaRegister.StackPointer))
 
     @staticmethod

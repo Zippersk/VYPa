@@ -35,9 +35,9 @@ class TestBaseCases:
 
         def run_vypa_interpreter(self):
             process = subprocess.run(f"java -jar {self.interpreter_path} {self.source_file_path}", stdout=PIPE, input=self.STDIN, encoding='ascii')
-            self.assertEqual(process.stderr, self.STDERR)
-            self.assertEqual(process.stdout, self.STDOUT)
-            self.assertEqual(process.returncode, self.return_code)
+            self.assertEqual(self.STDERR, process.stderr)
+            self.assertEqual(self.STDOUT, process.stdout)
+            self.assertEqual(self.return_code, process.returncode)
 
         def test_VYPa(self):
             self.run_parser()
