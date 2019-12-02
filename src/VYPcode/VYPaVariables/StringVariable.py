@@ -9,7 +9,7 @@ from src.VYPcode.scopes.ProgramTree import PT
 
 class StringVariable(VYPaVariable):
     def __init__(self, name="*Anonymous"):
-        super().__init__(VYPaString, name)
+        super().__init__(VYPaString(), name)
 
     def declare(self):
         PT.get_current_scope().instruction_tape.add(CREATE(VYPaRegister.DestinationReg, 1))

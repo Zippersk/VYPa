@@ -1,4 +1,5 @@
 from src.VYPcode.Stack import Stack
+from src.VYPcode.VYPaFunctions.FunctionResult import FunctionResult
 from src.VYPcode.VYPaOperations.operations import ADDI, JUMP, LABEL, SUBI, SET, CALL, DUMPSTACK, RETURN, COMMENT
 from src.VYPcode.VYPaTypes.VYPaVoid import VYPaVoid
 
@@ -33,8 +34,15 @@ class VYPaFunction:
 
     def call(self, calling_params):
         self.check_params(calling_params)
+
+        for param in calling_params:
+            Stack.push(param)
+
         PT.get_current_scope().instruction_tape.add(CALL(Stack.get(-len(self.params)), self.label))
-        return self
+
+        # after all params are pushed in stack we can deallocate return value and return address from scope
+        PT.get_current_scope().add_relative_SP(-2)
+        return FunctionResult(self)
 
     def throw_if_not_declared(self):
         if not self.declared:

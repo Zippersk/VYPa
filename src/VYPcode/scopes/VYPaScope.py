@@ -66,17 +66,20 @@ class VYPaScope:
             Stack.deallocate(len(self.variables))
 
     def __str__(self):
-        result = ""
-        for variable in self.variables:
-            result += f"{variable.get_type()} {variable.name}\n"
+        result = "\n"
+        for variable in self.variables.values():
+            result += f"{variable.get_type().name} {variable.name}\n"
 
-        for function in self.functions:
-            result += f"{function.get_type()} {function.name} ( "
+        for function in self.functions.values():
+            result += f"{function.get_type().name} {function.name} ("
             for i, variable in enumerate(function.params, 1):
-                result += f"{variable.get_type()} {variable.name}"
+                result += f"{variable.get_type().name} {variable.name}"
                 if i != len(function.params):
                     result += ", "
             result += ")\n"
 
         for nested_scope in self.nested_scopes:
-            result += '\t\t'.join(str(nested_scope).splitlines(True))
+            if str(nested_scope) != "\n":
+                result += '-- '.join((str(nested_scope)).splitlines(True))
+
+        return result

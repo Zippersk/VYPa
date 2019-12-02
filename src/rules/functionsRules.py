@@ -41,7 +41,8 @@ def p_functions_params(t):
     '''functions_params : type NAME
                         | type NAME COMMA functions_params'''
     if t[3]:
-        t[0] = t[3].append(declare_variable(t[1], t[2]))
+        t[3].insert(0, declare_variable(t[1], t[2]))
+        t[0] = t[3]
     else:
         t[0] = [declare_variable(t[1], t[2])]
 
@@ -54,34 +55,26 @@ def p_function_call(t):
     # print is a special function which can be called with multiple parameters
     # so internally we call PrintInt or PrintString for each parameter...
     if t[1] == "print":
-        param: VYPaVariable
         for param in t[3]:
-            Stack.push(param)
-            # TODO: add some prefix to these functions so user can not redefine it
             if param.get_type() == VYPaInt():
-                func = PT.get_global_scope().get_function("printInt")
+                PT.get_global_scope().get_function("printInt").call([param])
             elif param.get_type() == VYPaString():
-                func = PT.get_global_scope().get_function("printString")
+                PT.get_global_scope().get_function("printString").call([param])
             else:
-                # TODO print object???
-                Exit(Error.InternalError, "Not implemented yet")
+                Exit(Error.InternalError, "Not implemented yet") # TODO print object???
                 pass
-            func.call([param])
-    else:
-        for param in t[3]:
-            Stack.push(param)
 
+        t[0] = FunctionResult(PT.get_global_scope().get_function("printInt"))
+        return
+    else:
         try:
             func = PT.get_global_scope().get_function(t[1])
         except Exception:
             # function was not declared yet
             # TODO: add function to global scope and mark it as NON-defined
             func = VYPaFunction(None, t[1], t[3])
-        func.call(t[3])
-    t[0] = FunctionResult(func)
 
-    # after all params are pushed in stack we can deallocate return value and return address from scope
-    PT.get_current_scope().add_relative_SP(-2)
+    t[0] = func.call(t[3])
 
 
 def p_return(t):
@@ -100,7 +93,8 @@ def p_function_call_params(t):
                        | expression
                        | expression COMMA function_params'''
     if len(t) > 2:
-        t[0] = t[3].append(t[1])
+        t[3].insert(0, t[1])
+        t[0] = t[3]
     elif len(t) > 1:
         t[0] = [t[1]]
     else:

@@ -5,7 +5,8 @@ class TestsArithmetic(TestBaseCases.TestBase):
     STDIN = ""
     source_code = """
         int GetFive(void) {
-            return 5;
+            int five = 5
+            return five;
         }
         
         int GetTen(void) {

@@ -25,7 +25,6 @@ def p_program(t):
     MAIN_INSTRUCTION_TAPE.add_constant_section()
     MAIN_INSTRUCTION_TAPE.merge(PT.get_global_scope().instruction_tape)
     MAIN_INSTRUCTION_TAPE.add(LABEL("END"))
-    PT.pop_scope()
     LazyCode.run()  # run all lazy evaluate code
 
 

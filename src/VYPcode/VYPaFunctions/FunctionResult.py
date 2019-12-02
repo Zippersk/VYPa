@@ -1,5 +1,5 @@
 ﻿from src.VYPcode.VYPaVariables.VYPaVariable import VYPaVariable
-function_call_number = 1  # just for unique variables name
+function_call_number = 0  # just for unique variables name
 
 
 class FunctionResult(VYPaVariable):
