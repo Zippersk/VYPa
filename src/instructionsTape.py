@@ -34,7 +34,6 @@ class InstructionTape:
         constants_instructions_tape = InstructionTape()
         constants_instructions_tape.add(ALIAS(VYPaRegister.Accumulator.name, "$1"))
         constants_instructions_tape.add(ALIAS(VYPaRegister.DestinationReg.name, "$2"))
-        Stack.allocate(1, constants_instructions_tape)
         constants_instructions_tape.add(JUMP("func_main"))
         self.__instructions = constants_instructions_tape.merge(MAIN_INSTRUCTION_TAPE).get_instructions()
 

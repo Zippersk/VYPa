@@ -4,14 +4,18 @@
 class TestsArithmetic(TestBaseCases.TestBase):
     STDIN = ""
     source_code = """
-        int GetInt(void) {
+        int GetFive(void) {
             return 5;
+        }
+        
+        int GetTen(void) {
+            return 10;
         }
 
         void main(void) {
-            int a = GetInt() +20;
+            int a = 8 - GetFive() + GetTen() + 3 - 20;
             print(a);
         }
     """
 
-    STDOUT = "25"
+    STDOUT = "-4"

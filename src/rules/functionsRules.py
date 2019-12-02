@@ -2,7 +2,7 @@ from src.VYPcode import Stack
 from src.VYPcode.Stack import Stack
 from src.VYPcode.VYPaFunctions.FunctionResult import FunctionResult
 from src.VYPcode.VYPaFunctions.VYPaFunction import VYPaFunction
-from src.VYPcode.VYPaOperations.operations import RETURN, JUMP, COMMENT, DUMPSTACK, DUMPREGS
+from src.VYPcode.VYPaOperations.operations import RETURN, JUMP, COMMENT, DUMPSTACK, DUMPREGS, ADDI
 from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
 from src.VYPcode.VYPaTypes.VYPaInt import VYPaInt
 from src.VYPcode.VYPaTypes.VYPaString import VYPaString
@@ -49,7 +49,7 @@ def p_functions_params(t):
 def p_function_call(t):
     '''function_call : NAME LPAREN function_params RPAREN'''
 
-    Stack.allocate(1)  # Allocate memory for SP (it will be used for return)
+    Stack.allocate(2)  # Allocate memory for SP (it will be used for return) and function return value
 
     # print is a special function which can be called with multiple parameters
     # so internally we call PrintInt or PrintString for each parameter...
@@ -79,6 +79,9 @@ def p_function_call(t):
             func = VYPaFunction(None, t[1], t[3])
         func.call(t[3])
     t[0] = FunctionResult(func)
+
+    # after all params are pushed in stack we can deallocate return value and return address from scope
+    PT.get_current_scope().add_relative_SP(-2)
 
 
 def p_return(t):

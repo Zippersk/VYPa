@@ -48,13 +48,10 @@ class VYPaFunction:
         if self.get_type() != VYPaVoid():
             if not expression:
                 PT.get_current_scope().instruction_tape.add(COMMENT(f"Set default return value"))
-                declare_variable(self.get_type(), "Anonymous")
+                Stack.set(self.type.get_default(), -1)
             else:
                 PT.get_current_scope().instruction_tape.add(COMMENT(f"Set return value"))
-                Stack.push(expression)
-        else:
-            # This function is VOID and does not return anything, but we need to this for alignment
-            Stack.allocate(1)
+                Stack.set(expression, -1)
 
         # PT.get_current_scope().instruction_tape.add(DUMPSTACK())
-        PT.get_current_scope().instruction_tape.add(RETURN(Stack.get(-1)))
+        PT.get_current_scope().instruction_tape.add(RETURN(Stack.pop()))
