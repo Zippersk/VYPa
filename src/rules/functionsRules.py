@@ -2,7 +2,8 @@ from src.VYPcode import Stack
 from src.VYPcode.Stack import Stack
 from src.VYPcode.VYPaFunctions.FunctionResult import FunctionResult
 from src.VYPcode.VYPaFunctions.VYPaFunction import VYPaFunction
-from src.VYPcode.VYPaOperations.operations import RETURN, JUMP, COMMENT
+from src.VYPcode.VYPaOperations.operations import RETURN, JUMP, COMMENT, DUMPSTACK, DUMPREGS
+from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
 from src.VYPcode.VYPaTypes.VYPaInt import VYPaInt
 from src.VYPcode.VYPaTypes.VYPaString import VYPaString
 from src.VYPcode.VYPaTypes.VYPaVoid import VYPaVoid
@@ -77,21 +78,18 @@ def p_function_call(t):
             # TODO: add function to global scope and mark it as NON-defined
             func = VYPaFunction(None, t[1], t[3])
         func.call(t[3])
-
-    Stack.allocate(1)
     t[0] = FunctionResult(func)
 
 
 def p_return(t):
     '''statement : RETURN expression
                  | RETURN'''
+
     if not t[2]:
         if PT.get_current_function().get_type() != VYPaVoid:
             Exit(Error.SyntaxError, "Function has empty return and is not void")
-    else:
-        Stack.push(t[2])
 
-    PT.get_current_scope().instruction_tape.add(RETURN(Stack.pop()))
+    PT.get_current_function().deallocate_and_return(t[2])
 
 
 def p_function_call_params(t):

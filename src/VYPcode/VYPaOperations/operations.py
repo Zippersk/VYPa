@@ -94,6 +94,11 @@ class DUMPSTACK(NoArgsOperation):
         super().__init__("DUMPSTACK")
 
 
+class DUMPREGS(NoArgsOperation):
+    def __init__(self):
+        super().__init__("DUMPREGS")
+
+
 class COMMENT(OperationBase):
     def __init__(self, comment):
         self.comment = comment

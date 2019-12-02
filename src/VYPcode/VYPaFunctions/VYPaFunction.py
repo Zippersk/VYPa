@@ -40,16 +40,21 @@ class VYPaFunction:
         if not self.declared:
             Exit(Error.SyntaxError, "Function not declared")
 
-    def deallocate_and_return(self):
+    def deallocate_and_return(self, expression=None):
         if len(self.params) > 0:
             PT.get_current_scope().instruction_tape.add(COMMENT(f"Deallocate {len(self.params)} params"))
             Stack.deallocate(len(self.params))
 
         if self.get_type() != VYPaVoid():
-            PT.get_current_scope().instruction_tape.add(COMMENT(f"Set default return value"))
-            declare_variable(self.get_type(), "Anonymous")
+            if not expression:
+                PT.get_current_scope().instruction_tape.add(COMMENT(f"Set default return value"))
+                declare_variable(self.get_type(), "Anonymous")
+            else:
+                PT.get_current_scope().instruction_tape.add(COMMENT(f"Set return value"))
+                Stack.push(expression)
         else:
             # This function is VOID and does not return anything, but we need to this for alignment
             Stack.allocate(1)
 
+        # PT.get_current_scope().instruction_tape.add(DUMPSTACK())
         PT.get_current_scope().instruction_tape.add(RETURN(Stack.get(-1)))

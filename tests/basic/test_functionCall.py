@@ -9,8 +9,9 @@ class TestsArithmetic(TestBaseCases.TestBase):
         }
 
         void main(void) {
-            int a = GetInt();
+            int a = GetInt() +20;
+            print(a);
         }
     """
 
-    STDOUT = "5"
+    STDOUT = "25"

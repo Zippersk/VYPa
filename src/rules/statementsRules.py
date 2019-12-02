@@ -49,6 +49,7 @@ def p_statement_declaration_assign(t):
 
 def p_statement_function_call(t):
     'statement : function_call'
+    PT.get_current_scope().add_relative_SP(-1)
     # function was called as a statement so we can throw away it's result
 
 
@@ -105,3 +106,4 @@ def p_expression_variable(t):
 def p_expression_function_call(t):
     'expression : function_call'
     t[0] = t[1]
+    PT.get_current_scope().add_relative_SP(-1)
