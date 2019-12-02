@@ -19,12 +19,6 @@ class VYPaVariable:
     def get_type(self):
         return self.type
 
-    def is_int(self):
-        return self.type == "int"
-
-    def is_str(self):
-        return self.type == "string"
-
     def __str__(self):
         if self.name == "*Anonymous":
             return str(self.value)

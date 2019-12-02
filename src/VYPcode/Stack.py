@@ -1,4 +1,4 @@
-﻿from src.VYPcode.VYPaOperations.operations import SET, ADDI, SUBI
+﻿from src.VYPcode.VYPaOperations.operations import SET, ADDI, SUBI, COMMENT
 from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
 from src.VYPcode.scopes.ProgramTree import PT
 

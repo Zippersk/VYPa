@@ -92,3 +92,11 @@ class RETURN(OneArgsOperation):
 class DUMPSTACK(NoArgsOperation):
     def __init__(self):
         super().__init__("DUMPSTACK")
+
+
+class COMMENT(OperationBase):
+    def __init__(self, comment):
+        self.comment = comment
+
+    def __str__(self):
+        return f'#  {self.comment}'

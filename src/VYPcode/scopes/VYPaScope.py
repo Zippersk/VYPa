@@ -1,5 +1,7 @@
 from collections import OrderedDict
 
+from src.VYPcode.VYPaOperations.operations import COMMENT
+
 
 class VYPaScope:
     def __init__(self, previous_scope):
@@ -57,22 +59,21 @@ class VYPaScope:
         # get index of variable in the list
         return list(self.variables).index(name)
 
-    def pop(self):
-        for function in self.functions.values():
-            function.throw_if_not_declared()
-
+    def deallocate_variables(self):
         from src.VYPcode.Stack import Stack  # TODO: fix circular dependencies
-        Stack.deallocate(len(self.variables))
+        if len(self.variables) > 0:
+            self.instruction_tape.add(COMMENT(f"Deallocate {len(self.variables)} scope variables"))
+            Stack.deallocate(len(self.variables))
 
     def __str__(self):
         result = ""
         for variable in self.variables:
-            result += f"{variable.type} {variable.name}\n"
+            result += f"{variable.get_type()} {variable.name}\n"
 
         for function in self.functions:
-            result += f"{function.type} {function.name} ( "
+            result += f"{function.get_type()} {function.name} ( "
             for i, variable in enumerate(function.params, 1):
-                result += f"{variable.type} {variable.name}"
+                result += f"{variable.get_type()} {variable.name}"
                 if i != len(function.params):
                     result += ", "
             result += ")\n"

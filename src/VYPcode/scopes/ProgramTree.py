@@ -4,9 +4,11 @@ from src.error import Error, Exit
 
 class ProgramTree:
     current_scope: VYPaScope or None
+    current_function = None
 
     def __init__(self):
         self.current_scope = None
+        self.current_function = None
 
     def push_scope(self):
         new_scope = VYPaScope(self.current_scope)
@@ -16,7 +18,7 @@ class ProgramTree:
         self.current_scope = new_scope
 
     def pop_scope(self):
-        self.current_scope.pop()
+        self.current_scope.deallocate_variables()
         if self.current_scope.previous_scope:
             self.current_scope.previous_scope.instruction_tape.merge(self.current_scope.instruction_tape)
 
@@ -24,6 +26,12 @@ class ProgramTree:
 
     def get_current_scope(self) -> VYPaScope:
         return self.current_scope
+
+    def get_current_function(self):
+        """
+        :rtype: src.VYPcode.VYPaFunctions.VYPaFunction.VYPaFunction
+        """
+        return self.current_function
 
     def traverse_previous_scopes(self, apply_function):
         scope = self.current_scope
@@ -75,6 +83,9 @@ class ProgramTree:
 
     def clear(self):
         self.current_scope = None
+
+    def set_current_processing_function(self, function):
+        self.current_function = function
 
 
 PT = ProgramTree()

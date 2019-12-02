@@ -29,7 +29,7 @@ class TestBaseCases:
             printer.Output.file = None
             print("\n\nRunning test with source code: \n")
             printer.Output.print()
-            print(PT)
+            #print(PT)
             PT.clear()
             MAIN_INSTRUCTION_TAPE.clear()
 
@@ -47,4 +47,5 @@ class TestBaseCases:
             self.source_file_path = os.path.join(self.test_dir, "temp", str(uuid.uuid1()) + ".txt")
 
         def tearDown(self):
+
             os.remove(self.source_file_path)
