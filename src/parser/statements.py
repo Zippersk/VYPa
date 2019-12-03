@@ -6,7 +6,7 @@ from src.VYPcode.Types.VYPaInt import VYPaInt
 from src.VYPcode.Types.VYPaString import VYPaString
 from src.VYPcode.Types.VYPaVoid import VYPaVoid
 from src.VYPcode.Variables.VYPaIntVariable import VYPaIntVariable
-from src.VYPcode.Variables.VYPaStringVariable import StringVariable
+from src.VYPcode.Variables.VYPaStringVariable import VYPaStringVariable
 from src.VYPcode.Scopes.ProgramTree import PT
 from src.VYPcode.utils import declare_variable
 
@@ -87,7 +87,7 @@ def p_expression_uminus(t):
 
 def p_expression_string(t):
     'expression : WORD'
-    t[0] = StringVariable()
+    t[0] = VYPaStringVariable()
     t[0].set_value(t[1])
 
 

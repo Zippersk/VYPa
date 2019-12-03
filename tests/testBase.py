@@ -29,8 +29,8 @@ class TestBaseCases:
             printer.Output.file = None
             print("\n\nRunning test with source code: \n")
             printer.Output.print()
-            print("\n\nAST of program:")
-            print(PT)
+            # print("\n\nAST of program:")
+            # print(PT)
             PT.clear()
             MAIN_INSTRUCTION_TAPE.clear()
 

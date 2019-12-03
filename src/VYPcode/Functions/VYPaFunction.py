@@ -62,5 +62,4 @@ class VYPaFunction:
                 PT.get_current_scope().instruction_tape.add(COMMENT(f"Set return value"))
                 Stack.set(expression, -1)
 
-        # PT.get_current_scope().instruction_tape.add(DUMPSTACK())
         PT.get_current_scope().instruction_tape.add(RETURN(Stack.pop()))

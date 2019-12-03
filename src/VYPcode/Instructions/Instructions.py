@@ -44,6 +44,31 @@ class WRITEI(OneArgsInstruction):
         super().__init__("WRITEI", first)
 
 
+class READI(OneArgsInstruction):
+    def __init__(self, first):
+        super().__init__("READI", first)
+
+
+class READS(OneArgsInstruction):
+    def __init__(self, first):
+        super().__init__("READS", first)
+
+
+class GETSIZE(OneArgsInstruction):
+    def __init__(self, first):
+        super().__init__("GETSIZE", first)
+
+
+class GETSIZE(TwoArgsInstruction):
+    def __init__(self, first, second):
+        super().__init__("GETSIZE", first, second)
+
+
+class GETWORD(ThreeArgsInstruction):
+    def __init__(self, first, second, third):
+        super().__init__("GETWORD", first, second, third)
+
+
 class SETWORD(ThreeArgsInstruction):
     def __init__(self, first, second, third):
         super().__init__("SETWORD", first, second, third)
@@ -105,3 +130,8 @@ class COMMENT(OperationBase):
 
     def __str__(self):
         return f'#  {self.comment}'
+
+
+class EMPTYLINE(OperationBase):
+    def __str__(self):
+        return ''

@@ -3,4 +3,4 @@
 
 class VYPaString(VYPaBaseType):
     def __init__(self):
-        super().__init__("string", "")
+        super().__init__("string", '""')

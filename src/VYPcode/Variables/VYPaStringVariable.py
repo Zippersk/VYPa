@@ -7,7 +7,7 @@ from src.VYPcode.Variables.VariableBase import VYPaVariableBase
 from src.VYPcode.Scopes.ProgramTree import PT
 
 
-class StringVariable(VYPaVariableBase):
+class VYPaStringVariable(VYPaVariableBase):
     def __init__(self, name="*Anonymous"):
         super().__init__(VYPaString(), name)
 

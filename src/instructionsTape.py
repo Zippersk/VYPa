@@ -1,7 +1,8 @@
 from typing import List
 
 from src.VYPcode.Stack import Stack
-from src.VYPcode.Functions.buildInFunctions import PrintIntVYPa, PrintStringVYPa
+from src.VYPcode.Functions.buildInFunctions import PrintIntVYPa, PrintStringVYPa, ReadIntVYPa, ReadStringVYPa, \
+    LengthVYPa, SubStrVYPa
 from src.VYPcode.Registers.Registers import VYPaRegister
 from src.VYPcode.Instructions.Instructions import ALIAS, OperationBase, CONSTANT, SET, JUMP
 
@@ -37,6 +38,10 @@ class InstructionTape:
     def add_build_in_functions(self):
         PrintIntVYPa().register()
         PrintStringVYPa().register()
+        ReadIntVYPa().register()
+        ReadStringVYPa().register()
+        LengthVYPa().register()
+        # SubStrVYPa().register() TODO: Not implemented yet
 
     def clear(self):
         self.__instructions.clear()
