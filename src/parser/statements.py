@@ -36,15 +36,19 @@ def p_statement_assign(t):
 
 
 def p_statement_declaration(t):
-    '''statement : type NAME'''
-    declare_variable(t[1], t[2])
+    '''statement : type variables_declaration '''
+    for variable_name in t[2]:
+        declare_variable(t[1], variable_name)
 
 
-def p_statement_declaration_assign(t):
-    '''statement : type NAME ASSIGMENT expression'''
-    variable = declare_variable(t[1], t[2])
-    PT.get_current_scope().instruction_tape.add(SET(variable, t[4]))
-    LazyTypeChecker(variable, t[4].get_type())
+def p_variables_declaration(t):
+    '''variables_declaration : NAME COMMA variables_declaration
+                             | NAME'''
+    if len(t) > 2:
+        t[3].insert(0, t[1])
+        t[0] = t[3]
+    else:
+        t[0] = [t[1]]
 
 
 def p_statement_function_call(t):

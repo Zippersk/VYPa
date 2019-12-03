@@ -5,7 +5,8 @@ class TestsPrintString(TestBaseCases.TestBase):
     STDIN = ""
     source_code = """
         void main(void) {
-            string b = "hello world!";
+            string b;
+            b = "hello world!";
             print(b);
         }
     """

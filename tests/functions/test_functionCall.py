@@ -5,7 +5,8 @@ class TestsMultipleFunctionsCall(TestBaseCases.TestBase):
     STDIN = ""
     source_code = """
         int GetFive(void) {
-            int five = 5;
+            int five;
+            five = 5;
             return five;
         }
         
@@ -14,7 +15,8 @@ class TestsMultipleFunctionsCall(TestBaseCases.TestBase):
         }
 
         void main(void) {
-            int a = 8 - GetFive() + GetTen() + 3 - 20;
+            int a;
+            a = 8 - GetFive() + GetTen() + 3 - 20;
             print(a);
         }
     """

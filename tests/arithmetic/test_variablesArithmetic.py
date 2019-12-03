@@ -5,13 +5,14 @@ class TestsArithmeticMultipleVariables(TestBaseCases.TestBase):
     STDIN = ""
     source_code = """
         void main(void) {
-            int a = 1;
-            int b = 2;
-            int c = 3;
-            int d = 4;
-            int e = 5;
-            int f = 6;
-            int g = 7;
+            int a,b,c,d,e,f,g;
+            a = 1;
+            b = 2;
+            c = 3;
+            d = 4;
+            e = 5;
+            f = 6;
+            g = 7;
             print(a+b+c+d+e+f+g);
         }
     """

@@ -5,7 +5,8 @@ class TestsPrintInteger(TestBaseCases.TestBase):
     STDIN = ""
     source_code = """
         void main(void) {
-            int b = 4;
+            int b;
+            b = 4;
             print(b);
         }
     """

@@ -5,7 +5,8 @@ class TestsPrintMultipleVariables(TestBaseCases.TestBase):
     STDIN = ""
     source_code = """
         void main(void) {
-            string b = "hello";
+            string b;
+            b = "hello";
             print(b, "Ahoj");
         }
     """

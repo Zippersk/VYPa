@@ -5,7 +5,8 @@ class TestsReadString(TestBaseCases.TestBase):
     STDIN = "hello world!"
     source_code = """
         void main(void) {
-            string b = readString();
+            string b;
+            b = readString();
             print(b);
         }
     """
