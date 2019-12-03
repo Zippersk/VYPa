@@ -1,9 +1,9 @@
-﻿from src.LazyCodeEvaluation.LazyCodeEvaluater import LazyCode
-from src.VYPcode.VYPaTypes.VYPaInt import VYPaInt
-from src.VYPcode.VYPaTypes.VYPaString import VYPaString
-from src.VYPcode.VYPaTypes.VYPaVoid import VYPaVoid
-from src.VYPcode.VYPaTypes.baseType import VYPaBaseType
-from src.VYPcode.VYPaVariables.VYPaVariable import VYPaVariable
+﻿from src.TypeChecker.LazyCodeEvaluater import LazyCode
+from src.VYPcode.Types.VYPaInt import VYPaInt
+from src.VYPcode.Types.VYPaString import VYPaString
+from src.VYPcode.Types.VYPaVoid import VYPaVoid
+from src.VYPcode.Types.baseType import VYPaBaseType
+from src.VYPcode.Variables.VariableBase import VYPaVariableBase
 from src.error import Error, Exit
 from enum import Enum
 
@@ -42,22 +42,22 @@ class LazyTypeChecker:
             self.none_of_policy()
 
     @staticmethod
-    def plus(variable1: VYPaVariable, variable2: VYPaVariable):
+    def plus(variable1: VYPaVariableBase, variable2: VYPaVariableBase):
         LazyTypeChecker(variable1, [VYPaInt(), VYPaString()], TypeCheckerPolicy.OneOf)
         LazyTypeChecker(variable2, [VYPaInt(), VYPaString()], TypeCheckerPolicy.OneOf)
 
     @staticmethod
-    def subtract(variable1: VYPaVariable, variable2: VYPaVariable):
+    def subtract(variable1: VYPaVariableBase, variable2: VYPaVariableBase):
         LazyTypeChecker(variable1, VYPaInt())
         LazyTypeChecker(variable2, VYPaInt())
 
     @staticmethod
-    def multiply(variable1: VYPaVariable, variable2: VYPaVariable):
+    def multiply(variable1: VYPaVariableBase, variable2: VYPaVariableBase):
         LazyTypeChecker(variable1, VYPaInt())
         LazyTypeChecker(variable2, VYPaInt())
 
     @staticmethod
-    def divide(variable1: VYPaVariable, variable2: VYPaVariable):
+    def divide(variable1: VYPaVariableBase, variable2: VYPaVariableBase):
         LazyTypeChecker(variable1, VYPaInt())
         LazyTypeChecker(variable2, VYPaInt())
 

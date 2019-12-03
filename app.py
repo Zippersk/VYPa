@@ -4,7 +4,7 @@ import ply.yacc as yacc
 
 from src.output import Output
 from src.tokens import *
-from src.rules.rules import *
+from src.parser.program import *
 
 
 lexer = lex.lex()

@@ -1,13 +1,13 @@
-from src.LazyCodeEvaluation.LazyTypeChecker import LazyTypeChecker
+from src.TypeChecker.LazyTypeChecker import LazyTypeChecker
 from src.VYPcode.Stack import Stack
-from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
-from src.VYPcode.VYPaOperations.operations import SET, ADDI, SUBI, MULI, DIVI
-from src.VYPcode.VYPaTypes.VYPaInt import VYPaInt
-from src.VYPcode.VYPaTypes.VYPaString import VYPaString
-from src.VYPcode.VYPaTypes.VYPaVoid import VYPaVoid
-from src.VYPcode.VYPaVariables.IntVariable import IntVariable
-from src.VYPcode.VYPaVariables.StringVariable import StringVariable
-from src.VYPcode.scopes.ProgramTree import PT
+from src.VYPcode.Registers.Registers import VYPaRegister
+from src.VYPcode.Instructions.Instructions import SET, ADDI, SUBI, MULI, DIVI
+from src.VYPcode.Types.VYPaInt import VYPaInt
+from src.VYPcode.Types.VYPaString import VYPaString
+from src.VYPcode.Types.VYPaVoid import VYPaVoid
+from src.VYPcode.Variables.VYPaIntVariable import VYPaIntVariable
+from src.VYPcode.Variables.VYPaStringVariable import StringVariable
+from src.VYPcode.Scopes.ProgramTree import PT
 from src.VYPcode.utils import declare_variable
 
 
@@ -74,7 +74,7 @@ def p_expression_binop(t):
         PT.get_current_scope().instruction_tape.add(DIVI(t[1], t[3]))
         LazyTypeChecker.divide(t[1], t[3])
 
-    t[0] = IntVariable("*ACC")
+    t[0] = VYPaIntVariable("*ACC")
 
 
 def p_expression_uminus(t):
@@ -82,7 +82,7 @@ def p_expression_uminus(t):
     # %prec UMINUS overrides the default rule precedence--setting it to that of UMINUS in the precedence specifier.
     PT.get_current_scope().instruction_tape.add(SUBI(t[1], str(0)))
     LazyTypeChecker(t[1], VYPaInt())
-    t[0] = IntVariable("*ACC")
+    t[0] = VYPaIntVariable("*ACC")
 
 
 def p_expression_string(t):
@@ -93,7 +93,7 @@ def p_expression_string(t):
 
 def p_expression_number(t):
     'expression : NUMBER'
-    t[0] = IntVariable()
+    t[0] = VYPaIntVariable()
     t[0].set_value(t[1])
 
 

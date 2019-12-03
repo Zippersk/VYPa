@@ -1,10 +1,10 @@
-from src.LazyCodeEvaluation.LazyCodeEvaluater import LazyCode
-from src.VYPcode.VYPaOperations.operations import LABEL, COMMENT
+from src.TypeChecker.LazyCodeEvaluater import LazyCode
+from src.VYPcode.Instructions.Instructions import LABEL, COMMENT
 from src.error import Error
 from src.instructionsTape import MAIN_INSTRUCTION_TAPE
-from src.rules.functionsRules import *
-from src.rules.classRules import *
-from src.rules.statementsRules import *
+from src.parser.functions import *
+from src.parser.classes import *
+from src.parser.statements import *
 
 precedence = (
     ('left', 'PLUS', 'MINUS'),

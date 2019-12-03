@@ -2,7 +2,7 @@ class OperationBase:
     pass
 
 
-class NoArgsOperation(OperationBase):
+class NoArgsInstruction(OperationBase):
     def __init__(self, operation):
         self.operation = operation
 
@@ -10,7 +10,7 @@ class NoArgsOperation(OperationBase):
         return f'{self.operation}'
 
 
-class OneArgsOperation(OperationBase):
+class OneArgsInstruction(OperationBase):
     def __init__(self, operation, first):
         self.operation = operation
         self.first = first
@@ -19,7 +19,7 @@ class OneArgsOperation(OperationBase):
         return f'{self.operation} {self.first}'
 
 
-class TwoArgsOperation(OperationBase):
+class TwoArgsInstruction(OperationBase):
     def __init__(self, operation, first, second):
         self.operation = operation
         self.first = first
@@ -29,7 +29,7 @@ class TwoArgsOperation(OperationBase):
         return f'{self.operation} {self.first} {self.second}'
 
 
-class ThreeArgsOperation(OperationBase):
+class ThreeArgsInstruction(OperationBase):
     def __init__(self, operation, first, second, third):
         self.operation = operation
         self.first = first

@@ -1,13 +1,13 @@
 from src.VYPcode.Stack import Stack
-from src.VYPcode.VYPaOperations.operations import CREATE, SET, SETWORD
-from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
-from src.VYPcode.VYPaTypes.VYPaString import VYPaString
-from src.VYPcode.VYPaVariables.VYPaVariable import VYPaVariable
+from src.VYPcode.Instructions.Instructions import CREATE, SET, SETWORD
+from src.VYPcode.Registers.Registers import VYPaRegister
+from src.VYPcode.Types.VYPaString import VYPaString
+from src.VYPcode.Variables.VariableBase import VYPaVariableBase
 
-from src.VYPcode.scopes.ProgramTree import PT
+from src.VYPcode.Scopes.ProgramTree import PT
 
 
-class StringVariable(VYPaVariable):
+class StringVariable(VYPaVariableBase):
     def __init__(self, name="*Anonymous"):
         super().__init__(VYPaString(), name)
 

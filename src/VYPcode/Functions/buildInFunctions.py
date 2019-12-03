@@ -1,10 +1,10 @@
 from src.VYPcode.Stack import Stack
-from src.VYPcode.VYPaFunctions.VYPaFunction import VYPaFunction
-from src.VYPcode.VYPaOperations.operations import LABEL, WRITEI, RETURN, DUMPSTACK, WRITES
-from src.VYPcode.VYPaTypes.VYPaVoid import VYPaVoid
-from src.VYPcode.VYPaVariables.IntVariable import IntVariable
-from src.VYPcode.VYPaVariables.StringVariable import StringVariable
-from src.VYPcode.scopes.ProgramTree import PT
+from src.VYPcode.Functions.VYPaFunction import VYPaFunction
+from src.VYPcode.Instructions.Instructions import LABEL, WRITEI, RETURN, DUMPSTACK, WRITES
+from src.VYPcode.Types.VYPaVoid import VYPaVoid
+from src.VYPcode.Variables.VYPaIntVariable import VYPaIntVariable
+from src.VYPcode.Variables.VYPaStringVariable import StringVariable
+from src.VYPcode.Scopes.ProgramTree import PT
 from src.VYPcode.utils import declare_variable
 
 
@@ -29,7 +29,7 @@ class VYPaBuildInFunctionClass(VYPaFunction):
 
 class PrintIntVYPa(VYPaBuildInFunctionClass):
     def __init__(self):
-        super().__init__(VYPaVoid(), "printInt", [IntVariable("number")])
+        super().__init__(VYPaVoid(), "printInt", [VYPaIntVariable("number")])
         self.instructions.add(WRITEI(Stack.top()))
 
 

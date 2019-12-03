@@ -1,9 +1,9 @@
 from src.VYPcode.Stack import Stack
-from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
-from src.VYPcode.scopes.ProgramTree import PT
+from src.VYPcode.Registers.Registers import VYPaRegister
+from src.VYPcode.Scopes.ProgramTree import PT
 
 
-class VYPaVariable:
+class VYPaVariableBase:
     def __init__(self, type, name="*Anonymous"):
         self.type = type
         self.name = name

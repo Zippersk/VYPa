@@ -6,7 +6,7 @@ from subprocess import PIPE
 
 from app import parser
 import src.output as printer
-from src.VYPcode.scopes.ProgramTree import PT
+from src.VYPcode.Scopes.ProgramTree import PT
 from src.instructionsTape import MAIN_INSTRUCTION_TAPE
 
 

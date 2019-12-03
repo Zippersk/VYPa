@@ -1,13 +1,13 @@
-from src.VYPcode.VYPaTypes.VYPaInt import VYPaInt
-from src.VYPcode.VYPaTypes.VYPaString import VYPaString
-from src.VYPcode.VYPaTypes.VYPaVoid import VYPaVoid
-from src.VYPcode.VYPaVariables.IntVariable import IntVariable
-from src.VYPcode.VYPaVariables.StringVariable import StringVariable
+from src.VYPcode.Types.VYPaInt import VYPaInt
+from src.VYPcode.Types.VYPaString import VYPaString
+from src.VYPcode.Types.VYPaVoid import VYPaVoid
+from src.VYPcode.Variables.VYPaIntVariable import VYPaIntVariable
+from src.VYPcode.Variables.VYPaStringVariable import StringVariable
 
 
 def declare_variable(type, name):
     if type == VYPaInt():
-        return IntVariable(name).declare()
+        return VYPaIntVariable(name).declare()
     elif type == VYPaString():
         return StringVariable(name).declare()
     elif type == VYPaVoid():

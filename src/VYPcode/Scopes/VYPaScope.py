@@ -1,6 +1,6 @@
 from collections import OrderedDict
 
-from src.VYPcode.VYPaOperations.operations import COMMENT
+from src.VYPcode.Instructions.Instructions import COMMENT
 
 
 class VYPaScope:

@@ -1,14 +1,14 @@
 from src.VYPcode import Stack
 from src.VYPcode.Stack import Stack
-from src.VYPcode.VYPaFunctions.FunctionResult import FunctionResult
-from src.VYPcode.VYPaFunctions.VYPaFunction import VYPaFunction
-from src.VYPcode.VYPaOperations.operations import RETURN, JUMP, COMMENT, DUMPSTACK, DUMPREGS, ADDI
-from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
-from src.VYPcode.VYPaTypes.VYPaInt import VYPaInt
-from src.VYPcode.VYPaTypes.VYPaString import VYPaString
-from src.VYPcode.VYPaTypes.VYPaVoid import VYPaVoid
-from src.VYPcode.VYPaVariables.VYPaVariable import VYPaVariable
-from src.VYPcode.scopes.ProgramTree import PT
+from src.VYPcode.Functions.FunctionResult import FunctionResult
+from src.VYPcode.Functions.VYPaFunction import VYPaFunction
+from src.VYPcode.Instructions.Instructions import RETURN, JUMP, COMMENT, DUMPSTACK, DUMPREGS, ADDI
+from src.VYPcode.Registers.Registers import VYPaRegister
+from src.VYPcode.Types.VYPaInt import VYPaInt
+from src.VYPcode.Types.VYPaString import VYPaString
+from src.VYPcode.Types.VYPaVoid import VYPaVoid
+from src.VYPcode.Variables.VariableBase import VYPaVariableBase
+from src.VYPcode.Scopes.ProgramTree import PT
 from src.VYPcode.utils import declare_variable
 from src.error import Exit, Error
 

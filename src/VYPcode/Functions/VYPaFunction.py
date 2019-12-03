@@ -1,9 +1,9 @@
 from src.VYPcode.Stack import Stack
-from src.VYPcode.VYPaFunctions.FunctionResult import FunctionResult
-from src.VYPcode.VYPaOperations.operations import ADDI, JUMP, LABEL, SUBI, SET, CALL, DUMPSTACK, RETURN, COMMENT
-from src.VYPcode.VYPaTypes.VYPaVoid import VYPaVoid
+from src.VYPcode.Functions.FunctionResult import FunctionResult
+from src.VYPcode.Instructions.Instructions import ADDI, JUMP, LABEL, SUBI, SET, CALL, DUMPSTACK, RETURN, COMMENT
+from src.VYPcode.Types.VYPaVoid import VYPaVoid
 
-from src.VYPcode.scopes.ProgramTree import PT
+from src.VYPcode.Scopes.ProgramTree import PT
 from src.VYPcode.utils import declare_variable
 from src.error import Exit, Error
 
@@ -51,6 +51,8 @@ class VYPaFunction:
         if len(self.params) > 0:
             PT.get_current_scope().instruction_tape.add(COMMENT(f"Deallocate {len(self.params)} params"))
             Stack.deallocate(len(self.params))
+
+        PT.get_current_scope().deallocate_variables()
 
         if self.get_type() != VYPaVoid():
             if not expression:

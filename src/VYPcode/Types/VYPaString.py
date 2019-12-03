@@ -1,4 +1,4 @@
-﻿from src.VYPcode.VYPaTypes.baseType import VYPaBaseType
+﻿from src.VYPcode.Types.baseType import VYPaBaseType
 
 
 class VYPaString(VYPaBaseType):

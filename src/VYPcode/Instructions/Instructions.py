@@ -1,100 +1,100 @@
-from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
-from src.VYPcode.VYPaOperations.operationsBaseClasses import *
+from src.VYPcode.Registers.Registers import VYPaRegister
+from src.VYPcode.Instructions.InstructionsBaseClasses import *
 
 
-class ADDI(ThreeArgsOperation):
+class ADDI(ThreeArgsInstruction):
     def __init__(self, second, third, destination=VYPaRegister.Accumulator):
         super().__init__("ADDI", destination, second, third)
 
 
-class SUBI(ThreeArgsOperation):
+class SUBI(ThreeArgsInstruction):
     def __init__(self, second, third, destination=VYPaRegister.Accumulator):
         super().__init__("SUBI", destination, second, third)
 
 
-class MULI(ThreeArgsOperation):
+class MULI(ThreeArgsInstruction):
     def __init__(self, second, third):
         first = VYPaRegister.Accumulator  # result of all arithmetic operations are stored in ACC register
         super().__init__("MULI", first, second, third)
 
 
-class DIVI(ThreeArgsOperation):
+class DIVI(ThreeArgsInstruction):
     def __init__(self, second, third):
         first = VYPaRegister.Accumulator  # result of all arithmetic operations are stored in ACC register
         super().__init__("MULI", first, second, third)
 
 
-class CONSTANT(TwoArgsOperation):
+class CONSTANT(TwoArgsInstruction):
     def __init__(self, first, second):
         super().__init__("CONSTANT", first, second)
 
 
-class ALIAS(TwoArgsOperation):
+class ALIAS(TwoArgsInstruction):
     def __init__(self, first, second):
         super().__init__("ALIAS", first, second)
 
 
-class WRITES(OneArgsOperation):
+class WRITES(OneArgsInstruction):
     def __init__(self, first):
         super().__init__("WRITES", first)
 
 
-class WRITEI(OneArgsOperation):
+class WRITEI(OneArgsInstruction):
     def __init__(self, first):
         super().__init__("WRITEI", first)
 
 
-class SETWORD(ThreeArgsOperation):
+class SETWORD(ThreeArgsInstruction):
     def __init__(self, first, second, third):
         super().__init__("SETWORD", first, second, third)
 
 
-class CREATE(TwoArgsOperation):
+class CREATE(TwoArgsInstruction):
     def __init__(self, first, second):
         super().__init__("CREATE", first, second)
 
 
-class COPY(TwoArgsOperation):
+class COPY(TwoArgsInstruction):
     def __init__(self, first, second):
         super().__init__("COPY", first, second)
 
 
-class DESTROY(OneArgsOperation):
+class DESTROY(OneArgsInstruction):
     def __init__(self, first):
         super().__init__("DESTROY", first)
 
 
-class SET(TwoArgsOperation):
+class SET(TwoArgsInstruction):
     def __init__(self, first, second):
         super().__init__("SET", first, second)
 
 
-class LABEL(OneArgsOperation):
+class LABEL(OneArgsInstruction):
     def __init__(self, first):
         super().__init__("LABEL", first)
 
 
-class JUMP(OneArgsOperation):
+class JUMP(OneArgsInstruction):
     def __init__(self, first):
         super().__init__("JUMP", first)
 
 
-class CALL(TwoArgsOperation):
+class CALL(TwoArgsInstruction):
     def __init__(self, first, second):
         super().__init__("CALL", first, second)
 
 
-class RETURN(OneArgsOperation):
+class RETURN(OneArgsInstruction):
     def __init__(self, first):
         super().__init__("RETURN", first)
 
 
-class DUMPSTACK(NoArgsOperation):
+class DUMPSTACK(NoArgsInstruction):
     def __init__(self):
         super().__init__("DUMPSTACK")
 
 
-class DUMPREGS(NoArgsOperation):
+class DUMPREGS(NoArgsInstruction):
     def __init__(self):
         super().__init__("DUMPREGS")
 

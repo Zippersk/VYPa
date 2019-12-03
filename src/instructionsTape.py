@@ -1,9 +1,9 @@
 from typing import List
 
 from src.VYPcode.Stack import Stack
-from src.VYPcode.VYPaFunctions.buildInFunctions import PrintIntVYPa, PrintStringVYPa
-from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
-from src.VYPcode.VYPaOperations.operations import ALIAS, OperationBase, CONSTANT, SET, JUMP
+from src.VYPcode.Functions.buildInFunctions import PrintIntVYPa, PrintStringVYPa
+from src.VYPcode.Registers.Registers import VYPaRegister
+from src.VYPcode.Instructions.Instructions import ALIAS, OperationBase, CONSTANT, SET, JUMP
 
 
 class InstructionTape:
@@ -16,9 +16,6 @@ class InstructionTape:
 
     def add(self, instruction):
         self.__instructions.append(str(instruction))
-
-    def add_with_lazy_evaluation(self, lazy_instructions):
-        self.__instructions.append(lazy_instructions)
 
     def insert_in_beginning(self, instruction):
         self.__instructions.insert(0, instruction)

@@ -1,8 +1,8 @@
-﻿from src.VYPcode.VYPaVariables.VYPaVariable import VYPaVariable
+﻿from src.VYPcode.Variables.VariableBase import VYPaVariableBase
 function_call_number = 0  # just for unique variables name
 
 
-class FunctionResult(VYPaVariable):
+class FunctionResult(VYPaVariableBase):
 
     def __init__(self, func):
         global function_call_number

@@ -1,4 +1,4 @@
-from src.VYPcode.scopes.VYPaScope import VYPaScope
+from src.VYPcode.Scopes.VYPaScope import VYPaScope
 from src.error import Error, Exit
 
 
@@ -29,7 +29,7 @@ class ProgramTree:
 
     def get_current_function(self):
         """
-        :rtype: src.VYPcode.VYPaFunctions.VYPaFunction.VYPaFunction
+        :rtype: src.VYPcode.Functions.VYPaFunction.VYPaFunction
         """
         return self.current_function
 
@@ -45,7 +45,7 @@ class ProgramTree:
 
     def get_variable(self, name: str):
         """
-        :rtype: src.VYPcode.VYPaVariables.VYPaVariable.VYPaVariable
+        :rtype: src.VYPcode.Variables.VariableBase.VYPaVariableBase
         """
         def variable_filter(scope: VYPaScope):
             return scope.get_variable(name)
@@ -58,7 +58,7 @@ class ProgramTree:
 
     def get_function(self, name: str):
         """
-        :rtype: src.VYPcode.VYPaFunctions.VYPaFunction.VYPaFunction
+        :rtype: src.VYPcode.Functions.VYPaFunction.VYPaFunction
         """
         def function_filter(scope: VYPaScope):
             return scope.get_function(name)

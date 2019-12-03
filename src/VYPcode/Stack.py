@@ -1,6 +1,6 @@
-﻿from src.VYPcode.VYPaOperations.operations import SET, ADDI, SUBI, COMMENT
-from src.VYPcode.VYPaRegisters.Registers import VYPaRegister
-from src.VYPcode.scopes.ProgramTree import PT
+﻿from src.VYPcode.Instructions.Instructions import SET, ADDI, SUBI, COMMENT
+from src.VYPcode.Registers.Registers import VYPaRegister
+from src.VYPcode.Scopes.ProgramTree import PT
 
 
 class Stack:
