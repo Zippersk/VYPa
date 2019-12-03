@@ -15,7 +15,6 @@ class VYPaFunction:
         self.params = params
         self.name = name
         self.label = f"func_{name}"
-        self.scope = PT.get_current_scope()
 
     def declare(self):
         PT.get_current_scope().instruction_tape.add(LABEL(self.label))

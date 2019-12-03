@@ -50,7 +50,7 @@ def p_statement_declaration_assign(t):
 def p_statement_function_call(t):
     'statement : function_call'
     # function was called as a statement so we can throw away it's result
-
+    pass
 
 
 def p_expression_binop(t):

@@ -28,7 +28,19 @@ def p_function_head(t):
                 | type NAME LPAREN functions_params_empty RPAREN'''
     PT.get_current_scope().instruction_tape.add(COMMENT(""))
     PT.get_current_scope().instruction_tape.add(COMMENT(f"Start of function {t[2]}"))
-    t[0] = VYPaFunction(t[1], t[2], t[4]).declare()
+
+    func = PT.get_global_scope().get_function(t[2])
+    if func:
+        # function was called before it was defined
+        func.check_params(t[4])
+        func.type = t[1]
+        func.params = t[4]
+        t[0] = func
+    else:
+        # new function
+        t[0] = VYPaFunction(t[1], t[2], t[4])
+
+    t[0].declare()
     PT.set_current_processing_function(t[0])
 
 
@@ -55,24 +67,25 @@ def p_function_call(t):
     # print is a special function which can be called with multiple parameters
     # so internally we call PrintInt or PrintString for each parameter...
     if t[1] == "print":
+        if len(t[3]) == 0:
+            Exit(Error.SemanticError, "Print called with zero params")
+
         for param in t[3]:
             if param.get_type() == VYPaInt():
-                PT.get_global_scope().get_function("printInt").call([param])
+                t[0] = PT.get_global_scope().get_function("printInt").call([param])
             elif param.get_type() == VYPaString():
-                PT.get_global_scope().get_function("printString").call([param])
+                t[0] = PT.get_global_scope().get_function("printString").call([param])
             else:
-                Exit(Error.InternalError, "Not implemented yet") # TODO print object???
+                Exit(Error.InternalError, "Not implemented yet")  # TODO print object???
                 pass
 
-        t[0] = FunctionResult(PT.get_global_scope().get_function("printInt"))
         return
     else:
-        try:
-            func = PT.get_global_scope().get_function(t[1])
-        except Exception:
+        func = PT.get_global_scope().get_function(t[1])
+        if not func:
             # function was not declared yet
-            # TODO: add function to global scope and mark it as NON-defined
             func = VYPaFunction(None, t[1], t[3])
+            PT.get_global_scope().add_function(func)
 
     t[0] = func.call(t[3])
 

@@ -1,7 +1,7 @@
 from tests.testBase import TestBaseCases
 
 
-class TestsArithmetic(TestBaseCases.TestBase):
+class TestsArithmeticMultipleVariables(TestBaseCases.TestBase):
     STDIN = ""
     source_code = """
         void main(void) {
