@@ -31,8 +31,7 @@ def p_function_head(t):
 
     func = PT.get_global_scope().get_function(t[2])
     if func:
-        # function was called before it was defined
-        func.check_params(t[4])
+        # function was called in the past,  before it was defined
         func.type = t[1]
         func.params = t[4]
         t[0] = func
@@ -71,16 +70,8 @@ def p_function_call(t):
             Exit(Error.SemanticError, "Print called with zero params")
 
         for param in t[3]:
-            if param.get_type() == VYPaInt():
-                t[0] = PT.get_global_scope().get_function("printInt").call([param])
-            elif param.get_type() == VYPaString():
-                t[0] = PT.get_global_scope().get_function("printString").call([param])
-            else:
-                # TODO print object???
-                Exit(Error.InternalError, "Not implemented yet")
-                pass
+            t[0] = VYPaFunction(VYPaVoid(), "*print", [VYPaInt()]).call([param])
 
-        return
     else:
         func = PT.get_global_scope().get_function(t[1])
         if not func:
@@ -88,7 +79,7 @@ def p_function_call(t):
             func = VYPaFunction(None, t[1], t[3])
             PT.get_global_scope().add_function(func)
 
-    t[0] = func.call(t[3])
+        t[0] = func.call(t[3])
 
 
 def p_return(t):

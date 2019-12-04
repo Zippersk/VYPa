@@ -5,9 +5,7 @@ class TestsNoForwardDeclaration(TestBaseCases.TestBase):
     STDIN = ""
     source_code = """
         void main(void) {
-            int a;
-            a = 8 - GetFive() + GetTen() + 3 - 20;
-            print(a);
+            print(GetFive());
         }
     
     
@@ -15,9 +13,6 @@ class TestsNoForwardDeclaration(TestBaseCases.TestBase):
             return 5;
         }
 
-        int GetTen(void) {
-            return 10;
-        }
     """
 
-    STDOUT = "-4"
+    STDOUT = "5"

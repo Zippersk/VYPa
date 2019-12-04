@@ -1,4 +1,3 @@
-from src.TypeChecker.LazyTypeChecker import LazyTypeChecker
 from src.VYPcode.Instructions.Instructions import ADDI, SUBI, DIVI, MULI
 from src.VYPcode.Scopes.ProgramTree import PT
 from src.VYPcode.Types.VYPaInt import VYPaInt
@@ -23,15 +22,13 @@ def p_expression_binop(t):
     elif t[2] == '/':
         PT.get_current_scope().instruction_tape.add(DIVI(t[1], t[3]))
 
-    LazyTypeChecker.plus(t[1], t[3])
     t[0] = VYPaIntVariable("*ACC")
 
 
 def p_expression_uminus(t):
     'expression : MINUS expression %prec UMINUS'
     # %prec UMINUS overrides the default rule precedence--setting it to that of UMINUS in the precedence specifier.
-    PT.get_current_scope().instruction_tape.add(SUBI(t[1], str(0)))
-    LazyTypeChecker(t[1], VYPaInt())
+    PT.get_current_scope().instruction_tape.add(SUBI(t[1], VYPaIntVariable().set_value(0)))
     t[0] = VYPaIntVariable("*ACC")
 
 

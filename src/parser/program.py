@@ -1,4 +1,3 @@
-from src.TypeChecker.LazyCodeEvaluater import LazyCode
 from src.VYPcode.Instructions.Instructions import LABEL, COMMENT
 from src.error import Error
 from src.instructionsTape import MAIN_INSTRUCTION_TAPE
@@ -26,7 +25,6 @@ def p_program(t):
     MAIN_INSTRUCTION_TAPE.add_constant_section()
     MAIN_INSTRUCTION_TAPE.merge(PT.get_global_scope().instruction_tape)
     MAIN_INSTRUCTION_TAPE.add(LABEL("END"))
-    LazyCode.run()  # run all lazy evaluate code
 
 
 def p_init(t):

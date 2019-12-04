@@ -1,4 +1,3 @@
-from src.VYPcode.Stack import Stack
 from src.VYPcode.Registers.Registers import VYPaRegister
 from src.VYPcode.Scopes.ProgramTree import PT
 
@@ -15,6 +14,7 @@ class VYPaVariableBase:
 
     def set_value(self, value):
         self.value = value
+        return self
 
     def get_type(self):
         return self.type
@@ -28,4 +28,5 @@ class VYPaVariableBase:
             all_variables = len(self.scope.variables)
             position = self.scope.get_variable_index(self.name)
 
-            return Stack.get(-(all_variables - position + self.scope.relative_SP - 1))
+            from src.VYPcode.Stack import Stack
+            return str(Stack.get(-(all_variables - position + self.scope.relative_SP - 1)))

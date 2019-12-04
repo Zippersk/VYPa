@@ -10,7 +10,6 @@ from src.VYPcode.Variables import VYPaStringVariable
 from src.VYPcode.Variables.VYPaIntVariable import VYPaIntVariable
 from src.VYPcode.Variables.VYPaStringVariable import VYPaStringVariable
 from src.VYPcode.Scopes.ProgramTree import PT
-from src.VYPcode.utils import declare_variable
 
 
 class VYPaBuildInFunctionClass(VYPaFunction):
@@ -20,7 +19,6 @@ class VYPaBuildInFunctionClass(VYPaFunction):
         super().declare()
 
     def register(self):
-        PT.push_scope()
 
         self.get_instructions()
         self.deallocate_and_return()

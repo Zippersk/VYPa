@@ -16,7 +16,7 @@ class InstructionTape:
         print(self.__instructions)
 
     def add(self, instruction):
-        self.__instructions.append(str(instruction))
+        self.__instructions.append(instruction)
 
     def insert_in_beginning(self, instruction):
         self.__instructions.insert(0, instruction)

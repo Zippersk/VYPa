@@ -1,17 +1,10 @@
-from src.TypeChecker.LazyTypeChecker import LazyTypeChecker
 from src.VYPcode.Instructions.Instructions import SET
 from src.VYPcode.Scopes.ProgramTree import PT
 from src.VYPcode.utils import declare_variable
 
 
-def p_new_scope(p):
-    "new_scope :"
-    # Create a new scope for local variables
-    PT.push_scope()
-
-
 def p_statements_block(t):
-    "statements_block : LBRACKET new_scope statements RBRACKET"""
+    "statements_block : LBRACKET statements RBRACKET"""
     PT.pop_scope()
 
 
@@ -25,7 +18,6 @@ def p_statement_assign(t):
     '''statement : NAME ASSIGMENT expression'''
     variable = PT.get_variable(t[1])
     PT.get_current_scope().instruction_tape.add(SET(variable, t[3]))
-    LazyTypeChecker(variable, t[3].get_type())
 
 
 def p_statement_declaration(t):

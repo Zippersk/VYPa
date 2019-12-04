@@ -19,25 +19,19 @@ class VYPaFunction:
     def declare(self):
         PT.get_current_scope().instruction_tape.add(LABEL(self.label))
         PT.get_current_scope().add_function(self)
+        PT.push_scope()
+        for param in self.params:
+            PT.get_current_scope().add_variable(param)
         return self
 
     def get_type(self):
         return self.type
 
-    def check_params(self, calling_params):
-        if len(calling_params) != len(self.params):
-            Exit(Error.SyntaxError, "Wrong number of parameters")
-        for calling_param, declared_param in zip(calling_params, self.params):
-            if calling_param.get_type() != declared_param.get_type():
-                Exit(Error.TypesIncompatibility, "Parameters types mismatch")
-
     def call(self, calling_params):
-        self.check_params(calling_params)
-
         for param in calling_params:
             Stack.push(param)
 
-        PT.get_current_scope().instruction_tape.add(CALL(Stack.get(-len(self.params)), self.label))
+        PT.get_current_scope().instruction_tape.add(CALL(Stack.get(-len(self.params)), self, calling_params))
 
         # after all params are pushed in stack we can deallocate return value and return address from scope
         PT.get_current_scope().add_relative_SP(-2)
@@ -48,9 +42,6 @@ class VYPaFunction:
             Exit(Error.SyntaxError, "Function not declared")
 
     def deallocate_and_return(self, expression=None):
-        if len(self.params) > 0:
-            PT.get_current_scope().instruction_tape.add(COMMENT(f"Deallocate {len(self.params)} params"))
-            Stack.deallocate(len(self.params))
 
         PT.get_current_scope().deallocate_variables()
 
@@ -63,3 +54,6 @@ class VYPaFunction:
                 Stack.set(expression, -1)
 
         PT.get_current_scope().instruction_tape.add(RETURN(Stack.pop()))
+
+    def __str__(self):
+        return self.label
