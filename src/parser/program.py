@@ -5,6 +5,7 @@ from src.instructionsTape import MAIN_INSTRUCTION_TAPE
 from src.parser.functions import *
 from src.parser.classes import *
 from src.parser.statements import *
+from src.parser.expressions import *
 
 precedence = (
     ('left', 'PLUS', 'MINUS'),
@@ -20,7 +21,7 @@ def p_program(t):
     '''program : init program_body'''
     main: VYPaFunction = PT.get_global_scope().get_function("main")
     if not (main and main.get_type() == VYPaVoid()):
-        Error(Error.SemanticError, "wrong type or not defined Main function")
+        Exit(Error.SemanticError, "wrong type or not defined Main function")
 
     MAIN_INSTRUCTION_TAPE.add_constant_section()
     MAIN_INSTRUCTION_TAPE.merge(PT.get_global_scope().instruction_tape)

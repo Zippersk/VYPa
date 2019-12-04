@@ -76,7 +76,8 @@ def p_function_call(t):
             elif param.get_type() == VYPaString():
                 t[0] = PT.get_global_scope().get_function("printString").call([param])
             else:
-                Exit(Error.InternalError, "Not implemented yet")  # TODO print object???
+                # TODO print object???
+                Exit(Error.InternalError, "Not implemented yet")
                 pass
 
         return
