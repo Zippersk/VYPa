@@ -1,3 +1,5 @@
+import re
+
 from src.error import Exit, Error
 
 tokens = (
@@ -40,13 +42,24 @@ t_EQUAL = r'=='
 t_NOTEQUAL = r'!='
 t_AND = r'&&'
 t_OR = r'\|\|'
-t_WORD = r'\"([^\\\n]|(\\.))*?\"'  # should be all printable characters
 t_COMMA = r','
 t_SEMICOLON = r';'
 t_NUMBER = r'[0-9]+'
 
 # Ignored characters
 t_ignore = " \t"
+
+
+def t_WORD(t):
+    r'\"([^\\\n]|(\\.))*?\"'  # should be all printable characters
+
+    hexChars = [x for x in re.findall(r'\\x[A-F,a-f,0-9]{6}', t.value)]
+
+    for hexChar in hexChars:
+        unicode_char = chr(int(hexChar[2:], 16))
+        t.value = t.value.replace(hexChar, unicode_char)
+
+    return t
 
 
 def t_LINECOMMENT(t):
@@ -65,4 +78,4 @@ def t_newline(t):
 
 
 def t_error(t):
-    Exit(Error.LexicalError, "Illegal character '%s'" % t.value[0])
+    Exit(Error.LexicalError, f"Illegal character '{t.value[0]}' on line {t.lexer.lineno}")

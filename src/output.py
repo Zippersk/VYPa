@@ -27,7 +27,7 @@ class Printer:
 
     def print(self):
         if self.file:
-            with open(self.file, 'x') as output_file:
+            with open(self.file, 'x', encoding="utf-8") as output_file:
                 self._print(output_file)
         else:
             self._print(sys.stdout)
