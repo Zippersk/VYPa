@@ -53,7 +53,7 @@ t_ignore = " \t"
 def t_WORD(t):
     r'\"([^\\\n]|(\\.))*?\"'  # should be all printable characters
 
-    hexChars = [x for x in re.findall(r'\\x[A-F,a-f,0-9]{6}', t.value)]
+    hexChars = [x for x in re.findall(r'\\x[A-Fa-f0-9]{6}', t.value)]
 
     for hexChar in hexChars:
         unicode_char = chr(int(hexChar[2:], 16))
