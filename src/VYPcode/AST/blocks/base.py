@@ -27,7 +27,7 @@ class AST_block:
 
     def jump_out(self):
         from src.VYPcode.AST.AbstractSyntaxTree import AST
-        if str(self.parent) != "program":
+        if str(self) != "program":
             AST.current = self.parent
 
     def jump_in(self):

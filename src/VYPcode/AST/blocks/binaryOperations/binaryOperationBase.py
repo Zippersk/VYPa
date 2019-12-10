@@ -10,19 +10,18 @@ class AST_binOperation(AST_block):
         self.left = left
         self.right = right
         self.instruction = instruction
-
-        self.left.set_parent(self)
-        self.right.set_parent(self)
-
         self.type = None
 
     def get_instructions(self):
-        self.check_types()
+        self.instruction_tape.merge(self.left.get_instructions())
+        self.instruction_tape.merge(self.right.get_instructions())
         self.type = VYPaInt()
+        self.check_types()
         self.add_instruction(self.instruction(self.left, self.right))
+        return self.instruction_tape
 
     def __str__(self):
-        return AST_value(self, self.type, str(VYPaRegister.Accumulator))
+        return str(AST_value(self, self.type, str(VYPaRegister.Accumulator)))
 
     def check_types(self):
         pass

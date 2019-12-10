@@ -1,4 +1,5 @@
 from src.VYPcode.AST.AbstractSyntaxTree import AST
+from src.VYPcode.AST.blocks.function_call import AST_function_call
 from src.VYPcode.AST.blocks.variable import AST_variable
 
 
@@ -32,7 +33,7 @@ def p_functions_params(t):
 
 def p_function_call(t):
     '''function_call : NAME LPAREN function_params RPAREN'''
-    t[0] = AST.current.add_function_call(t[1], t[3])
+    t[0] = AST_function_call(None, t[1], t[3])
 
 
 def p_return(t):

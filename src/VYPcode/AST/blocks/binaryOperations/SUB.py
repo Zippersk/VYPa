@@ -8,7 +8,7 @@ class AST_SUBI(AST_binOperation):
     def __init__(self, left, right):
         super().__init__(left, SUBI, right)
 
-
     def check_types(self):
-        if self.second.type != VYPaInt() or self.third.type != VYPaInt():
+        if self.left.type != VYPaInt() or self.right.type != VYPaInt():
             Exit(Error.SemanticError, "Type check error!")
+

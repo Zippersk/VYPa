@@ -14,7 +14,10 @@ class AST_ADD(AST_binOperation):
             Exit(Error.SemanticError, "Type check error!")
 
     def get_instructions(self):
-        if self.left.type == VYPaInt() and self.left.type == VYPaString():
+        self.instruction_tape.merge(self.left.get_instructions())
+        self.instruction_tape.merge(self.right.get_instructions())
+
+        if self.left.type == VYPaInt() and self.right.type == VYPaInt():
             self.instruction = ADDI
             self.check_types()
             self.type = VYPaInt()

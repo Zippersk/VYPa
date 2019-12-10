@@ -3,10 +3,12 @@ from collections import OrderedDict
 from src.VYPcode.AST.blocks.assigment import AST_assigment
 from src.VYPcode.AST.blocks.base import AST_block
 from src.VYPcode.AST.blocks.function_call import AST_function_call
+from src.VYPcode.AST.blocks.function_return import AST_return
+from src.VYPcode.AST.blocks.value import AST_value
 from src.VYPcode.AST.blocks.variable import AST_variable
 from src.VYPcode.Instructions.Instructions import JUMP, COMMENT, LABEL, RETURN
+from src.VYPcode.Registers.Registers import VYPaRegister
 from src.VYPcode.Types.VYPaVoid import VYPaVoid
-from src.error import Exit, Error
 
 
 class AST_function(AST_block):
@@ -52,29 +54,12 @@ class AST_function(AST_block):
         self.function_body_statements.append(body)
 
     def add_function_call(self, name, calling_params):
-        self.function_body_statements.append(AST_function_call(self, name, calling_params))
+        function_call = AST_function_call(self, name, calling_params)
+        self.function_body_statements.append(function_call)
+        return function_call
 
     def add_return(self, expression):
-        if not expression and self.type != VYPaVoid():
-            Exit(Error.SyntaxError, "Function has empty return and is not void")
-
-        self.deallocate_and_return(expression)
-
-    def deallocate_and_return(self, expression=None):
-
-        dealloc_count = len(self.variables) + len(self.params)
-        self.instruction_tape.add(COMMENT(f"Deallocate {dealloc_count} scope variables and paramters"))
-        self.stack.deallocate(dealloc_count)
-
-        if self.type != VYPaVoid():
-            if not expression:
-                self.instruction_tape.add(COMMENT(f"Set default return value"))
-                self.stack.set(self.type.get_default(), -1)
-            else:
-                self.instruction_tape.add(COMMENT(f"Set return value"))
-                self.stack.set(expression, -1)
-
-        self.instruction_tape.add(RETURN(self.stack.pop()))
+        self.function_body_statements.append(AST_return(self, expression))
 
     def get_variable_index(self, name):
         if self.params.get(name, None) is not None:
@@ -98,8 +83,11 @@ class AST_function(AST_block):
         if str(self.get_parent()) == "program" and self.name == "main" and self.type == VYPaVoid():
             self.add_instruction(JUMP("END"))
         else:
-            self.deallocate_and_return()
-
+            if self.type == VYPaVoid():
+                self.merge_instructions(AST_return(self, None).get_instructions())
+            else:
+                self.merge_instructions(AST_return(self, AST_value(None, self.type, self.type.get_default())).get_instructions())
+                
         self.add_instruction(COMMENT(f"End of function {self.name}"))
         self.add_instruction(COMMENT(""))
 

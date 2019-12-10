@@ -9,5 +9,6 @@ class AST_assigment(AST_block):
         self.variable = variable
 
     def get_instructions(self):
+        self.instruction_tape.merge(self.expression.get_instructions())
         self.instruction_tape.add(SET(self.variable, self.expression))
         return self.instruction_tape
