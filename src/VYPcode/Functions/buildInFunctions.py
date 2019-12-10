@@ -1,84 +1,71 @@
+from src.VYPcode.AST.AbstractSyntaxTree import AST
+from src.VYPcode.AST.blocks.variable import AST_variable
 from src.VYPcode.Registers.Registers import VYPaRegister
-from src.VYPcode.Stack import Stack
-from src.VYPcode.Functions.VYPaFunction import VYPaFunction
 from src.VYPcode.Instructions.Instructions import LABEL, WRITEI, RETURN, DUMPSTACK, WRITES, READI, READS, GETSIZE, \
     COMMENT
+from src.VYPcode.Stack import Stack
 from src.VYPcode.Types.VYPaInt import VYPaInt
 from src.VYPcode.Types.VYPaString import VYPaString
 from src.VYPcode.Types.VYPaVoid import VYPaVoid
-from src.VYPcode.Variables import VYPaStringVariable
-from src.VYPcode.Variables.VYPaIntVariable import VYPaIntVariable
-from src.VYPcode.Variables.VYPaStringVariable import VYPaStringVariable
-from src.VYPcode.Scopes.ProgramTree import PT
+from src.instructionsTape import InstructionTape
 
 
-class VYPaBuildInFunctionClass(VYPaFunction):
+class VYPaBuildInFunctionClass():
     def __init__(self, type, name, params):
-        super().__init__(type, name, params)
-        self.label = f"buildIn_{name}"
-        super().declare()
+        self.instructions = InstructionTape()
+        self.stack = Stack(self.instructions)
+        self.return_expression = None
+        self.function = AST.get_root().add_function(type, name, params)
+        for param in params:
+            param.set_parent(self.function)
 
-    def register(self):
+        self.function.add_body(self)
 
-        self.get_instructions()
-        self.deallocate_and_return()
-        PT.pop_scope()
-        PT.get_current_scope().instruction_tape.add(COMMENT(""))
+    def get_instructions(self):
+        return self.instructions
 
 
 class PrintIntVYPa(VYPaBuildInFunctionClass):
     def __init__(self):
-        super().__init__(VYPaVoid(), "printInt", [VYPaIntVariable("number")])
-
-    def get_instructions(self):
-        PT.get_current_scope().instruction_tape.add(WRITEI(Stack.top()))
-        self.deallocate_and_return()
+        super().__init__(VYPaVoid(), "printInt", [AST_variable(None, VYPaInt(), "number")])
+        self.instructions.add(WRITEI(self.function.stack.top()))
 
 
 class PrintStringVYPa(VYPaBuildInFunctionClass):
     def __init__(self):
-        super().__init__(VYPaVoid(), "printString", [VYPaStringVariable("string")])
-
-    def get_instructions(self):
-        PT.get_current_scope().instruction_tape.add(WRITES(Stack.top()))
-        self.deallocate_and_return()
+        super().__init__(VYPaVoid(), "printString", [AST_variable(None, VYPaString(), "string")])
+        self.instructions.add(WRITES(self.function.stack.top()))
 
 
 class ReadIntVYPa(VYPaBuildInFunctionClass):
     def __init__(self):
         super().__init__(VYPaInt(), "readInt", [])
-
-    def get_instructions(self):
-        n = VYPaIntVariable("n").declare()
-        PT.get_current_scope().instruction_tape.add(READI(VYPaRegister.DestinationReg))
-        Stack.set(VYPaRegister.DestinationReg)
-        self.deallocate_and_return(n)
+        self.return_expression = self.function.add_variable(VYPaInt(), "number")
+        self.instructions.add(READI(VYPaRegister.DestinationReg))
+        self.stack.set(VYPaRegister.DestinationReg)
 
 
 class ReadStringVYPa(VYPaBuildInFunctionClass):
     def __init__(self):
         super().__init__(VYPaString(), "readString", [])
-
-    def get_instructions(self):
-        s = VYPaStringVariable("s").declare()
-        PT.get_current_scope().instruction_tape.add(READS(VYPaRegister.DestinationReg))
-        Stack.set(VYPaRegister.DestinationReg)
-        self.deallocate_and_return(s)
+        self.return_expression = self.function.add_variable(VYPaString(), "s")
+        self.instructions.add(READI(VYPaRegister.DestinationReg))
+        self.stack.set(VYPaRegister.DestinationReg)
 
 
 class LengthVYPa(VYPaBuildInFunctionClass):
     def __init__(self):
-        super().__init__(VYPaInt(), "length", [VYPaStringVariable("s")])
+        super().__init__(VYPaInt(), "length", [AST_variable(None, VYPaInt(), "number")])
 
-    def get_instructions(self):
-        PT.get_current_scope().instruction_tape.add(GETSIZE(VYPaRegister.DestinationReg, Stack.top()))
-        n = VYPaIntVariable("n").declare()
-        Stack.set(VYPaRegister.DestinationReg)
-        self.deallocate_and_return(n)
+        self.instructions.add(GETSIZE(VYPaRegister.DestinationReg, self.function.stack.top()))
+        self.return_expression = self.function.add_variable(VYPaInt(), "number")
+        self.stack.set(VYPaRegister.DestinationReg)
 
 
 class SubStrVYPa(VYPaBuildInFunctionClass):
     def __init__(self):
-        super().__init__(VYPaString(), "subStr", [VYPaStringVariable("s"), VYPaIntVariable("i"), VYPaIntVariable("n")])
+        super().__init__(VYPaString(), "subStr", [AST_variable(None, VYPaString(), "s"),
+                                                  AST_variable(None, VYPaInt(), "i"),
+                                                  AST_variable(None, VYPaInt(), "n")])
         # TODO: implement substr function
 

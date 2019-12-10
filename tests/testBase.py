@@ -6,7 +6,6 @@ from subprocess import PIPE
 
 from app import parser
 import src.output as printer
-from src.VYPcode.Scopes.ProgramTree import PT
 from src.instructionsTape import MAIN_INSTRUCTION_TAPE
 
 
@@ -30,8 +29,6 @@ class TestBaseCases:
             print("\n\nRunning test with source code: \n")
             printer.Output.print()
             # print("\n\nAST of program:")
-            # print(PT)
-            PT.clear()
             MAIN_INSTRUCTION_TAPE.clear()
 
         def run_vypa_interpreter(self):

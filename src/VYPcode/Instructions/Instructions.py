@@ -11,20 +11,12 @@ class ADDI(ThreeArgsInstruction):
     def __init__(self, second, third, destination=VYPaRegister.Accumulator):
         super().__init__("ADDI", destination, second, third)
 
-    def __str__(self):
-        if self.second.type != self.third.type:
-            Exit(Error.SemanticError, "Type check error!")
-        return super().__str__()
+
 
 
 class SUBI(ThreeArgsInstruction):
     def __init__(self, second, third, destination=VYPaRegister.Accumulator):
         super().__init__("SUBI", destination, second, third)
-
-    def __str__(self):
-        if self.second.type != VYPaInt() or self.third.type != VYPaInt():
-            Exit(Error.SemanticError, "Type check error!")
-        return super().__str__()
 
 
 class MULI(ThreeArgsInstruction):
@@ -32,21 +24,11 @@ class MULI(ThreeArgsInstruction):
         first = VYPaRegister.Accumulator  # result of all arithmetic operations are stored in ACC register
         super().__init__("MULI", first, second, third)
 
-    def __str__(self):
-        if self.second.type != VYPaInt() or self.third.type != VYPaInt():
-            Exit(Error.SemanticError, "Type check error!")
-        return super().__str__()
-
 
 class DIVI(ThreeArgsInstruction):
     def __init__(self, second, third):
         first = VYPaRegister.Accumulator  # result of all arithmetic operations are stored in ACC register
         super().__init__("DIVI", first, second, third)
-
-    def __str__(self):
-        if self.second.type != VYPaInt() or self.third.type != VYPaInt():
-            Exit(Error.SemanticError, "Type check error!")
-        return super().__str__()
 
 
 class CONSTANT(TwoArgsInstruction):
@@ -63,20 +45,18 @@ class WRITES(OneArgsInstruction):
     def __init__(self, first):
         super().__init__("WRITES", first)
 
-    def __str__(self):
+    def check_types(self):
         if self.first.type != VYPaString():
             Exit(Error.SemanticError, "Type check error!")
-        return super().__str__()
 
 
 class WRITEI(OneArgsInstruction):
     def __init__(self, first):
         super().__init__("WRITEI", first)
 
-    def __str__(self):
+    def check_types(self):
         if self.first.type != VYPaInt():
             Exit(Error.SemanticError, "Type check error!")
-        return super().__str__()
 
 
 class READI(OneArgsInstruction):
@@ -135,30 +115,22 @@ class JUMP(OneArgsInstruction):
 
 
 class CALL(TwoArgsInstruction):
-    def __init__(self, first, second, calling_params):
+    def __init__(self, first, second):
         super().__init__("CALL", first, second)
-        self.calling_params = calling_params
 
-    def check_params(self, calling_params):
-        if len(calling_params) != len(self.second.params):
-            Exit(Error.SyntaxError, "Wrong number of parameters")
-        for calling_param, declared_param in zip(calling_params, self.second.params):
-            if calling_param.get_type() != declared_param.get_type():
-                Exit(Error.TypesIncompatibility, "Parameters types mismatch")
-
-    def __str__(self):
-        if self.second.name == "*print":
-            if self.calling_params[0].get_type() == VYPaInt():
-                self.second_str = "buildIn_printInt"
-            elif self.calling_params[0].get_type() == VYPaString():
-                self.second_str = "buildIn_printString"
-            else:
-                # TODO print object???
-                Exit(Error.InternalError, "Not implemented yet")
-        else:
-            self.check_params(self.calling_params)
-
-        return super().__str__()
+    # def __str__(self):
+    #     if self.second.name == "*print":
+    #         if self.calling_params[0].get_type() == VYPaInt():
+    #             self.second_str = "buildIn_printInt"
+    #         elif self.calling_params[0].get_type() == VYPaString():
+    #             self.second_str = "buildIn_printString"
+    #         else:
+    #             # TODO print object???
+    #             Exit(Error.InternalError, "Not implemented yet")
+    #     else:
+    #         self.check_params(self.calling_params)
+    #
+    #     return super().__str__()
 
 
 class RETURN(OneArgsInstruction):

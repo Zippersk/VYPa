@@ -1,58 +1,43 @@
-﻿from src.VYPcode.Instructions.Instructions import SET, ADDI, SUBI, COMMENT
-from src.VYPcode.Registers.Registers import VYPaRegister, VYPaStack
-from src.VYPcode.Scopes.ProgramTree import PT
-from src.VYPcode.Variables.VYPaIntVariable import VYPaIntVariable
+﻿from src.VYPcode.AST.blocks.value import AST_value
+from src.VYPcode.Instructions.Instructions import SET, ADDI, SUBI, COMMENT
+from src.VYPcode.Registers.Registers import VYPaRegister
+from src.VYPcode.Types.VYPaInt import VYPaInt
 
 
 class Stack:
-    @staticmethod
-    def set(value, offset=0, instruction_tape=None):
-        if instruction_tape is None:
-            instruction_tape = PT.get_current_scope().instruction_tape
+    def __init__(self, instruction_tape):
+        self.instruction_tape = instruction_tape
 
-        instruction_tape.add(SET(Stack.get(offset), value))
+    def set(self, value, offset=0):
+        self.instruction_tape.add(SET(self.get(offset), value))
         return value
 
-    @staticmethod
-    def get(offset=0):
-        return VYPaStack(offset)
+    def get(self, offset=0):
+        if offset > 0:
+            return f"[{VYPaRegister.StackPointer}+{offset}]"
+        elif offset < 0:
+            return f"[{VYPaRegister.StackPointer}-{abs(offset)}]"
+        else:
+            return f"[{VYPaRegister.StackPointer}]"
 
-    @staticmethod
-    def push(value, instruction_tape=None):
-        if instruction_tape is None:
-            instruction_tape = PT.get_current_scope().instruction_tape
-
-        instruction_tape.add(SET(Stack.get(1), value))
-        instruction_tape.add(ADDI(VYPaRegister.StackPointer, VYPaIntVariable().set_value(1), VYPaRegister.StackPointer))
+    def push(self, value):
+        self.instruction_tape.add(SET(self.get(1), value))
+        self.instruction_tape.add(ADDI(VYPaRegister.StackPointer, AST_value(None, VYPaInt, 1), VYPaRegister.StackPointer))
         return value
 
-    @staticmethod
-    def allocate(how_much_variables_to_allocate=1, instruction_tape=None):
-        if instruction_tape is None:
-            instruction_tape = PT.get_current_scope().instruction_tape
-        PT.get_current_scope().add_relative_SP(how_much_variables_to_allocate)
-        instruction_tape.add(ADDI(VYPaRegister.StackPointer,
-                                  VYPaIntVariable().set_value(how_much_variables_to_allocate),
+    def allocate(self, how_much_variables_to_allocate=1):
+        self.instruction_tape.add(ADDI(VYPaRegister.StackPointer,
+                                  AST_value(None, VYPaInt, how_much_variables_to_allocate),
                                   VYPaRegister.StackPointer))
 
-    @staticmethod
-    def deallocate(how_much_variables_to_remove=1, instruction_tape=None):
-        if instruction_tape is None:
-            instruction_tape = PT.get_current_scope().instruction_tape
-
-        PT.get_current_scope().add_relative_SP(-how_much_variables_to_remove)
-        instruction_tape.add(SUBI(VYPaRegister.StackPointer,
-                                  VYPaIntVariable().set_value(how_much_variables_to_remove),
+    def deallocate(self, how_much_variables_to_remove=1):
+        self.instruction_tape.add(SUBI(VYPaRegister.StackPointer,
+                                       AST_value(None, VYPaInt, how_much_variables_to_remove),
                                   VYPaRegister.StackPointer))
 
-    @staticmethod
-    def pop(instruction_tape=None):
-        if instruction_tape is None:
-            instruction_tape = PT.get_current_scope().instruction_tape
+    def pop(self):
+        self.instruction_tape.add(SUBI(VYPaRegister.StackPointer,  AST_value(None, VYPaInt, 1), VYPaRegister.StackPointer))
+        return self.get(1)
 
-        instruction_tape.add(SUBI(VYPaRegister.StackPointer, VYPaIntVariable().set_value(1), VYPaRegister.StackPointer))
-        return Stack.get(1)
-
-    @staticmethod
-    def top():
-        return Stack.get(0)
+    def top(self):
+        return self.get(0)

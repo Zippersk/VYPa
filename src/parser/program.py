@@ -1,5 +1,6 @@
 from src.VYPcode.Instructions.Instructions import LABEL, COMMENT
-from src.error import Error
+from src.VYPcode.Types.VYPaVoid import VYPaVoid
+from src.error import Error, Exit
 from src.instructionsTape import MAIN_INSTRUCTION_TAPE
 from src.parser.functions import *
 from src.parser.classes import *
@@ -7,9 +8,13 @@ from src.parser.statements import *
 from src.parser.expressions import *
 
 precedence = (
+    ('left', 'OR'),
+    ('left', 'AND'),
+    ('left', 'EQUAL', 'NOTEQUAL'),
+    ('left', 'LESS', 'LESSEQUAL', 'GREATER', 'GREATEREQUAL'),
     ('left', 'PLUS', 'MINUS'),
     ('left', 'TIMES', 'DIVIDE'),
-    ('right', 'UMINUS'),
+    ('right', 'NEGATION'),
 )
 
 # dictionary of names
@@ -18,23 +23,18 @@ names = {}
 
 def p_program(t):
     '''program : init program_body'''
-    main: VYPaFunction = PT.get_global_scope().get_function("main")
-    if not (main and main.get_type() == VYPaVoid()):
+    main = AST.get_root().get_function("main")
+    if not (main and main.type == VYPaVoid()):
         Exit(Error.SemanticError, "wrong type or not defined Main function")
 
     MAIN_INSTRUCTION_TAPE.add_constant_section()
-    MAIN_INSTRUCTION_TAPE.merge(PT.get_global_scope().instruction_tape)
+    MAIN_INSTRUCTION_TAPE.merge(AST.get_root().get_instructions())
     MAIN_INSTRUCTION_TAPE.add(LABEL("END"))
 
 
 def p_init(t):
     '''init : '''
-    PT.push_scope()
-    PT.get_current_scope().instruction_tape.add(COMMENT(""))
-    PT.get_current_scope().instruction_tape.add(COMMENT("BUILD IN FUNCTIONS SECTION START"))
     MAIN_INSTRUCTION_TAPE.add_build_in_functions()
-    PT.get_current_scope().instruction_tape.add(COMMENT("BUILD IN FUNCTIONS SECTION END"))
-    PT.get_current_scope().instruction_tape.add(COMMENT(""))
 
 
 def p_program_body(t):

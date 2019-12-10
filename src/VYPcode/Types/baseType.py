@@ -13,5 +13,4 @@ class VYPaBaseType:
         return self.default
 
     def __eq__(self, other):
-        # register is none types so every type is equal to register
-        return isinstance(other, RegisterBase) or self.name == other.name
+        return self.name == other.name

@@ -1,11 +1,9 @@
-from src.VYPcode.Instructions.Instructions import SET
-from src.VYPcode.Scopes.ProgramTree import PT
-from src.VYPcode.utils import declare_variable
+from src.VYPcode.AST.AbstractSyntaxTree import AST
 
 
 def p_statements_block(t):
     "statements_block : LBRACKET statements RBRACKET"""
-    PT.pop_scope()
+    AST.current.jump_out()
 
 
 def p_statements(t):
@@ -16,14 +14,13 @@ def p_statements(t):
 
 def p_statement_assign(t):
     '''statement : NAME ASSIGMENT expression'''
-    variable = PT.get_variable(t[1])
-    PT.get_current_scope().instruction_tape.add(SET(variable, t[3]))
+    t[0] = AST.current.add_assigment(t[1], t[3])
 
 
 def p_statement_declaration(t):
     '''statement : type variables_declaration '''
     for variable_name in t[2]:
-        declare_variable(t[1], variable_name)
+        AST.current.add_variable(t[1], variable_name)
 
 
 def p_variables_declaration(t):
