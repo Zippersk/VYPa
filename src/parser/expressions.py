@@ -25,6 +25,7 @@ def p_expression_minus(t):
     '''expression : expression MINUS expression'''
     t[0] = AST_SUBI(t[1], t[3])
 
+
 def p_expression_times(t):
     '''expression : expression TIMES expression'''
     t[0] = AST_MULI(t[1], t[3])
@@ -48,6 +49,11 @@ def p_expression_or(t):
 def p_expression_equal(t):
     '''expression : expression EQUAL expression'''
     t[0] = AST_EQ(t[1], t[3])
+
+
+def p_expression_notequal(t):
+    '''expression : expression NOTEQUAL expression'''
+    t[0] = AST_NOT(AST_EQ(t[1], t[3]))
 
 
 def p_expression_greater(t):
@@ -86,17 +92,17 @@ def p_expression_parens(t):
 
 def p_expression_string(t):
     'expression : WORD'
-    t[0] = AST_value(None, VYPaString(), t[1])
+    t[0] = AST_value(VYPaString(), t[1])
 
 
 def p_expression_number(t):
     'expression : NUMBER'
-    t[0] = AST_value(None, VYPaInt(), t[1])
+    t[0] = AST_value(VYPaInt(), t[1])
 
 
 def p_expression_variable(t):
     'expression : NAME'
-    t[0] = AST_variable_call(None, AST.current.get_variable(t[1]))
+    t[0] = AST_variable_call(t[1])
 
 
 def p_expression_function_call(t):

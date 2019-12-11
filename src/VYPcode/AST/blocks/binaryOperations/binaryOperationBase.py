@@ -6,7 +6,7 @@ from src.VYPcode.Types.VYPaInt import VYPaInt
 
 class AST_binOperation(AST_block):
     def __init__(self, left, instruction, right):
-        super().__init__(None)
+        super().__init__()
         self.left = left
         self.right = right
         self.instruction = instruction
@@ -21,7 +21,7 @@ class AST_binOperation(AST_block):
         return self.instruction_tape
 
     def __str__(self):
-        return str(AST_value(self, self.type, str(VYPaRegister.Accumulator)))
+        return str(AST_value(self.type, str(VYPaRegister.Accumulator)))
 
     def check_types(self):
         pass

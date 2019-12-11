@@ -1,26 +1,51 @@
 from src.VYPcode.AST.AbstractSyntaxTree import AST
+from src.VYPcode.AST.blocks.assigment import AST_assigment
+from src.VYPcode.AST.blocks.declaration import AST_declaration
+from src.VYPcode.AST.blocks.ifelse import AST_ifelse
+from src.VYPcode.AST.blocks.variable import AST_variable
 
 
 def p_statements_block(t):
     "statements_block : LBRACKET statements RBRACKET"""
-    AST.current.jump_out()
+    t[0] = t[2]
 
 
 def p_statements(t):
     '''statements : statement SEMICOLON statements
-                  | '''
-    pass
+                  |'''
+    if len(t) > 3:
+        t[3].append(t[1])
+        t[0] = t[3]
+    elif len(t) > 2:
+        t[0] = [t[1]]
+    else:
+        t[0] = []
+
+
+def p_statements_if_else(t):
+    '''statements : if_statement statements'''
+    if len(t) > 2:
+        t[2].append(t[1])
+        t[0] = t[2]
+    elif len(t) > 2:
+        t[0] = [t[1]]
+    else:
+        t[0] = []
+
+
+def p_if_else(t):
+    '''if_statement : IF LPAREN expression RPAREN statements_block ELSE statements_block'''
+    t[0] = AST_ifelse(t[3], t[5], t[7])
 
 
 def p_statement_assign(t):
     '''statement : NAME ASSIGMENT expression'''
-    t[0] = AST.current.add_assigment(t[1], t[3])
+    t[0] = AST_assigment(t[1], t[3])
 
 
 def p_statement_declaration(t):
     '''statement : type variables_declaration '''
-    for variable_name in t[2]:
-        AST.current.add_variable(t[1], variable_name)
+    t[0] = AST_declaration(t[1], t[2])
 
 
 def p_variables_declaration(t):
@@ -36,4 +61,4 @@ def p_variables_declaration(t):
 def p_statement_function_call(t):
     'statement : function_call'
     # function was called as a statement so we can throw away it's result
-    AST.get_current().add_function_call(t[1])
+    t[0] = t[1]

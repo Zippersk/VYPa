@@ -24,7 +24,7 @@ class TestBaseCases:
 
         def run_parser(self):
             printer.Output = printer.Printer(self.source_file_path)
-            parser.parse(self.source_code)
+            parser.parse(self.source_code, debug=True)
             printer.Output.print()
             printer.Output.file = None
             print("\n\nRunning test with source code: \n")

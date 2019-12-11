@@ -6,7 +6,7 @@ from src.VYPcode.Instructions.Instructions import COMMENT
 
 class AST_program(AST_block):
     def __init__(self):
-        super().__init__(None)
+        super().__init__()
         self.functions = OrderedDict()
         self.classes = OrderedDict()
 
@@ -14,7 +14,8 @@ class AST_program(AST_block):
         if not self.functions.get(name, None) is not None:
 
             from src.VYPcode.AST.blocks.function import AST_function
-            function = AST_function(self, type, name, params)
+            function = AST_function(type, name, params)
+            function.set_parent(self)
             self.functions[name] = function
             return function
         else:
@@ -42,5 +43,5 @@ class AST_program(AST_block):
         self.add_instruction(COMMENT("Program body end"))
         return self.instruction_tape
 
-    def __str__(self):
-        return "program"
+    def get_variable(self, name):
+        return Exception("Variable not found")

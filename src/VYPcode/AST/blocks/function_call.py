@@ -10,8 +10,8 @@ from src.error import Exit, Error
 
 
 class AST_function_call(AST_block):
-    def __init__(self, previous, name, calling_params):
-        super().__init__(previous)
+    def __init__(self, name, calling_params):
+        super().__init__()
         self.calling_params = calling_params
         self.name = name
         self.label = f"func_{name}"
@@ -61,5 +61,5 @@ class AST_function_call(AST_block):
         return self.instruction_tape
 
     def __str__(self):
-        return str(AST_value(self, self.type, self.stack.get(1)))
+        return str(AST_value(self.type, self.stack.get(1)))
 

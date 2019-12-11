@@ -6,7 +6,6 @@ from src.output import Output
 from src.tokens import *
 from src.parser.program import *
 
-
 lexer = lex.lex()
 parser = yacc.yacc(outputdir="generated", start="program")
 

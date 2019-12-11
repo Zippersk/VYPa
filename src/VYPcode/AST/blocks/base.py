@@ -1,14 +1,18 @@
-
-
 class AST_block:
-    def __init__(self, previous):
-        self.parent = previous
+    def __init__(self):
+        self.parent = None
 
         from src.instructionsTape import InstructionTape
         self.instruction_tape = InstructionTape()
 
         from src.VYPcode.Stack import Stack
         self.stack = Stack(self.instruction_tape)
+        self.AST_blocks = []
+
+    def add_block(self, block):
+        self.AST_blocks.append(block)
+        block.set_parent(self)
+        return block
 
     def add_instruction(self, instruction):
         self.instruction_tape.add(instruction)
@@ -25,11 +29,5 @@ class AST_block:
     def get_instructions(self):
         return self.instruction_tape
 
-    def jump_out(self):
-        from src.VYPcode.AST.AbstractSyntaxTree import AST
-        if str(self) != "program":
-            AST.current = self.parent
-
-    def jump_in(self):
-        from src.VYPcode.AST.AbstractSyntaxTree import AST
-        AST.current = self
+    def get_variable(self, name):
+        return self.parent.get_variable(name)

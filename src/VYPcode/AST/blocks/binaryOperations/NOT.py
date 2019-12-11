@@ -21,7 +21,7 @@ class AST_NOT(AST_block):
         return self.instruction_tape
 
     def __str__(self):
-        return str(AST_value(self, self.type, str(VYPaRegister.Accumulator)))
+        return str(AST_value(self.type, str(VYPaRegister.Accumulator)))
 
     def check_types(self):
         if self.expression.type != VYPaInt():

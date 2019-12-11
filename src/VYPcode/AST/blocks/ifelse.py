@@ -8,8 +8,8 @@ IF_BLOCK_COUNTS = 1
 
 
 class AST_ifelse(AST_block):
-    def __init__(self, previous, condition, if_body, else_body):
-        super().__init__(previous)
+    def __init__(self, condition, if_body, else_body):
+        super().__init__()
         self.else_body = else_body
         self.if_body = if_body
         self.condition = condition
@@ -19,13 +19,19 @@ class AST_ifelse(AST_block):
         self.instruction_tape.merge(self.condition.get_instructions())
         self.instruction_tape.add(
             JUMPZ(f"else_{IF_BLOCK_COUNTS}",
-                  AST_value(self, VYPaInt(), str(VYPaRegister.Accumulator))
+                  AST_value(VYPaInt(), str(VYPaRegister.Accumulator))
                   )
         )
-        self.instruction_tape.merge(self.condition.get_instructions())
+
+        for statement in self.if_body:
+            self.instruction_tape.merge(statement.get_instructions())
+
         self.instruction_tape.add(JUMP(f"end_else_if_{IF_BLOCK_COUNTS}"))
         self.instruction_tape.add(LABEL(f"else_{IF_BLOCK_COUNTS}"))
-        self.instruction_tape.merge(self.condition.get_instructions())
+
+        for statement in self.else_body:
+            self.instruction_tape.merge(statement.get_instructions())
+
         self.instruction_tape.add(LABEL(f"end_else_if_{IF_BLOCK_COUNTS}"))
         IF_BLOCK_COUNTS += 1
         return self.instruction_tape

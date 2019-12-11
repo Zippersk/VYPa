@@ -22,21 +22,21 @@ class Stack:
 
     def push(self, value):
         self.instruction_tape.add(SET(self.get(1), value))
-        self.instruction_tape.add(ADDI(VYPaRegister.StackPointer, AST_value(None, VYPaInt, 1), VYPaRegister.StackPointer))
+        self.instruction_tape.add(ADDI(VYPaRegister.StackPointer, AST_value(VYPaInt, 1), VYPaRegister.StackPointer))
         return value
 
     def allocate(self, how_much_variables_to_allocate=1):
         self.instruction_tape.add(ADDI(VYPaRegister.StackPointer,
-                                  AST_value(None, VYPaInt, how_much_variables_to_allocate),
+                                  AST_value(VYPaInt, how_much_variables_to_allocate),
                                   VYPaRegister.StackPointer))
 
     def deallocate(self, how_much_variables_to_remove=1):
         self.instruction_tape.add(SUBI(VYPaRegister.StackPointer,
-                                       AST_value(None, VYPaInt, how_much_variables_to_remove),
+                                       AST_value(VYPaInt, how_much_variables_to_remove),
                                   VYPaRegister.StackPointer))
 
     def pop(self):
-        self.instruction_tape.add(SUBI(VYPaRegister.StackPointer,  AST_value(None, VYPaInt, 1), VYPaRegister.StackPointer))
+        self.instruction_tape.add(SUBI(VYPaRegister.StackPointer,  AST_value(VYPaInt, 1), VYPaRegister.StackPointer))
         return self.get(1)
 
     def top(self):
