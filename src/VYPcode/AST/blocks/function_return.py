@@ -22,12 +22,13 @@ class AST_return(AST_block):
                 Exit(Error.SemanticError, "Different return type and function type")
 
         dealloc_count = len(self.function.variables) + len(self.function.params)
-        self.instruction_tape.add(COMMENT(f"Deallocate {dealloc_count} scope variables and paramters"))
-        self.stack.deallocate(dealloc_count)
 
         if self.function.type != VYPaVoid():
             self.instruction_tape.add(COMMENT(f"Set return value"))
-            self.stack.set(self.expression, -1)
+            self.stack.set(self.expression, -dealloc_count - 1)
+
+        self.instruction_tape.add(COMMENT(f"Deallocate {dealloc_count} scope variables and paramters"))
+        self.stack.deallocate(dealloc_count)
 
         self.instruction_tape.add(RETURN(self.stack.pop()))
         return self.instruction_tape

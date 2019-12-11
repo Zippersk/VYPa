@@ -1,7 +1,7 @@
 from src.VYPcode.AST.AbstractSyntaxTree import AST
 from src.VYPcode.AST.blocks.base import AST_block
 from src.VYPcode.AST.blocks.value import AST_value
-from src.VYPcode.Instructions.Instructions import JUMP, COMMENT, LABEL, CALL
+from src.VYPcode.Instructions.Instructions import JUMP, COMMENT, LABEL, CALL, DUMPSTACK
 from src.VYPcode.Registers.Registers import VYPaRegister
 from src.VYPcode.Types.VYPaInt import VYPaInt
 from src.VYPcode.Types.VYPaString import VYPaString
@@ -45,8 +45,7 @@ class AST_function_call(AST_block):
                     pass
 
                 self.stack.set(param, 3)
-                self.stack.allocate(3)
-                self.add_instruction(CALL(self.stack.get(-1), function))
+                self.add_instruction(CALL(self.stack.get(2), function))
 
         else:
             function = AST.root.get_function(self.name)
@@ -57,9 +56,7 @@ class AST_function_call(AST_block):
                 self.instruction_tape.merge(param.get_instructions())
                 self.stack.set(param, offset)
 
-            self.stack.allocate(2 + len(self.calling_params))
-            self.add_instruction(CALL(self.stack.get(-len(function.params)), function))
-
+            self.add_instruction(CALL(self.stack.get(-len(function.params) + 2), function))
         return self.instruction_tape
 
     def __str__(self):

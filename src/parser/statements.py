@@ -36,4 +36,4 @@ def p_variables_declaration(t):
 def p_statement_function_call(t):
     'statement : function_call'
     # function was called as a statement so we can throw away it's result
-    pass
+    AST.get_current().add_function_call(t[1])

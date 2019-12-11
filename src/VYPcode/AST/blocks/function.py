@@ -53,8 +53,7 @@ class AST_function(AST_block):
     def add_body(self, body):
         self.function_body_statements.append(body)
 
-    def add_function_call(self, name, calling_params):
-        function_call = AST_function_call(self, name, calling_params)
+    def add_function_call(self, function_call):
         self.function_body_statements.append(function_call)
         return function_call
 
@@ -74,6 +73,7 @@ class AST_function(AST_block):
         self.add_instruction(COMMENT(f"Start of function {self.name}"))
         self.add_instruction(LABEL(self.label))
 
+        self.stack.allocate(2 + len(self.params))
         for variable in self.variables.values():
             self.merge_instructions(variable.get_instructions())
 
@@ -87,7 +87,7 @@ class AST_function(AST_block):
                 self.merge_instructions(AST_return(self, None).get_instructions())
             else:
                 self.merge_instructions(AST_return(self, AST_value(None, self.type, self.type.get_default())).get_instructions())
-                
+
         self.add_instruction(COMMENT(f"End of function {self.name}"))
         self.add_instruction(COMMENT(""))
 
