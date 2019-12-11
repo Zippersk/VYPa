@@ -28,7 +28,7 @@ def p_program(t):
         Exit(Error.SemanticError, "wrong type or not defined Main function")
 
     MAIN_INSTRUCTION_TAPE.add_constant_section()
-    MAIN_INSTRUCTION_TAPE.merge(AST.get_root().get_instructions())
+    MAIN_INSTRUCTION_TAPE.merge(AST.get_root().get_instructions(None))
     MAIN_INSTRUCTION_TAPE.add(LABEL("END"))
 
 
@@ -39,10 +39,15 @@ def p_init(t):
 
 def p_program_body(t):
     '''program_body : statement program_body
-           | function program_body
            | class program_body
            |'''
     pass
+
+
+def p_global_function(t):
+    '''program_body : function program_body'''
+    AST.root.add_function(t[1])
+    t[0] = t[1]
 
 
 def p_type(t):

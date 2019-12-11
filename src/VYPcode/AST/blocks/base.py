@@ -26,7 +26,8 @@ class AST_block:
     def set_parent(self, parent):
         self.parent = parent
 
-    def get_instructions(self):
+    def get_instructions(self, parent):
+        self.parent = parent
         return self.instruction_tape
 
     def get_variable(self, name):

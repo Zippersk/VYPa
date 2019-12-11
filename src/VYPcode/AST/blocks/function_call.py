@@ -24,7 +24,8 @@ class AST_function_call(AST_block):
             if calling_param.type != declared_param.type:
                 Exit(Error.TypesIncompatibility, "Parameters types mismatch")
 
-    def get_instructions(self):
+    def get_instructions(self, parent):
+        self.parent = parent
 
         # print is a special function which can be called with multiple parameters
         # so internally we call PrintInt or PrintString for each parameter...
@@ -34,7 +35,7 @@ class AST_function_call(AST_block):
                 Exit(Error.SemanticError, "Print called with zero params")
 
             for param in self.calling_params:
-                self.instruction_tape.merge(param.get_instructions())
+                self.instruction_tape.merge(param.get_instructions(self))
                 if param.type == VYPaInt():
                     function = AST.root.get_function("printInt")
 
@@ -53,7 +54,7 @@ class AST_function_call(AST_block):
             self.check_params(function)
 
             for offset, param in enumerate(self.calling_params, 2):
-                self.instruction_tape.merge(param.get_instructions())
+                self.instruction_tape.merge(param.get_instructions(self))
                 self.stack.set(param, offset)
 
             self.add_instruction(CALL(self.stack.get(-len(function.params) + 2), function))

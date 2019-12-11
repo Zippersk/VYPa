@@ -12,9 +12,10 @@ class AST_binOperation(AST_block):
         self.instruction = instruction
         self.type = None
 
-    def get_instructions(self):
-        self.instruction_tape.merge(self.left.get_instructions())
-        self.instruction_tape.merge(self.right.get_instructions())
+    def get_instructions(self, parent):
+        self.parent = parent
+        self.instruction_tape.merge(self.left.get_instructions(self))
+        self.instruction_tape.merge(self.right.get_instructions(self))
         self.type = VYPaInt()
         self.check_types()
         self.add_instruction(self.instruction(self.left, self.right))

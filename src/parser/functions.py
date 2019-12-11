@@ -1,4 +1,5 @@
 from src.VYPcode.AST.AbstractSyntaxTree import AST
+from src.VYPcode.AST.blocks.function import AST_function
 from src.VYPcode.AST.blocks.function_call import AST_function_call
 from src.VYPcode.AST.blocks.function_return import AST_return
 from src.VYPcode.AST.blocks.variable import AST_variable
@@ -7,10 +8,7 @@ from src.VYPcode.AST.blocks.variable import AST_variable
 def p_function(t):
     '''function : function_head statements_block'''
     for statement in t[2]:
-        if isinstance(statement, AST_variable):
-            t[1].add_variable(statement)
-        else:
-            t[1].add_block(statement)
+        t[1].add_block(statement)
     t[0] = t[1]
 
 
@@ -18,7 +16,7 @@ def p_function_head(t):
     '''function_head : type NAME LPAREN functions_params RPAREN
                 | type NAME LPAREN functions_params_empty RPAREN'''
 
-    t[0] = AST.current.add_function(t[1], t[2], t[4])
+    t[0] = AST_function(t[1], t[2], t[4])
 
 
 def p_functions_params_empty(t):

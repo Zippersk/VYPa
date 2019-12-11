@@ -18,13 +18,14 @@ class AST_return(AST_block):
             if isinstance(block, AST_function):
                 return block
 
-    def get_instructions(self):
+    def get_instructions(self, parent):
+        self.parent = parent
         function = self.find_function()
         if function.type == VYPaVoid():
             if self.expression is not None:
                 Exit(Error.SyntaxError, "Void can not have return value")
         else:
-            self.instruction_tape.merge(self.expression.get_instructions())
+            self.instruction_tape.merge(self.expression.get_instructions(self))
             self.type = self.expression.type
             if self.type != function.type:
                 Exit(Error.SemanticError, "Different return type and function type")

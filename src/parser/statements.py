@@ -14,7 +14,7 @@ def p_statements(t):
     '''statements : statement SEMICOLON statements
                   |'''
     if len(t) > 3:
-        t[3].append(t[1])
+        t[3].insert(0, t[1])
         t[0] = t[3]
     elif len(t) > 2:
         t[0] = [t[1]]
@@ -25,7 +25,7 @@ def p_statements(t):
 def p_statements_if_else(t):
     '''statements : if_statement statements'''
     if len(t) > 2:
-        t[2].append(t[1])
+        t[2].insert(0, t[1])
         t[0] = t[2]
     elif len(t) > 2:
         t[0] = [t[1]]

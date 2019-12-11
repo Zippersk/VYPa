@@ -7,7 +7,8 @@ class AST_variable_call(AST_block):
         self.name = name
         self.type = None
 
-    def get_instructions(self):
+    def get_instructions(self, parent):
+        self.parent = parent
         self.variable = self.get_variable(self.name)
         self.type = self.variable.type
         return self.instruction_tape

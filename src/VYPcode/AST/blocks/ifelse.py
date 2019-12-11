@@ -14,9 +14,10 @@ class AST_ifelse(AST_block):
         self.if_body = if_body
         self.condition = condition
 
-    def get_instructions(self):
+    def get_instructions(self, parent):
+        self.parent = parent
         global IF_BLOCK_COUNTS
-        self.instruction_tape.merge(self.condition.get_instructions())
+        self.instruction_tape.merge(self.condition.get_instructions(self))
         self.instruction_tape.add(
             JUMPZ(f"else_{IF_BLOCK_COUNTS}",
                   AST_value(VYPaInt(), str(VYPaRegister.Accumulator))
@@ -24,13 +25,13 @@ class AST_ifelse(AST_block):
         )
 
         for statement in self.if_body:
-            self.instruction_tape.merge(statement.get_instructions())
+            self.instruction_tape.merge(statement.get_instructions(self))
 
         self.instruction_tape.add(JUMP(f"end_else_if_{IF_BLOCK_COUNTS}"))
         self.instruction_tape.add(LABEL(f"else_{IF_BLOCK_COUNTS}"))
 
         for statement in self.else_body:
-            self.instruction_tape.merge(statement.get_instructions())
+            self.instruction_tape.merge(statement.get_instructions(self))
 
         self.instruction_tape.add(LABEL(f"end_else_if_{IF_BLOCK_COUNTS}"))
         IF_BLOCK_COUNTS += 1

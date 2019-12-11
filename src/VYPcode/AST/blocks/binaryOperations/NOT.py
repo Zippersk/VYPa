@@ -13,8 +13,9 @@ class AST_NOT(AST_block):
         self.expression = expression
         self.type = None
 
-    def get_instructions(self):
-        self.instruction_tape.merge(self.expression.get_instructions())
+    def get_instructions(self, parent):
+        self.parent = parent
+        self.instruction_tape.merge(self.expression.get_instructions(self))
         self.type = VYPaInt()
         self.check_types()
         self.add_instruction(NOT(self.expression))

@@ -49,16 +49,17 @@ class AST_function(AST_block):
         else:
             Exception(f"Variable {name} not found in function scope")
 
-    def get_instructions(self):
+    def get_instructions(self, parent):
+        self.parent = parent
         self.add_instruction(COMMENT(""))
         self.add_instruction(COMMENT(f"Start of function {self.name}"))
         self.add_instruction(LABEL(self.label))
         self.stack.allocate(2 + len(self.params))
         for variable in self.variables.values():
-            self.merge_instructions(variable.get_instructions())
+            self.merge_instructions(variable.get_instructions(self))
 
         for statement in self.AST_blocks:
-            self.merge_instructions(statement.get_instructions())
+            self.merge_instructions(statement.get_instructions(self))
 
         if isinstance(self.get_parent(), AST_program) and self.name == "main" and self.type == VYPaVoid():
             self.add_instruction(JUMP("END"))
@@ -69,7 +70,7 @@ class AST_function(AST_block):
             else:
                 default_return = AST_return(AST_value(self.type, self.type.get_default()))
             default_return.set_parent(self)
-            self.merge_instructions(default_return.get_instructions())
+            self.merge_instructions(default_return.get_instructions(self))
 
         self.add_instruction(COMMENT(f"End of function {self.name}"))
         self.add_instruction(COMMENT(""))

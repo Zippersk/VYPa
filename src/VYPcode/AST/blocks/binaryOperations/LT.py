@@ -9,9 +9,10 @@ class AST_LT(AST_binOperation):
     def __init__(self, left, right):
         super().__init__(left, None, right)
 
-    def get_instructions(self):
-        self.instruction_tape.merge(self.left.get_instructions())
-        self.instruction_tape.merge(self.right.get_instructions())
+    def get_instructions(self, parent):
+        self.parent = parent
+        self.instruction_tape.merge(self.left.get_instructions(self))
+        self.instruction_tape.merge(self.right.get_instructions(self))
 
         if self.left.type == VYPaInt() and self.right.type == VYPaInt():
             self.instruction = LTI
