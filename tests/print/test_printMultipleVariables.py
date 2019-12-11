@@ -13,4 +13,4 @@ class TestsPrintMultipleVariables(TestBaseCases.TestBase):
         }
     """
 
-    STDOUT = "hello9Ahoj82"
+    STDOUT = "hello9Ahoj4"

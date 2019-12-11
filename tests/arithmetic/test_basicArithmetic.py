@@ -1,13 +1,12 @@
 from tests.testBase import TestBaseCases
 
 
-class TestsArithmetic(TestBaseCases.TestBase):
+class TestsExpressions(TestBaseCases.TestBase):
     STDIN = ""
     source_code = """
         void main(void) {
-
-            print(30);
+            print(1 && 1);
         }
     """
 
-    STDOUT = "30"
+    STDOUT = "1"

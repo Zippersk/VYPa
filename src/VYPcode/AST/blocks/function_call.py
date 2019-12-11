@@ -57,8 +57,9 @@ class AST_function_call(AST_block):
                 self.stack.set(param, offset)
 
             self.add_instruction(CALL(self.stack.get(-len(function.params) + 2), function))
+            self.add_instruction(DUMPSTACK())
         return self.instruction_tape
 
     def __str__(self):
-        return str(AST_value(self, self.type, self.stack.top()))
+        return str(AST_value(self, self.type, self.stack.get(1)))
 

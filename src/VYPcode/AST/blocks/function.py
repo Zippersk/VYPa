@@ -6,7 +6,7 @@ from src.VYPcode.AST.blocks.function_call import AST_function_call
 from src.VYPcode.AST.blocks.function_return import AST_return
 from src.VYPcode.AST.blocks.value import AST_value
 from src.VYPcode.AST.blocks.variable import AST_variable
-from src.VYPcode.Instructions.Instructions import JUMP, COMMENT, LABEL, RETURN
+from src.VYPcode.Instructions.Instructions import JUMP, COMMENT, LABEL, RETURN, DUMPSTACK
 from src.VYPcode.Registers.Registers import VYPaRegister
 from src.VYPcode.Types.VYPaVoid import VYPaVoid
 
@@ -72,7 +72,6 @@ class AST_function(AST_block):
         self.add_instruction(COMMENT(""))
         self.add_instruction(COMMENT(f"Start of function {self.name}"))
         self.add_instruction(LABEL(self.label))
-
         self.stack.allocate(2 + len(self.params))
         for variable in self.variables.values():
             self.merge_instructions(variable.get_instructions())

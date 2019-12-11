@@ -12,6 +12,49 @@ class ADDI(ThreeArgsInstruction):
         super().__init__("ADDI", destination, second, third)
 
 
+class LTI(ThreeArgsInstruction):
+    def __init__(self, second, third, destination=VYPaRegister.Accumulator):
+        super().__init__("LTI", destination, second, third)
+
+
+class LTS(ThreeArgsInstruction):
+    def __init__(self, second, third, destination=VYPaRegister.Accumulator):
+        super().__init__("LTS", destination, second, third)
+
+
+class GTI(ThreeArgsInstruction):
+    def __init__(self, second, third, destination=VYPaRegister.Accumulator):
+        super().__init__("GTI", destination, second, third)
+
+
+class GTS(ThreeArgsInstruction):
+    def __init__(self, second, third, destination=VYPaRegister.Accumulator):
+        super().__init__("GTS", destination, second, third)
+
+
+class EQI(ThreeArgsInstruction):
+    def __init__(self, second, third, destination=VYPaRegister.Accumulator):
+        super().__init__("EQI", destination, second, third)
+
+
+class EQS(ThreeArgsInstruction):
+    def __init__(self, second, third, destination=VYPaRegister.Accumulator):
+        super().__init__("EQS", destination, second, third)
+
+
+class AND(ThreeArgsInstruction):
+    def __init__(self, second, third, destination=VYPaRegister.Accumulator):
+        super().__init__("AND", destination, second, third)
+
+
+class OR(ThreeArgsInstruction):
+    def __init__(self, second, third, destination=VYPaRegister.Accumulator):
+        super().__init__("OR", destination, second, third)
+
+
+class NOT(TwoArgsInstruction):
+    def __init__(self, second, destination=VYPaRegister.Accumulator):
+        super().__init__("NOT", destination, second)
 
 
 class SUBI(ThreeArgsInstruction):
@@ -45,18 +88,10 @@ class WRITES(OneArgsInstruction):
     def __init__(self, first):
         super().__init__("WRITES", first)
 
-    def check_types(self):
-        if self.first.type != VYPaString():
-            Exit(Error.SemanticError, "Type check error!")
-
 
 class WRITEI(OneArgsInstruction):
     def __init__(self, first):
         super().__init__("WRITEI", first)
-
-    def check_types(self):
-        if self.first.type != VYPaInt():
-            Exit(Error.SemanticError, "Type check error!")
 
 
 class READI(OneArgsInstruction):
@@ -118,20 +153,6 @@ class CALL(TwoArgsInstruction):
     def __init__(self, first, second):
         super().__init__("CALL", first, second)
 
-    # def __str__(self):
-    #     if self.second.name == "*print":
-    #         if self.calling_params[0].get_type() == VYPaInt():
-    #             self.second_str = "buildIn_printInt"
-    #         elif self.calling_params[0].get_type() == VYPaString():
-    #             self.second_str = "buildIn_printString"
-    #         else:
-    #             # TODO print object???
-    #             Exit(Error.InternalError, "Not implemented yet")
-    #     else:
-    #         self.check_params(self.calling_params)
-    #
-    #     return super().__str__()
-
 
 class RETURN(OneArgsInstruction):
     def __init__(self, first):
@@ -159,3 +180,13 @@ class COMMENT(OperationBase):
 class EMPTYLINE(OperationBase):
     def __str__(self):
         return ''
+
+
+class JUMPZ(TwoArgsInstruction):
+    def __init__(self, first, second):
+        super().__init__("JUMPZ", first, second)
+
+
+class JUMP(OneArgsInstruction):
+    def __init__(self, first):
+        super().__init__("JUMP", first)

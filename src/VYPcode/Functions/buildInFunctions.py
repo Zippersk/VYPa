@@ -1,8 +1,9 @@
 from src.VYPcode.AST.AbstractSyntaxTree import AST
+from src.VYPcode.AST.blocks.function_return import AST_return
+from src.VYPcode.AST.blocks.value import AST_value
 from src.VYPcode.AST.blocks.variable import AST_variable
 from src.VYPcode.Registers.Registers import VYPaRegister
-from src.VYPcode.Instructions.Instructions import LABEL, WRITEI, RETURN, DUMPSTACK, WRITES, READI, READS, GETSIZE, \
-    COMMENT
+from src.VYPcode.Instructions.Instructions import WRITEI, WRITES, READI, GETSIZE, READS
 from src.VYPcode.Stack import Stack
 from src.VYPcode.Types.VYPaInt import VYPaInt
 from src.VYPcode.Types.VYPaString import VYPaString
@@ -22,7 +23,11 @@ class VYPaBuildInFunctionClass():
         self.function.add_body(self)
 
     def get_instructions(self):
-        return self.instructions
+        if self.return_expression:
+            ret_value = AST_return(self.function, self.return_expression)
+            return self.instructions.merge(ret_value.get_instructions())
+        else:
+            return self.instructions
 
 
 class PrintIntVYPa(VYPaBuildInFunctionClass):
@@ -40,7 +45,8 @@ class PrintStringVYPa(VYPaBuildInFunctionClass):
 class ReadIntVYPa(VYPaBuildInFunctionClass):
     def __init__(self):
         super().__init__(VYPaInt(), "readInt", [])
-        self.return_expression = self.function.add_variable(VYPaInt(), "number")
+        self.function.add_variable(VYPaInt(), "number")
+        self.return_expression = AST_value(self.function, VYPaInt(), self.stack.top())
         self.instructions.add(READI(VYPaRegister.DestinationReg))
         self.stack.set(VYPaRegister.DestinationReg)
 
@@ -48,17 +54,18 @@ class ReadIntVYPa(VYPaBuildInFunctionClass):
 class ReadStringVYPa(VYPaBuildInFunctionClass):
     def __init__(self):
         super().__init__(VYPaString(), "readString", [])
-        self.return_expression = self.function.add_variable(VYPaString(), "s")
-        self.instructions.add(READI(VYPaRegister.DestinationReg))
+        self.function.add_variable(VYPaString(), "string")
+        self.return_expression = AST_value(self.function, VYPaString(), self.stack.top())
+        self.instructions.add(READS(VYPaRegister.DestinationReg))
         self.stack.set(VYPaRegister.DestinationReg)
 
 
 class LengthVYPa(VYPaBuildInFunctionClass):
     def __init__(self):
         super().__init__(VYPaInt(), "length", [AST_variable(None, VYPaInt(), "number")])
-
+        self.function.add_variable(VYPaInt(), "number")
+        self.return_expression = AST_value(self.function, VYPaInt(), self.stack.top())
         self.instructions.add(GETSIZE(VYPaRegister.DestinationReg, self.function.stack.top()))
-        self.return_expression = self.function.add_variable(VYPaInt(), "number")
         self.stack.set(VYPaRegister.DestinationReg)
 
 

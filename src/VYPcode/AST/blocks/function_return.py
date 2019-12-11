@@ -1,5 +1,5 @@
 ﻿from src.VYPcode.AST.blocks.base import AST_block
-from src.VYPcode.Instructions.Instructions import COMMENT, RETURN
+from src.VYPcode.Instructions.Instructions import COMMENT, RETURN, DUMPSTACK
 from src.VYPcode.Types.VYPaVoid import VYPaVoid
 from src.error import Exit, Error
 
@@ -30,6 +30,8 @@ class AST_return(AST_block):
         self.instruction_tape.add(COMMENT(f"Deallocate {dealloc_count} scope variables and paramters"))
         self.stack.deallocate(dealloc_count)
 
-        self.instruction_tape.add(RETURN(self.stack.pop()))
+        self.stack.deallocate(2)
+        self.instruction_tape.add(DUMPSTACK())
+        self.instruction_tape.add(RETURN(self.stack.get(2)))
         return self.instruction_tape
 

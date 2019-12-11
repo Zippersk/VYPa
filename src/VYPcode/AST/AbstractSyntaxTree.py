@@ -1,5 +1,8 @@
 class AbstractSyntaxTree:
     def __init__(self):
+        self.clear()
+
+    def clear(self):
         from src.VYPcode.AST.blocks.program import AST_program
         self.root = AST_program()
         self.current = self.root
