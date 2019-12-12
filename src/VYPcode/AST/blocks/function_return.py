@@ -39,8 +39,7 @@ class AST_return(AST_block):
         self.instruction_tape.add(COMMENT(f"Deallocate {dealloc_count} scope variables and paramters"))
         self.stack.deallocate(dealloc_count)
 
-        self.stack.deallocate(2)
-        self.instruction_tape.add(DUMPSTACK())
-        self.instruction_tape.add(RETURN(self.stack.get(2)))
+        self.stack.deallocate(1)
+        self.instruction_tape.add(RETURN(self.stack.get(1)))
         return self.instruction_tape
 

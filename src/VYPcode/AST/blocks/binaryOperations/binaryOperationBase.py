@@ -19,7 +19,15 @@ class AST_binOperation(AST_block):
         self.type = VYPaInt()
         self.check_types()
         self.add_instruction(self.instruction(self.left, self.right))
+        self.pop_function_calls()
         return self.instruction_tape
+
+    def pop_function_calls(self):
+        from src.VYPcode.AST.blocks.function_call import AST_function_call
+        if isinstance(self.left, AST_function_call):
+            self.stack.pop()
+        if isinstance(self.right, AST_function_call):
+            self.stack.pop()
 
     def __str__(self):
         return str(AST_value(self.type, str(VYPaRegister.Accumulator)))

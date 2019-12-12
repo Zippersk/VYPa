@@ -16,9 +16,9 @@ class TestsMultipleFunctionsCall(TestBaseCases.TestBase):
 
         void main(void) {
             int a;
-            a = 8 - GetFive() + GetTen() + 3 - 20;
+            a = GetFive() + GetTen();
             print(a);
         }
     """
 
-    STDOUT = "-4"
+    STDOUT = "15"

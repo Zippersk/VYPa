@@ -1,5 +1,6 @@
 from src.VYPcode.AST.AbstractSyntaxTree import AST
 from src.VYPcode.AST.blocks.base import AST_block
+from src.VYPcode.AST.blocks.binaryOperations.binaryOperationBase import AST_binOperation
 from src.VYPcode.AST.blocks.value import AST_value
 from src.VYPcode.Instructions.Instructions import JUMP, COMMENT, LABEL, CALL, DUMPSTACK
 from src.VYPcode.Registers.Registers import VYPaRegister
@@ -16,6 +17,7 @@ class AST_function_call(AST_block):
         self.name = name
         self.label = f"func_{name}"
         self.type = None
+        self.stack_position = 0
 
     def check_params(self, function):
         if len(function.params) != len(self.calling_params):
@@ -34,7 +36,7 @@ class AST_function_call(AST_block):
             if len(self.calling_params) == 0:
                 Exit(Error.SemanticError, "Print called with zero params")
 
-            for param in self.calling_params:
+            for idx, param in enumerate(self.calling_params, 1):
                 self.instruction_tape.merge(param.get_instructions(self))
                 if param.type == VYPaInt():
                     function = AST.root.get_function("printInt")
@@ -42,11 +44,12 @@ class AST_function_call(AST_block):
                 elif param.type == VYPaString():
                     function = AST.root.get_function("printString")
                 else:
-                    # TODO: print objects?
-                    pass
+                    Exit(Error.SemanticError, "argument of print can be only int or str")
 
                 self.stack.set(param, 3)
                 self.add_instruction(CALL(self.stack.get(2), function))
+                if idx != len(self.calling_params):
+                    self.stack.pop()
 
         else:
             function = AST.root.get_function(self.name)
@@ -58,9 +61,12 @@ class AST_function_call(AST_block):
                 self.stack.set(param, offset)
 
             self.add_instruction(CALL(self.stack.get(-len(function.params) + 2), function))
-            self.add_instruction(DUMPSTACK())
+            if isinstance(self.parent, AST_binOperation) and \
+                    isinstance(self.parent.right, AST_function_call) and \
+                    isinstance(self.parent.left, AST_function_call):
+                self.parent.left.stack_position = -1
         return self.instruction_tape
 
     def __str__(self):
-        return str(AST_value(self.type, self.stack.get(1)))
+        return str(AST_value(self.type, self.stack.get(self.stack_position)))
 

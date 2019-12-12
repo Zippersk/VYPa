@@ -20,7 +20,6 @@ class VYPaBuildInFunctionClass(AST_function):
         self.label = f"buildIn_{name}"
 
 
-
 class PrintIntVYPa(VYPaBuildInFunctionClass):
     def __init__(self):
         super().__init__(VYPaVoid(), "printInt", [AST_variable(VYPaInt(), "number")])

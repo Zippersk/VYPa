@@ -1,5 +1,6 @@
 from src.VYPcode.AST.AbstractSyntaxTree import AST
 from src.VYPcode.AST.blocks.assigment import AST_assigment
+from src.VYPcode.AST.blocks.base import AST_block
 from src.VYPcode.AST.blocks.declaration import AST_declaration
 from src.VYPcode.AST.blocks.ifelse import AST_ifelse
 from src.VYPcode.AST.blocks.variable import AST_variable
@@ -61,4 +62,9 @@ def p_variables_declaration(t):
 def p_statement_function_call(t):
     'statement : function_call'
     # function was called as a statement so we can throw away it's result
-    t[0] = t[1]
+    t[0] = AST_block()
+    stack_pop = AST_block()
+    stack_pop.stack.pop()
+
+    t[0].add_block(t[1])
+    t[0].add_block(stack_pop)

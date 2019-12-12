@@ -28,6 +28,8 @@ class AST_block:
 
     def get_instructions(self, parent):
         self.parent = parent
+        for block in self.AST_blocks:
+            self.instruction_tape.merge(block.get_instructions(self))
         return self.instruction_tape
 
     def get_variable(self, name):

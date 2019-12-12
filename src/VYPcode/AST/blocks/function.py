@@ -43,9 +43,9 @@ class AST_function(AST_block):
 
     def get_variable_index(self, name):
         if self.params.get(name, None) is not None:
-            return list(self.params).index(name)
+            return list(self.params)[::-1].index(name)
         elif self.variables.get(name, None) is not None:
-            return len(self.params) + list(self.variables).index(name)
+            return len(self.params) + list(self.variables)[::-1].index(name)
         else:
             Exception(f"Variable {name} not found in function scope")
 

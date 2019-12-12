@@ -27,4 +27,5 @@ class AST_ADD(AST_binOperation):
             # TODO: implement concatenation of strings
             pass
 
+        self.pop_function_calls()
         return self.instruction_tape

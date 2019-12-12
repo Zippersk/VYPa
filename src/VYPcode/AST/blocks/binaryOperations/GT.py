@@ -26,4 +26,5 @@ class AST_GT(AST_binOperation):
             Exit(Error.SemanticError, "Types mismatch")
             pass
 
+        self.pop_function_calls()
         return self.instruction_tape
