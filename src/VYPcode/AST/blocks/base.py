@@ -16,10 +16,11 @@ class AST_block:
     def add_block(self, block):
         self.AST_blocks.append(block)
         block.set_parent(self)
-        return block
+        return self
 
     def add_instruction(self, instruction):
         self.instruction_tape.add(instruction)
+        return self
 
     def merge_instructions(self, instructions_tape):
         self.instruction_tape.merge(instructions_tape)

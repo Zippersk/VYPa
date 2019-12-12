@@ -119,6 +119,11 @@ class SETWORD(ThreeArgsInstruction):
         super().__init__("SETWORD", first, second, third)
 
 
+class RESIZE(TwoArgsInstruction):
+    def __init__(self, first, second):
+        super().__init__("RESIZE", first, second)
+
+
 class CREATE(TwoArgsInstruction):
     def __init__(self, first, second):
         super().__init__("CREATE", first, second)
@@ -167,6 +172,12 @@ class DUMPSTACK(NoArgsInstruction):
 class DUMPREGS(NoArgsInstruction):
     def __init__(self):
         super().__init__("DUMPREGS")
+
+
+class DUMPHEAP(NoArgsInstruction):
+    def __init__(self):
+        super().__init__("DUMPHEAP")
+
 
 
 class COMMENT(OperationBase):

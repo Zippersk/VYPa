@@ -28,8 +28,8 @@ def p_functions_params(t):
     '''functions_params : type NAME
                         | type NAME COMMA functions_params'''
     if len(t) > 3:
-        t[3].insert(0, AST_variable(t[1], t[2]))
-        t[0] = t[3]
+        t[4].insert(0, AST_variable(t[1], t[2]))
+        t[0] = t[4]
     else:
         t[0] = [AST_variable(t[1], t[2])]
 

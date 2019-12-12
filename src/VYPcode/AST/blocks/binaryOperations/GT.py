@@ -11,8 +11,6 @@ class AST_GT(AST_binOperation):
 
     def get_instructions(self, parent):
         self.parent = parent
-        self.add_instruction(DUMPREGS())
-        self.add_instruction(DUMPSTACK())
         self.instruction_tape.merge(self.left.get_instructions(self))
         self.instruction_tape.merge(self.right.get_instructions(self))
 
