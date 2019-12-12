@@ -8,4 +8,5 @@ class AST_value(AST_block):
         self.type = type
 
     def __str__(self):
-        return str(self.value)
+        s = str(self.value)
+        return s.replace("\n", r"\n").replace("\t", r"\t")

@@ -51,7 +51,7 @@ t_ignore = " \t"
 
 
 def t_WORD(t):
-    r'\"([^\\\n]|(\\.))*?\"'  # should be all printable characters
+    r'\"([^\\\"]|\\.)*\"'  # should be all printable characters
 
     hexChars = [x for x in re.findall(r'\\x[A-Fa-f0-9]{6}', t.value)]
 

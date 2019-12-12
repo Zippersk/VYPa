@@ -1,5 +1,5 @@
 ﻿from src.VYPcode.AST.blocks.binaryOperations.binaryOperationBase import AST_binOperation
-from src.VYPcode.Instructions.Instructions import ADDI, LTI, LTS, GTS, GTI
+from src.VYPcode.Instructions.Instructions import ADDI, LTI, LTS, GTS, GTI, DUMPREGS, DUMPSTACK
 from src.VYPcode.Types.VYPaInt import VYPaInt
 from src.VYPcode.Types.VYPaString import VYPaString
 from src.error import Exit, Error
@@ -11,6 +11,8 @@ class AST_GT(AST_binOperation):
 
     def get_instructions(self, parent):
         self.parent = parent
+        self.add_instruction(DUMPREGS())
+        self.add_instruction(DUMPSTACK())
         self.instruction_tape.merge(self.left.get_instructions(self))
         self.instruction_tape.merge(self.right.get_instructions(self))
 

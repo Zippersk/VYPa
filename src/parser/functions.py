@@ -27,7 +27,7 @@ def p_functions_params_empty(t):
 def p_functions_params(t):
     '''functions_params : type NAME
                         | type NAME COMMA functions_params'''
-    if t[3]:
+    if len(t) > 3:
         t[3].insert(0, AST_variable(t[1], t[2]))
         t[0] = t[3]
     else:

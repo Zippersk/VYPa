@@ -14,5 +14,17 @@ class AST_assigment(AST_block):
         self.variable = AST_variable_call(self.name)
         self.variable.get_instructions(self)
         self.instruction_tape.merge(self.expression.get_instructions(self))
+
+        from src.VYPcode.AST.blocks.function_call import AST_function_call
+        if isinstance(self.expression, AST_function_call):
+            self.variable.stack_offset += 1
+
         self.instruction_tape.add(SET(self.variable, self.expression))
+        self.pop_function_calls()
         return self.instruction_tape
+
+
+    def pop_function_calls(self):
+        from src.VYPcode.AST.blocks.function_call import AST_function_call
+        if isinstance(self.expression, AST_function_call):
+            self.stack.pop()

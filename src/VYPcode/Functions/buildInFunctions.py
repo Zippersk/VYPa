@@ -32,8 +32,6 @@ class PrintStringVYPa(VYPaBuildInFunctionClass):
     def __init__(self):
         super().__init__(VYPaVoid(), "printString", [AST_variable(VYPaString(), "string")])
         block = AST_block()
-        block.add_instruction(DUMPSTACK())
-        block.add_instruction(DUMPREGS())
         block.add_instruction(WRITES(self.function.stack.top()))
         self.add_block(block)
 

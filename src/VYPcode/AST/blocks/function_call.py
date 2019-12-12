@@ -22,7 +22,7 @@ class AST_function_call(AST_block):
     def check_params(self, function):
         if len(function.params) != len(self.calling_params):
             Exit(Error.SyntaxError, "Wrong number of parameters")
-        for calling_param, declared_param in zip(self.calling_params, function.params):
+        for calling_param, declared_param in zip(self.calling_params, function.params.values()):
             if calling_param.type != declared_param.type:
                 Exit(Error.TypesIncompatibility, "Parameters types mismatch")
 
@@ -54,13 +54,14 @@ class AST_function_call(AST_block):
         else:
             function = AST.root.get_function(self.name)
             self.type = function.type
-            self.check_params(function)
 
-            for offset, param in enumerate(self.calling_params, 2):
+            for offset, param in enumerate(self.calling_params, 3):
                 self.instruction_tape.merge(param.get_instructions(self))
                 self.stack.set(param, offset)
 
-            self.add_instruction(CALL(self.stack.get(-len(function.params) + 2), function))
+            self.check_params(function)
+
+            self.add_instruction(CALL(self.stack.get(2), function))
             if isinstance(self.parent, AST_binOperation) and \
                     isinstance(self.parent.right, AST_function_call) and \
                     isinstance(self.parent.left, AST_function_call):

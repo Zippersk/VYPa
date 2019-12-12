@@ -29,6 +29,16 @@ class AST_binOperation(AST_block):
         if isinstance(self.right, AST_function_call):
             self.stack.pop()
 
+    def get_variable_offset(self, name):
+        from src.VYPcode.AST.blocks.function_call import AST_function_call
+        offset = 0
+        if isinstance(self.left, AST_function_call):
+            offset += 1
+        if isinstance(self.right, AST_function_call):
+            offset += 1
+
+        return offset + self.parent.get_variable_offset(name)
+
     def __str__(self):
         return str(AST_value(self.type, str(VYPaRegister.Accumulator)))
 

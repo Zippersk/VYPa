@@ -27,6 +27,13 @@ class AST_NOT(AST_block):
         if isinstance(self.expression, AST_function_call):
             self.stack.pop()
 
+    def get_variable_offset(self, name):
+        from src.VYPcode.AST.blocks.function_call import AST_function_call
+        if isinstance(self.expression, AST_function_call):
+            return 1 + self.parent.get_variable_offset(name)
+        else:
+            return self.parent.get_variable_offset(name)
+
     def __str__(self):
         return str(AST_value(self.type, str(VYPaRegister.Accumulator)))
 
