@@ -6,9 +6,3 @@ class AST_variable(AST_block):
         super().__init__()
         self.name = name
         self.type = type
-
-    def get_stack_offset(self):
-        return self.get_parent().get_variable_index(self.name)
-
-    def __str__(self):
-        return self.stack.get(-self.get_stack_offset())

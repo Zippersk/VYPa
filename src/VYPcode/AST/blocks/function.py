@@ -12,7 +12,6 @@ class AST_function(AST_block):
     def __init__(self, type, name, params):
         super().__init__()
         self.params = OrderedDict()
-        self.variables = OrderedDict()
         self.type = type
         self.name = name
         self.label = f"func_{name}"
@@ -41,7 +40,7 @@ class AST_function(AST_block):
         else:
             super().get_variable(name)
 
-    def get_variable_index(self, name):
+    def get_variable_offset(self, name):
         if self.params.get(name, None) is not None:
             return list(self.params)[::-1].index(name)
         elif self.variables.get(name, None) is not None:

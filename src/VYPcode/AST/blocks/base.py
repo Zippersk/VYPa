@@ -1,3 +1,6 @@
+from collections import OrderedDict
+
+
 class AST_block:
     def __init__(self):
         self.parent = None
@@ -8,6 +11,7 @@ class AST_block:
         from src.VYPcode.Stack import Stack
         self.stack = Stack(self.instruction_tape)
         self.AST_blocks = []
+        self.variables = OrderedDict()
 
     def add_block(self, block):
         self.AST_blocks.append(block)
@@ -33,4 +37,12 @@ class AST_block:
         return self.instruction_tape
 
     def get_variable(self, name):
+        if self.variables.get(name, None) is not None:
+            return self.variables.get(name)
         return self.parent.get_variable(name)
+
+    def get_variable_offset(self, name):
+        if self.variables.get(name, None) is not None:
+            return list(self.variables)[::-1].index(name)
+        else:
+            return len(self.variables) + self.parent.get_variable_offset(name)

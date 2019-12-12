@@ -35,13 +35,24 @@ def p_statements_if_else(t):
         t[0] = []
 
 
+def p_statement_while_loop(t):
+    '''statements : while_loop statements'''
+    if len(t) > 2:
+        t[2].insert(0, t[1])
+        t[0] = t[2]
+    elif len(t) > 2:
+        t[0] = [t[1]]
+    else:
+        t[0] = []
+
+
 def p_if_else(t):
     '''if_statement : IF LPAREN expression RPAREN statements_block ELSE statements_block'''
     t[0] = AST_ifelse(t[3], t[5], t[7])
 
 
-def p_if_else(t):
-    '''if_statement : WHILE LPAREN expression RPAREN statements_block'''
+def p_while_loop(t):
+    '''while_loop : WHILE LPAREN expression RPAREN statements_block'''
     t[0] = AST_while(t[3], t[5])
 
 

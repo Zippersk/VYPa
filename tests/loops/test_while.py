@@ -9,6 +9,7 @@ class BasicWhile(TestBaseCases.TestBase):
         a = 10;
         while (0 < a) {
             print(a);
+            int c;
             a = a - 1;
         }
     }

@@ -1,4 +1,6 @@
-﻿from src.VYPcode.AST.blocks.base import AST_block
+﻿from collections import OrderedDict
+
+from src.VYPcode.AST.blocks.base import AST_block
 from src.VYPcode.AST.blocks.value import AST_value
 from src.VYPcode.Instructions.Instructions import JUMPZ, LABEL, JUMP
 from src.VYPcode.Registers.Registers import VYPaRegister
@@ -12,6 +14,14 @@ class AST_while(AST_block):
         super().__init__()
         self.body = body
         self.condition = condition
+
+    def add_variable(self, variable):
+        if self.variables.get(variable.name, None) is None:
+            variable.set_parent(self)
+            self.variables[variable.name] = variable
+            return variable
+        else:
+            Exception(f"Variable {variable.name} already exists")
 
     def get_instructions(self, parent):
         self.parent = parent
@@ -27,6 +37,7 @@ class AST_while(AST_block):
         for statement in self.body:
             self.instruction_tape.merge(statement.get_instructions(self))
 
+        self.stack.deallocate(len(self.variables))
         self.instruction_tape.add(JUMP(f"loop_{WHILE_BLOCK_COUNTS}"))
         self.instruction_tape.add(LABEL(f"end_loop_{WHILE_BLOCK_COUNTS}"))
 

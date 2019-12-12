@@ -6,13 +6,19 @@ class BasicCondition(TestBaseCases.TestBase):
     source_code = """
     void main(void) {
         if (0 < 0) {
+            int a;
+            a = 5;
             print("True");
+            string b;
         }
         else
         {
+            int skuska, raz,dva;
             print("False");
+            raz = 42;
+            print(raz);
         }
     }
     """
 
-    STDOUT = "False"
+    STDOUT = "False42"
