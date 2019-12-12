@@ -4,6 +4,7 @@ from src.VYPcode.AST.blocks.base import AST_block
 from src.VYPcode.AST.blocks.declaration import AST_declaration
 from src.VYPcode.AST.blocks.ifelse import AST_ifelse
 from src.VYPcode.AST.blocks.variable import AST_variable
+from src.VYPcode.AST.blocks.while_loop import AST_while
 
 
 def p_statements_block(t):
@@ -37,6 +38,11 @@ def p_statements_if_else(t):
 def p_if_else(t):
     '''if_statement : IF LPAREN expression RPAREN statements_block ELSE statements_block'''
     t[0] = AST_ifelse(t[3], t[5], t[7])
+
+
+def p_if_else(t):
+    '''if_statement : WHILE LPAREN expression RPAREN statements_block'''
+    t[0] = AST_while(t[3], t[5])
 
 
 def p_statement_assign(t):

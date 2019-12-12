@@ -7,33 +7,29 @@ from src.VYPcode.Types.VYPaInt import VYPaInt
 WHILE_BLOCK_COUNTS = 1
 
 
-class AST_ifelse(AST_block):
-    def __init__(self, condition, if_body, else_body):
+class AST_while(AST_block):
+    def __init__(self, condition, body):
         super().__init__()
-        self.else_body = else_body
-        self.if_body = if_body
+        self.body = body
         self.condition = condition
 
     def get_instructions(self, parent):
         self.parent = parent
         global WHILE_BLOCK_COUNTS
+        self.instruction_tape.add(LABEL(f"loop_{WHILE_BLOCK_COUNTS}"))
         self.instruction_tape.merge(self.condition.get_instructions(self))
         self.instruction_tape.add(
-            JUMPZ(f"else_{IF_BLOCK_COUNTS}",
+            JUMPZ(f"end_loop_{WHILE_BLOCK_COUNTS}",
                   AST_value(VYPaInt(), str(VYPaRegister.Accumulator))
                   )
         )
 
-        for statement in self.if_body:
+        for statement in self.body:
             self.instruction_tape.merge(statement.get_instructions(self))
 
-        self.instruction_tape.add(JUMP(f"end_else_if_{IF_BLOCK_COUNTS}"))
-        self.instruction_tape.add(LABEL(f"else_{IF_BLOCK_COUNTS}"))
+        self.instruction_tape.add(JUMP(f"loop_{WHILE_BLOCK_COUNTS}"))
+        self.instruction_tape.add(LABEL(f"end_loop_{WHILE_BLOCK_COUNTS}"))
 
-        for statement in self.else_body:
-            self.instruction_tape.merge(statement.get_instructions(self))
-
-        self.instruction_tape.add(LABEL(f"end_else_if_{IF_BLOCK_COUNTS}"))
-        IF_BLOCK_COUNTS += 1
+        WHILE_BLOCK_COUNTS += 1
         return self.instruction_tape
 
