@@ -64,11 +64,15 @@ class ReadStringVYPa(VYPaBuildInFunctionClass):
 
 class LengthVYPa(VYPaBuildInFunctionClass):
     def __init__(self):
-        super().__init__(VYPaInt(), "length", [AST_variable(VYPaInt(), "number")])
-        self.function.add_variable(AST_variable(VYPaInt(), "number"))
+        super().__init__(VYPaInt(), "length", [AST_variable(VYPaString(), "string")])
         self.return_expression = AST_value(VYPaInt(), self.stack.top())
-        self.instruction_tape.add(GETSIZE(VYPaRegister.DestinationReg, self.function.stack.top()))
-        self.stack.set(VYPaRegister.DestinationReg)
+
+        getsize_block = AST_block()
+        getsize_block.add_instruction(GETSIZE(VYPaRegister.DestinationReg, self.function.stack.top()))
+        getsize_block.stack.set(VYPaRegister.DestinationReg)
+        self.add_block(getsize_block)
+
+        self.add_block(AST_return(AST_value(VYPaInt(), self.stack.top())))
 
 
 class SubStrVYPa(VYPaBuildInFunctionClass):

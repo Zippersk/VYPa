@@ -15,7 +15,7 @@ class StringsAndEmbeddedFunctions(TestBaseCases.TestBase):
       while ((subStr(str1, p, 1)) != "") {
         p = p + 1;
       } // end of while
-      print("\nThe length of \"", str1, "\", is ", p, " characters.\n");
+      print("\nThe length of ", str1, ", is ", p, " characters.\n");
     } // end of main
     """
 

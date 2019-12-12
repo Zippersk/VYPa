@@ -2,6 +2,7 @@ from collections import OrderedDict
 
 from src.VYPcode.AST.blocks.base import AST_block
 from src.VYPcode.Instructions.Instructions import COMMENT
+from src.error import Exit, Error
 
 
 class AST_program(AST_block):
@@ -16,13 +17,19 @@ class AST_program(AST_block):
             self.functions[function.name] = function
             return function
         else:
-            Exception(f"Function {function.name} already exists")
+            Exit(Error.SyntaxError, f"Function {function.name} already exists")
 
     def get_class(self, class_name):
-        return self.classes[class_name]
+        try:
+            return self.classes[class_name]
+        except KeyError:
+            Exit(Error.SyntaxError, f"Class {class_name} was not defined")
 
     def get_function(self, function_name):
-        return self.functions[function_name]
+        try:
+            return self.functions[function_name]
+        except KeyError:
+            Exit(Error.SyntaxError, f"Function {function_name} was not defined")
 
     def get_instructions(self, parent):
         self.parent = parent

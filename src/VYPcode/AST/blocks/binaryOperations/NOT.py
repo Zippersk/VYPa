@@ -10,7 +10,7 @@ from src.error import Exit, Error
 
 class AST_NOT(AST_block):
     def __init__(self, expression):
-        super().__init__(None)
+        super().__init__()
         self.expression = expression
         self.type = None
 
