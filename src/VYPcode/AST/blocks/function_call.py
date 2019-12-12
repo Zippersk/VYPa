@@ -2,6 +2,7 @@ from src.VYPcode.AST.AbstractSyntaxTree import AST
 from src.VYPcode.AST.blocks.base import AST_block
 from src.VYPcode.AST.blocks.binaryOperations.binaryOperationBase import AST_binOperation
 from src.VYPcode.AST.blocks.value import AST_value
+from src.VYPcode.AST.blocks.variable import AST_variable
 from src.VYPcode.Instructions.Instructions import JUMP, COMMENT, LABEL, CALL, DUMPSTACK
 from src.VYPcode.Registers.Registers import VYPaRegister
 from src.VYPcode.Types.VYPaInt import VYPaInt
@@ -60,6 +61,7 @@ class AST_function_call(AST_block):
                 self.stack.set(param, offset)
 
             self.check_params(function)
+            self.parent.variables[f"*function res_{len(self.parent.variables)}"] = AST_variable(self.type, "*function result")
 
             self.add_instruction(CALL(self.stack.get(2), function))
             if isinstance(self.parent, AST_binOperation) and \
