@@ -1,4 +1,5 @@
 from src.VYPcode.AST.AbstractSyntaxTree import AST
+from src.VYPcode.AST.blocks.assigment import AST_assigment
 from src.VYPcode.AST.blocks.base import AST_block
 from src.VYPcode.AST.blocks.binaryOperations.ADD import AST_ADD
 from src.VYPcode.AST.blocks.binaryOperations.AND import AST_AND
@@ -16,7 +17,7 @@ from src.VYPcode.AST.blocks.value import AST_value
 from src.VYPcode.AST.blocks.variable import AST_variable
 from src.VYPcode.AST.blocks.variable_call import AST_variable_call
 from src.VYPcode.AST.blocks.while_loop import AST_while
-from src.VYPcode.AST.blocks.word import AST_GETWORD, AST_SETWORD
+from src.VYPcode.AST.blocks.word import AST_GETWORD, AST_SETWORD, AST_RESIZE
 from src.VYPcode.Registers.Registers import VYPaRegister
 from src.VYPcode.Instructions.Instructions import WRITEI, WRITES, READI, GETSIZE, READS, GETWORD, RESIZE, DUMPSTACK, \
     DUMPREGS, DUMPHEAP, SETWORD, COPY, CREATE
@@ -117,23 +118,26 @@ class SubStrVYPa(VYPaBuildInFunctionClass):
                 ],
                 [
                     AST_declaration(VYPaString(), ["new_substr"]),
-                    AST_block().add_instruction(RESIZE(AST_variable_call("new_substr"), AST_variable_call("n"))),
+                    AST_declaration(VYPaInt(), ["j"]),
+                    AST_RESIZE(AST_variable_call("new_substr"), AST_variable_call("n")),
                     AST_while(
                         AST_AND(
                             AST_LT(
-                                AST_variable_call("i"),
+                                AST_variable_call("j"),
                                 AST_variable_call("n")
                             ),
                             AST_LT(
-                                AST_variable_call("i"),
+                                AST_variable_call("j"),
                                 AST_function_call("length", [AST_variable_call("s")])
                             )
-                        ),
+                        ).add_instruction(DUMPSTACK()).add_instruction(DUMPREGS()).add_instruction(DUMPHEAP()),
                         [
-                            AST_block()
-                                .add_block(AST_GETWORD(VYPaRegister.DestinationReg, AST_variable_call("i"), AST_variable_call("s")))
-                                .add_block(AST_SETWORD(AST_variable_call("new_substr"), AST_variable_call("i"), VYPaRegister.DestinationReg)),
-                            AST_ADD(AST_variable_call("i"), AST_value(VYPaInt(), 1))
+                            AST_GETWORD(VYPaRegister.DestinationReg, AST_variable_call("s"), AST_ADD(
+                                    AST_variable_call("i"),
+                                    AST_variable_call("j"),
+                            )),
+                            AST_SETWORD(AST_variable_call("new_substr"), AST_variable_call("j"), VYPaRegister.DestinationReg),
+                            AST_assigment("j", AST_ADD(AST_variable_call("j"), AST_value(VYPaInt(), 1)))
                         ]
                     ),
                     AST_return(AST_variable_call("new_substr"))

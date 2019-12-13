@@ -6,8 +6,8 @@ class TestsArithmetic(TestBaseCases.TestBase):
     source_code = """
         void main(void) {
 
-            print(30);
+            print(1*2 + 1*3);
         }
     """
 
-    STDOUT = "30"
+    STDOUT = "5"
