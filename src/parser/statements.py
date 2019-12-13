@@ -2,6 +2,7 @@ from src.VYPcode.AST.AbstractSyntaxTree import AST
 from src.VYPcode.AST.blocks.assigment import AST_assigment
 from src.VYPcode.AST.blocks.base import AST_block
 from src.VYPcode.AST.blocks.declaration import AST_declaration
+from src.VYPcode.AST.blocks.expression import AST_expression
 from src.VYPcode.AST.blocks.ifelse import AST_ifelse
 from src.VYPcode.AST.blocks.variable import AST_variable
 from src.VYPcode.AST.blocks.while_loop import AST_while
@@ -48,17 +49,17 @@ def p_statement_while_loop(t):
 
 def p_if_else(t):
     '''if_statement : IF LPAREN expression RPAREN statements_block ELSE statements_block'''
-    t[0] = AST_ifelse(t[3], t[5], t[7])
+    t[0] = AST_ifelse(AST_expression(t[3]), t[5], t[7])
 
 
 def p_while_loop(t):
     '''while_loop : WHILE LPAREN expression RPAREN statements_block'''
-    t[0] = AST_while(t[3], t[5])
+    t[0] = AST_while(AST_expression(t[3]), t[5])
 
 
 def p_statement_assign(t):
     '''statement : NAME ASSIGMENT expression'''
-    t[0] = AST_assigment(t[1], t[3])
+    t[0] = AST_assigment(t[1], AST_expression(t[3]))
 
 
 def p_statement_declaration(t):
@@ -78,10 +79,4 @@ def p_variables_declaration(t):
 
 def p_statement_function_call(t):
     'statement : function_call'
-    # function was called as a statement so we can throw away it's result
-    t[0] = AST_block()
-    stack_pop = AST_block()
-    stack_pop.stack.pop()
-
-    t[0].add_block(t[1])
-    t[0].add_block(stack_pop)
+    t[0] = AST_expression(t[1])

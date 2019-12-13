@@ -1,6 +1,7 @@
 ﻿from src.VYPcode.AST.blocks.base import AST_block
 from src.VYPcode.AST.blocks.function import AST_function
-from src.VYPcode.Instructions.Instructions import COMMENT, RETURN, DUMPSTACK
+from src.VYPcode.Instructions.Instructions import COMMENT, RETURN, DUMPSTACK, SET
+from src.VYPcode.Registers.Registers import VYPaRegister
 from src.VYPcode.Types.VYPaVoid import VYPaVoid
 from src.error import Exit, Error
 

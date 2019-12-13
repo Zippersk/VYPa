@@ -1,4 +1,5 @@
 from src.VYPcode.AST.AbstractSyntaxTree import AST
+from src.VYPcode.AST.blocks.expression import AST_expression
 from src.VYPcode.AST.blocks.function import AST_function
 from src.VYPcode.AST.blocks.function_call import AST_function_call
 from src.VYPcode.AST.blocks.function_return import AST_return
@@ -42,7 +43,7 @@ def p_function_call(t):
 def p_return(t):
     '''statement : RETURN expression
                  | RETURN'''
-    t[0] = AST_return(t[2])
+    t[0] = AST_return(AST_expression(t[2]))
 
 
 def p_function_call_params(t):
@@ -50,9 +51,9 @@ def p_function_call_params(t):
                        | expression
                        | expression COMMA function_params'''
     if len(t) > 2:
-        t[3].insert(0, t[1])
+        t[3].insert(0, AST_expression(t[1]))
         t[0] = t[3]
     elif len(t) > 1:
-        t[0] = [t[1]]
+        t[0] = [AST_expression(t[1])]
     else:
         t[0] = []

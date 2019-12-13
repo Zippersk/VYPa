@@ -3,7 +3,7 @@ from src.VYPcode.AST.blocks.base import AST_block
 from src.VYPcode.AST.blocks.binaryOperations.binaryOperationBase import AST_binOperation
 from src.VYPcode.AST.blocks.value import AST_value
 from src.VYPcode.AST.blocks.variable import AST_variable
-from src.VYPcode.Instructions.Instructions import JUMP, COMMENT, LABEL, CALL, DUMPSTACK
+from src.VYPcode.Instructions.Instructions import JUMP, COMMENT, LABEL, CALL, DUMPSTACK, DUMPHEAP, DUMPREGS
 from src.VYPcode.Registers.Registers import VYPaRegister
 from src.VYPcode.Types.VYPaInt import VYPaInt
 from src.VYPcode.Types.VYPaString import VYPaString
@@ -11,14 +11,13 @@ from src.VYPcode.Types.VYPaVoid import VYPaVoid
 from src.error import Exit, Error
 
 
-class AST_function_call(AST_block):
+class AST_function_call(AST_binOperation):
     def __init__(self, name, calling_params):
-        super().__init__()
+        super().__init__(None, None, None)
         self.calling_params = calling_params
         self.name = name
         self.label = f"func_{name}"
         self.type = None
-        self.stack_position = 0
 
     def check_params(self, function):
         if len(function.params) != len(self.calling_params):
@@ -61,15 +60,8 @@ class AST_function_call(AST_block):
                 self.stack.set(param, offset)
 
             self.check_params(function)
-            self.parent.variables[f"*function res_{len(self.parent.variables)}"] = AST_variable(self.type, "*function result")
-
             self.add_instruction(CALL(self.stack.get(2), function))
-            if isinstance(self.parent, AST_binOperation) and \
-                    isinstance(self.parent.right, AST_function_call) and \
-                    isinstance(self.parent.left, AST_function_call):
-                self.parent.left.stack_position = -1
+        self.parent.add_expression_stack_offset()
         return self.instruction_tape
 
-    def __str__(self):
-        return str(AST_value(self.type, self.stack.get(self.stack_position)))
 

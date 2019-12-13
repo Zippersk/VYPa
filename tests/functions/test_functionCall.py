@@ -9,7 +9,7 @@ class TestsMultipleFunctionsCall(TestBaseCases.TestBase):
             five = 5;
             return five;
         }
-        
+
         int GetTen(void) {
             return 10;
         }

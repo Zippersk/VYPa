@@ -1,5 +1,7 @@
 ﻿from src.VYPcode.AST.blocks.binaryOperations.binaryOperationBase import AST_binOperation
+from src.VYPcode.AST.blocks.value import AST_value
 from src.VYPcode.Instructions.Instructions import ADDI, LTI, LTS, GTS, GTI, EQI, EQS
+from src.VYPcode.Registers.Registers import VYPaRegister
 from src.VYPcode.Types.VYPaInt import VYPaInt
 from src.VYPcode.Types.VYPaString import VYPaString
 from src.error import Exit, Error
@@ -25,6 +27,6 @@ class AST_EQ(AST_binOperation):
         else:
             Exit(Error.SemanticError, "Types mismatch")
             pass
-
-        self.pop_function_calls()
+        self.stack.push(AST_value(self.type, str(VYPaRegister.Accumulator)))
+        self.parent.add_expression_stack_offset()
         return self.instruction_tape

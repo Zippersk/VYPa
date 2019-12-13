@@ -1,5 +1,7 @@
 from src.VYPcode.AST.blocks.binaryOperations.binaryOperationBase import AST_binOperation
-from src.VYPcode.Instructions.Instructions import ADDI
+from src.VYPcode.AST.blocks.value import AST_value
+from src.VYPcode.Instructions.Instructions import ADDI, DUMPSTACK, DUMPREGS
+from src.VYPcode.Registers.Registers import VYPaRegister
 from src.VYPcode.Types.VYPaInt import VYPaInt
 from src.VYPcode.Types.VYPaString import VYPaString
 from src.error import Exit, Error
@@ -23,9 +25,10 @@ class AST_ADD(AST_binOperation):
             self.check_types()
             self.type = VYPaInt()
             self.add_instruction(self.instruction(self.left, self.right))
+            self.stack.push(AST_value(self.type, str(VYPaRegister.Accumulator)))
         else:
             # TODO: implement concatenation of strings
             pass
 
-        self.pop_function_calls()
+        self.parent.add_expression_stack_offset()
         return self.instruction_tape

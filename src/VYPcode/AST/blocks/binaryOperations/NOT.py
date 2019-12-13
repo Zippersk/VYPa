@@ -1,6 +1,4 @@
 ﻿from src.VYPcode.AST.blocks.base import AST_block
-from src.VYPcode.AST.blocks.binaryOperations.binaryOperationBase import AST_binOperation
-from src.VYPcode.AST.blocks.function_call import AST_function_call
 from src.VYPcode.AST.blocks.value import AST_value
 from src.VYPcode.Instructions.Instructions import DIVI, AND, OR, NOT
 from src.VYPcode.Registers.Registers import VYPaRegister
@@ -13,6 +11,7 @@ class AST_NOT(AST_block):
         super().__init__()
         self.expression = expression
         self.type = None
+        self.stack_offset = 0
 
     def get_instructions(self, parent):
         self.parent = parent
@@ -20,15 +19,15 @@ class AST_NOT(AST_block):
         self.type = VYPaInt()
         self.check_types()
         self.add_instruction(NOT(self.expression))
-        self.pop_function_calls()
+        self.stack.push(AST_value(self.type, str(VYPaRegister.Accumulator)))
+        self.parent.add_expression_stack_offset()
         return self.instruction_tape
 
-    def pop_function_calls(self):
-        if isinstance(self.expression, AST_function_call):
-            self.stack.pop()
+    def add_expression_stack_offset(self):
+        self.parent.add_expression_stack_offset()
 
     def __str__(self):
-        return str(AST_value(self.type, str(VYPaRegister.Accumulator)))
+        return str(AST_value(self.type, self.stack.get(self.stack_offset)))
 
     def check_types(self):
         if self.expression.type != VYPaInt():

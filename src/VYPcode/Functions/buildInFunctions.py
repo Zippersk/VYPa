@@ -9,6 +9,7 @@ from src.VYPcode.AST.blocks.binaryOperations.NOT import AST_NOT
 from src.VYPcode.AST.blocks.binaryOperations.OR import AST_OR
 from src.VYPcode.AST.blocks.binaryOperations.SUB import AST_SUBI
 from src.VYPcode.AST.blocks.declaration import AST_declaration
+from src.VYPcode.AST.blocks.expression import AST_expression
 from src.VYPcode.AST.blocks.function import AST_function
 from src.VYPcode.AST.blocks.function_call import AST_function_call
 from src.VYPcode.AST.blocks.function_return import AST_return
@@ -95,49 +96,59 @@ class SubStrVYPa(VYPaBuildInFunctionClass):
                                                   AST_variable(VYPaInt(), "n")])
         self.add_block(
             AST_ifelse(
-                AST_OR(
-                    AST_LT(
-                        AST_variable_call("n"),
-                        AST_value(VYPaInt(), 0)
-                    ),
-                    AST_NOT(
-                        AST_AND(
-                            AST_GT(
-                                AST_variable_call("i"),
-                                AST_value(VYPaInt(), 0)
-                            ),
-                            AST_LT(
-                                AST_variable_call("i"),
-                                AST_function_call("length", [AST_variable_call("s")])
+                AST_expression(
+                    AST_OR(
+                        AST_LT(
+                            AST_variable_call("n"),
+                            AST_value(VYPaInt(), 0)
+                        ),
+                        AST_NOT(
+                            AST_AND(
+                                AST_GT(
+                                    AST_variable_call("i"),
+                                    AST_value(VYPaInt(), 0)
+                                ),
+                                AST_LT(
+                                    AST_variable_call("i"),
+                                    AST_function_call("length", [AST_variable_call("s")])
+                                )
                             )
                         )
                     )
                 ),
                 [
-                    AST_return(AST_value(VYPaString(), '""'))
+                    AST_return(
+                        AST_expression(AST_value(VYPaString(), '""'))
+                    )
                 ],
                 [
                     AST_declaration(VYPaString(), ["new_substr"]),
                     AST_declaration(VYPaInt(), ["j"]),
                     AST_RESIZE(AST_variable_call("new_substr"), AST_variable_call("n")),
                     AST_while(
-                        AST_AND(
-                            AST_LT(
-                                AST_variable_call("j"),
-                                AST_variable_call("n")
-                            ),
-                            AST_LT(
-                                AST_variable_call("j"),
-                                AST_function_call("length", [AST_variable_call("s")])
-                            )
-                        ).add_instruction(DUMPSTACK()).add_instruction(DUMPREGS()).add_instruction(DUMPHEAP()),
-                        [
-                            AST_GETWORD(VYPaRegister.DestinationReg, AST_variable_call("s"), AST_ADD(
-                                    AST_variable_call("i"),
+                        AST_expression(
+                            AST_AND(
+                                AST_LT(
                                     AST_variable_call("j"),
+                                    AST_variable_call("n")
+                                ),
+                                AST_LT(
+                                    AST_variable_call("j"),
+                                    AST_function_call("length", [AST_variable_call("s")])
+                                )
+                            ).add_instruction(DUMPSTACK()).add_instruction(DUMPREGS()).add_instruction(DUMPHEAP())
+                        ),
+                        [
+                            AST_GETWORD(VYPaRegister.DestinationReg, AST_variable_call("s"), AST_expression(
+                                AST_ADD(
+                                    AST_variable_call("i"),
+                                    AST_variable_call("j")
+                                )
                             )),
                             AST_SETWORD(AST_variable_call("new_substr"), AST_variable_call("j"), VYPaRegister.DestinationReg),
-                            AST_assigment("j", AST_ADD(AST_variable_call("j"), AST_value(VYPaInt(), 1)))
+                            AST_assigment("j", AST_expression(
+                                AST_ADD(AST_variable_call("j"), AST_value(VYPaInt(), 1))
+                            ))
                         ]
                     ),
                     AST_return(AST_variable_call("new_substr"))

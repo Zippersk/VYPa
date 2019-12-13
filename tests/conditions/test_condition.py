@@ -21,4 +21,4 @@ class ConditionTest(TestBaseCases.TestBase):
     }
     """
 
-    STDOUT = "True"
+    STDOUT = "False"

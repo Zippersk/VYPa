@@ -1,6 +1,6 @@
 ﻿from src.VYPcode.AST.blocks.base import AST_block
 from src.VYPcode.AST.blocks.variable import AST_variable
-from src.VYPcode.Instructions.Instructions import SET, CREATE, SETWORD
+from src.VYPcode.Instructions.Instructions import SET, CREATE, SETWORD, DUMPSTACK, DUMPREGS
 from src.VYPcode.Registers.Registers import VYPaRegister
 from src.VYPcode.Types.VYPaInt import VYPaInt
 from src.VYPcode.Types.VYPaString import VYPaString
