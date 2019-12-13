@@ -1,5 +1,10 @@
 class OperationBase:
-    pass
+    def get_name_or_value(self, operand):
+        if hasattr(operand, 'value'):
+            return operand.value
+        if hasattr(operand, 'name'):
+            return operand.name
+        return str(operand)
 
 
 class NoArgsInstruction(OperationBase):
@@ -17,7 +22,8 @@ class OneArgsInstruction(OperationBase):
         self.first = first
 
     def __str__(self):
-        return f'{self.operation} {self.first_str}'
+        return f'{self.operation} {self.first_str}' \
+               f' # {self.get_name_or_value(self.first)}'
 
 
 class TwoArgsInstruction(OperationBase):
@@ -29,7 +35,8 @@ class TwoArgsInstruction(OperationBase):
         self.second = second
 
     def __str__(self):
-        return f'{self.operation} {self.first_str} {self.second_str}'
+        return f'{self.operation} {self.first_str} {self.second_str} ' \
+               f' # {self.get_name_or_value(self.first)} {self.get_name_or_value(self.second)}'
 
 
 class ThreeArgsInstruction(OperationBase):
@@ -43,4 +50,5 @@ class ThreeArgsInstruction(OperationBase):
         self.third = third
 
     def __str__(self):
-        return f'{self.operation} {self.first_str} {self.second_str} {self.third_str}'
+        return f'{self.operation} {self.first_str} {self.second_str} {self.third_str}' \
+               f' # {self.get_name_or_value(self.first)} {self.get_name_or_value(self.second)} {self.get_name_or_value(self.third)}'

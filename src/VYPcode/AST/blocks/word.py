@@ -32,9 +32,6 @@ class AST_SETWORD(AST_block):
         self.instruction_tape.merge(self.second.get_instructions(self))
 
         self.add_instruction(SETWORD(self.first, self.second, self.third))
-        self.add_instruction(DUMPHEAP())
-        self.add_instruction(DUMPREGS())
-        self.add_instruction(DUMPSTACK())
         return self.instruction_tape
 
 

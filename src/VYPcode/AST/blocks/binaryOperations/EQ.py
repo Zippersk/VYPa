@@ -28,5 +28,5 @@ class AST_EQ(AST_binOperation):
             Exit(Error.SemanticError, "Types mismatch")
             pass
         self.stack.push(AST_value(self.type, str(VYPaRegister.Accumulator)))
-        self.parent.add_expression_stack_offset()
+        self.add_expression_stack_offset()
         return self.instruction_tape

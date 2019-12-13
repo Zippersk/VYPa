@@ -6,9 +6,9 @@ class TestsLength(TestBaseCases.TestBase):
     source_code = """
         void main(void) {
             string b;
-            b = "hello world!";
-            print(subStr(b,1,10));
+            b = "abcdefghijklmnopr";
+            print(subStr(b,3,7));
         }
     """
 
-    STDOUT = "aaa"
+    STDOUT = "defghij"

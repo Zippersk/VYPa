@@ -39,6 +39,7 @@ class PrintIntVYPa(VYPaBuildInFunctionClass):
     def __init__(self):
         super().__init__(VYPaVoid(), "printInt", [AST_variable(VYPaInt(), "number")])
         block = AST_block()
+        block.add_instruction(WRITES('"I was here!"'))
         block.add_instruction(WRITEI(self.function.stack.top()))
         self.add_block(block)
 
@@ -102,16 +103,14 @@ class SubStrVYPa(VYPaBuildInFunctionClass):
                             AST_variable_call("n"),
                             AST_value(VYPaInt(), 0)
                         ),
-                        AST_NOT(
-                            AST_AND(
-                                AST_GT(
-                                    AST_variable_call("i"),
-                                    AST_value(VYPaInt(), 0)
-                                ),
-                                AST_LT(
-                                    AST_variable_call("i"),
-                                    AST_function_call("length", [AST_variable_call("s")])
-                                )
+                        AST_OR(
+                            AST_LT(
+                                AST_variable_call("i"),
+                                AST_value(VYPaInt(), 0)
+                            ),
+                            AST_GT(
+                                AST_variable_call("i"),
+                                AST_function_call("length", [AST_variable_call("s")])
                             )
                         )
                     )
@@ -136,7 +135,7 @@ class SubStrVYPa(VYPaBuildInFunctionClass):
                                     AST_variable_call("j"),
                                     AST_function_call("length", [AST_variable_call("s")])
                                 )
-                            ).add_instruction(DUMPSTACK()).add_instruction(DUMPREGS()).add_instruction(DUMPHEAP())
+                            )
                         ),
                         [
                             AST_GETWORD(VYPaRegister.DestinationReg, AST_variable_call("s"), AST_expression(
@@ -151,7 +150,7 @@ class SubStrVYPa(VYPaBuildInFunctionClass):
                             ))
                         ]
                     ),
-                    AST_return(AST_variable_call("new_substr"))
+                    AST_return(AST_expression(AST_variable_call("new_substr")))
                 ]
             )
         )

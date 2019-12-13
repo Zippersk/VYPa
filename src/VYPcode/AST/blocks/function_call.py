@@ -61,7 +61,7 @@ class AST_function_call(AST_binOperation):
 
             self.check_params(function)
             self.add_instruction(CALL(self.stack.get(2), function))
-        self.parent.add_expression_stack_offset()
+        self.add_expression_stack_offset()
         return self.instruction_tape
 
 

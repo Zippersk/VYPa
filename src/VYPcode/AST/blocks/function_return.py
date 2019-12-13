@@ -31,7 +31,13 @@ class AST_return(AST_block):
             if self.type != function.type:
                 Exit(Error.SemanticError, "Different return type and function type")
 
-        dealloc_count = len(function.variables) + len(function.params)
+        variables_defined_in_function_count = len(function.variables)
+        scope = self
+        while scope != function:
+            variables_defined_in_function_count += len(scope.variables)
+            scope = scope.parent
+
+        dealloc_count = variables_defined_in_function_count + len(function.params)
 
         if function.type != VYPaVoid():
             self.instruction_tape.add(COMMENT(f"Set return value"))

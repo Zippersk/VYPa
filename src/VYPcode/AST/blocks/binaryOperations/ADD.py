@@ -30,5 +30,5 @@ class AST_ADD(AST_binOperation):
             # TODO: implement concatenation of strings
             pass
 
-        self.parent.add_expression_stack_offset()
+        self.add_expression_stack_offset()
         return self.instruction_tape

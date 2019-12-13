@@ -1,6 +1,7 @@
 from src.VYPcode.AST.blocks.base import AST_block
 from src.VYPcode.AST.blocks.binaryOperations.NOT import AST_NOT
 from src.VYPcode.AST.blocks.value import AST_value
+from src.VYPcode.Instructions.Instructions import WRITES, WRITEI
 from src.VYPcode.Registers.Registers import VYPaRegister
 from src.VYPcode.Types.VYPaInt import VYPaInt
 
@@ -12,7 +13,7 @@ class AST_binOperation(AST_block):
         self.right = right
         self.instruction = instruction
         self.type = None
-        self.was_executed = 0
+        self.stack_offset = 0
 
     def get_instructions(self, parent):
         self.parent = parent
@@ -22,15 +23,16 @@ class AST_binOperation(AST_block):
         self.check_types()
         self.add_instruction(self.instruction(self.left, self.right))
         self.stack.push(AST_value(self.type, str(VYPaRegister.Accumulator)))
-        self.parent.add_expression_stack_offset()
+        self.add_expression_stack_offset()
         return self.instruction_tape
 
     def add_expression_stack_offset(self):
+        self.stack_offset += 1
         self.parent.add_expression_stack_offset()
 
     def __str__(self):
         if not isinstance(self.parent, AST_NOT) and self.parent.left == self and isinstance(self.parent.right, AST_binOperation):
-            return str(AST_value(self.type, self.stack.get(-1)))
+            return str(AST_value(self.type, self.stack.get(self.stack_offset - self.parent.stack_offset)))
         return str(AST_value(self.type, self.stack.get()))
 
     def check_types(self):
