@@ -19,10 +19,10 @@ from src.VYPcode.AST.blocks.value import AST_value
 from src.VYPcode.AST.blocks.variable import AST_variable
 from src.VYPcode.AST.blocks.variable_call import AST_variable_call
 from src.VYPcode.AST.blocks.while_loop import AST_while
-from src.VYPcode.AST.blocks.word import AST_GETWORD, AST_SETWORD, AST_RESIZE
+from src.VYPcode.AST.blocks.word import AST_GETWORD, AST_SETWORD, AST_RESIZE, AST_COPY
 from src.VYPcode.Registers.Registers import VYPaRegister
 from src.VYPcode.Instructions.Instructions import WRITEI, WRITES, READI, GETSIZE, READS, GETWORD, RESIZE, DUMPSTACK, \
-    DUMPREGS, DUMPHEAP, SETWORD, COPY, CREATE
+    DUMPREGS, DUMPHEAP, SETWORD, COPY, CREATE, SET, ADDI
 from src.VYPcode.Types.VYPaInt import VYPaInt
 from src.VYPcode.Types.VYPaString import VYPaString
 from src.VYPcode.Types.VYPaVoid import VYPaVoid
@@ -88,6 +88,49 @@ class LengthVYPa(VYPaBuildInFunctionClass):
         self.add_block(getsize_block)
 
         self.add_block(AST_return(AST_value(VYPaInt(), self.stack.top())))
+
+
+class StringsConcat(VYPaBuildInFunctionClass):
+    def __init__(self):
+        super().__init__(VYPaString(), "stringConcat", [AST_variable(VYPaString(), "s1"),
+                                                        AST_variable(VYPaString(), "s2")])
+        self.add_block(
+            AST_condition_body([
+                AST_declaration(VYPaString(), ["new_string"]),
+                AST_COPY(AST_value(VYPaString(), VYPaRegister.DestinationReg), AST_variable_call("s1")),
+                AST_assigment("new_string", AST_value(VYPaString(), VYPaRegister.DestinationReg)),
+                AST_RESIZE(AST_variable_call("new_string"),
+                           AST_expression(AST_ADD(
+                               AST_function_call("length", [AST_variable_call("s1")]),
+                               AST_function_call("length", [AST_variable_call("s2")])
+                           ))),
+                AST_declaration(VYPaInt(), ["i"]),
+                AST_while(
+                    AST_expression(
+                        AST_LT(
+                            AST_variable_call("i"),
+                            AST_function_call("length", [AST_variable_call("s2")])
+                        )
+                    ),
+                    [
+                        AST_GETWORD(
+                            AST_value(VYPaInt(), str("$3")),
+                            AST_variable_call("s2"),
+                            AST_variable_call("i")),
+                        AST_SETWORD(AST_variable_call("new_string"),
+                                    AST_expression(
+                                        AST_ADD(
+                                            AST_variable_call("i"),
+                                            AST_function_call("length", [AST_variable_call("s1")])),
+                                    ), AST_value(VYPaInt(), str("$3"))),
+                        AST_assigment("i", AST_expression(
+                            AST_ADD(AST_variable_call("i"), AST_value(VYPaInt(), 1))
+                        ))
+                    ]
+                ),
+                AST_return(AST_variable_call("new_string"))
+            ])
+        )
 
 
 class SubStrVYPa(VYPaBuildInFunctionClass):

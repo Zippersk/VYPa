@@ -19,4 +19,7 @@ class StringsAndEmbeddedFunctions(TestBaseCases.TestBase):
     } // end of main
     """
 
-    STDOUT = """The length of ahoj is 4 characters."""
+    STDOUT = """This is some text46This is some text that can be a little longer.
+
+The length of ahoj is 4 characters.
+"""

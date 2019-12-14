@@ -37,49 +37,17 @@ class AST_ADD(AST_binOperation):
             self.type = VYPaInt()
             self.add_instruction(self.instruction(self.left, self.right))
             self.stack.push(AST_value(self.type, str(VYPaRegister.Accumulator)))
+            self.add_expression_stack_offset()
         elif self.left.type == VYPaString() and self.right.type == VYPaString():
             self.check_types()
             self.type = VYPaString()
             self.instruction_tape.merge(
-                AST_condition_body([
-                    AST_block().add_instruction(COPY(VYPaRegister.DestinationReg, self.left)),
-                    AST_RESIZE(AST_value(VYPaInt(), str(VYPaRegister.DestinationReg)),
-                               AST_expression(AST_ADD(
-                                   AST_function_call("length", [self.left]),
-                                   AST_function_call("length", [self.right])
-                               ))),
-                    AST_declaration(VYPaInt(), ["i"]),
-                    AST_while(
-                        AST_expression(
-                            AST_LT(
-                                AST_variable_call("i"),
-                                AST_function_call("length", [self.right])
-                            )
-                        ),
-                        [
-                            AST_GETWORD(
-                                AST_value(VYPaInt(), str(VYPaRegister.Accumulator)),
-                                self.right,
-                                AST_variable_call("i")),
-                            AST_SETWORD(AST_value(VYPaInt(), str(VYPaRegister.DestinationReg)),
-                                        AST_expression(
-                                            AST_ADD(
-                                                AST_variable_call("i"),
-                                                AST_function_call("length", [self.right])
-                                            )
-                            ), AST_value(VYPaInt(), str(VYPaRegister.Accumulator))),
-                            AST_assigment("i", AST_expression(
-                                AST_ADD(AST_variable_call("i"), AST_value(VYPaInt(), 1))
-                            ))
-                        ]
-                    ),
-                    AST_block()
-                        .add_instruction(SET(self.stack.get(1), AST_value(VYPaInt(), str(VYPaRegister.DestinationReg))))
-                        .add_instruction(ADDI(VYPaRegister.StackPointer, AST_value(VYPaInt, 1), VYPaRegister.StackPointer))
-                        .add_instruction(DUMPSTACK())
-                        .add_instruction(DUMPREGS())
-                        .add_instruction(DUMPHEAP())
-                ]).get_instructions(self)
+                AST_expression(
+                    AST_function_call("stringConcat", [self.left, self.right])
+                ).get_instructions(self)
             )
-        self.add_expression_stack_offset()
+            self.add_instruction(DUMPHEAP())
+            self.add_instruction(DUMPSTACK())
+            self.add_instruction(DUMPREGS())
+
         return self.instruction_tape
