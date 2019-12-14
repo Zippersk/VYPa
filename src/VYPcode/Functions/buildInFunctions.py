@@ -3,6 +3,7 @@ from src.VYPcode.AST.blocks.assigment import AST_assigment
 from src.VYPcode.AST.blocks.base import AST_block
 from src.VYPcode.AST.blocks.binaryOperations.ADD import AST_ADD
 from src.VYPcode.AST.blocks.binaryOperations.AND import AST_AND
+from src.VYPcode.AST.blocks.binaryOperations.EQ import AST_EQ
 from src.VYPcode.AST.blocks.binaryOperations.GT import AST_GT
 from src.VYPcode.AST.blocks.binaryOperations.LT import AST_LT
 from src.VYPcode.AST.blocks.binaryOperations.NOT import AST_NOT
@@ -39,7 +40,6 @@ class PrintIntVYPa(VYPaBuildInFunctionClass):
     def __init__(self):
         super().__init__(VYPaVoid(), "printInt", [AST_variable(VYPaInt(), "number")])
         block = AST_block()
-        block.add_instruction(WRITES('"I was here!"'))
         block.add_instruction(WRITEI(self.function.stack.top()))
         self.add_block(block)
 
@@ -108,9 +108,15 @@ class SubStrVYPa(VYPaBuildInFunctionClass):
                                 AST_variable_call("i"),
                                 AST_value(VYPaInt(), 0)
                             ),
-                            AST_GT(
-                                AST_variable_call("i"),
-                                AST_function_call("length", [AST_variable_call("s")])
+                            AST_OR(
+                                AST_GT(
+                                    AST_variable_call("i"),
+                                    AST_function_call("length", [AST_variable_call("s")])
+                                ),
+                                AST_EQ(
+                                    AST_variable_call("i"),
+                                    AST_function_call("length", [AST_variable_call("s")])
+                                )
                             )
                         )
                     )

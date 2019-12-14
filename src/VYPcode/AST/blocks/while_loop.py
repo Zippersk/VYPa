@@ -1,6 +1,7 @@
 ﻿from collections import OrderedDict
 
 from src.VYPcode.AST.blocks.base import AST_block
+from src.VYPcode.AST.blocks.ifelse import AST_condition_body
 from src.VYPcode.AST.blocks.value import AST_value
 from src.VYPcode.Instructions.Instructions import JUMPZ, LABEL, JUMP
 from src.VYPcode.Registers.Registers import VYPaRegister
@@ -12,7 +13,7 @@ WHILE_BLOCK_COUNTS = 1
 class AST_while(AST_block):
     def __init__(self, condition, body):
         super().__init__()
-        self.body = body
+        self.body = AST_condition_body(body)
         self.condition = condition
 
     def add_variable(self, variable):
@@ -34,8 +35,7 @@ class AST_while(AST_block):
                   )
         )
 
-        for statement in self.body:
-            self.instruction_tape.merge(statement.get_instructions(self))
+        self.instruction_tape.merge(self.body.get_instructions(self))
 
         self.stack.deallocate(len(self.variables))
         self.instruction_tape.add(JUMP(f"loop_{WHILE_BLOCK_COUNTS}"))

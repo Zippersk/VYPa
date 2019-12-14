@@ -22,7 +22,7 @@ class AST_EQ(AST_binOperation):
             self.add_instruction(self.instruction(self.left, self.right))
         elif self.left.type == VYPaString() and self.right.type == VYPaString():
             self.instruction = EQS
-            self.type = VYPaString()
+            self.type = VYPaInt()
             self.add_instruction(self.instruction(self.left, self.right))
         else:
             Exit(Error.SemanticError, "Types mismatch")
