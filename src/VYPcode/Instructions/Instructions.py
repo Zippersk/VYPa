@@ -201,3 +201,8 @@ class JUMPZ(TwoArgsInstruction):
 class JUMP(OneArgsInstruction):
     def __init__(self, first):
         super().__init__("JUMP", first)
+
+
+class INT2STRING(TwoArgsInstruction):
+    def __init__(self, second, destination=VYPaRegister.Accumulator):
+        super().__init__("INT2STRING", destination, second)

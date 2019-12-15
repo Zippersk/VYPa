@@ -6,6 +6,7 @@ from src.VYPcode.AST.blocks.value import AST_value
 from src.VYPcode.AST.blocks.variable import AST_variable
 from src.VYPcode.Instructions.Instructions import JUMP, COMMENT, LABEL
 from src.VYPcode.Types.VYPaVoid import VYPaVoid
+from src.error import Exit, Error
 
 
 class AST_function(AST_block):
@@ -38,7 +39,7 @@ class AST_function(AST_block):
         elif self.params.get(name, None) is not None:
             return self.params[name]
         else:
-            super().get_variable(name)
+            Exit(Error.SyntaxError, f"Variable {name} was not defined")
 
     def get_variable_offset(self, name):
         if self.params.get(name, None) is not None:

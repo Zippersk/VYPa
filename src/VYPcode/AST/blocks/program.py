@@ -19,6 +19,14 @@ class AST_program(AST_block):
         else:
             Exit(Error.SyntaxError, f"Function {function.name} already exists")
 
+    def add_class(self, classs):
+        if not self.classes.get(classs.name, None) is not None:
+            classs.set_parent(self)
+            self.classes[classs.name] = classs
+            return classs
+        else:
+            Exit(Error.SyntaxError, f"Class {classs.name} already exists")
+
     def get_class(self, class_name):
         try:
             return self.classes[class_name]
@@ -45,4 +53,4 @@ class AST_program(AST_block):
         return self.instruction_tape
 
     def get_variable(self, name):
-        return Exception("Variable not found")
+        Exit(Error.SyntaxError, f"Variable {name} was not defined")

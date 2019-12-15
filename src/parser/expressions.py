@@ -9,6 +9,7 @@ from src.VYPcode.AST.blocks.binaryOperations.MUL import AST_MULI
 from src.VYPcode.AST.blocks.binaryOperations.NOT import AST_NOT
 from src.VYPcode.AST.blocks.binaryOperations.OR import AST_OR
 from src.VYPcode.AST.blocks.binaryOperations.SUB import AST_SUBI
+from src.VYPcode.AST.blocks.binaryOperations.cast import AST_cast
 from src.VYPcode.AST.blocks.value import AST_value
 from src.VYPcode.AST.blocks.variable_call import AST_variable_call
 from src.VYPcode.Instructions.Instructions import ADDI, SUBI, DIVI, MULI
@@ -108,3 +109,7 @@ def p_expression_variable(t):
 def p_expression_function_call(t):
     'expression : function_call'
     t[0] = t[1]
+
+def p_expression_cast(t):
+    '''expression : LPAREN type RPAREN expression'''
+    t[0] = AST_cast(t[2], t[4])

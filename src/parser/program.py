@@ -37,11 +37,15 @@ def p_init(t):
     MAIN_INSTRUCTION_TAPE.add_build_in_functions()
 
 
-def p_program_body(t):
-    '''program_body : statement program_body
-           | class program_body
-           |'''
+def p_program_body_empty(t):
+    '''program_body :'''
     pass
+
+
+def p_program_class(t):
+    '''program_body : class program_body'''
+    AST.root.add_class(t[1])
+    t[0] = t[1]
 
 
 def p_global_function(t):
