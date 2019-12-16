@@ -20,7 +20,7 @@ class IterativeFactorialComputation(TestBaseCases.TestBase):
             return super.toString() +
               " - rectangle " + (string)(this.area());
           }
-          int area() {
+          int area(void) {
             return this.height * this.width;
           }
         }

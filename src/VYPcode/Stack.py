@@ -12,13 +12,13 @@ class Stack:
         self.instruction_tape.add(SET(self.get(offset), value))
         return value
 
-    def get(self, offset=0):
+    def get(self, offset=0, register=VYPaRegister.StackPointer):
         if offset > 0:
-            return f"[{VYPaRegister.StackPointer}+{offset}]"
+            return f"[{register}+{offset}]"
         elif offset < 0:
-            return f"[{VYPaRegister.StackPointer}-{abs(offset)}]"
+            return f"[{register}-{abs(offset)}]"
         else:
-            return f"[{VYPaRegister.StackPointer}]"
+            return f"[{register}]"
 
     def push(self, value):
         self.instruction_tape.add(SET(self.get(1), value))

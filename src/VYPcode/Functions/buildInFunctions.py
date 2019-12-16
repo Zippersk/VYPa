@@ -9,6 +9,7 @@ from src.VYPcode.AST.blocks.binaryOperations.LT import AST_LT
 from src.VYPcode.AST.blocks.binaryOperations.NOT import AST_NOT
 from src.VYPcode.AST.blocks.binaryOperations.OR import AST_OR
 from src.VYPcode.AST.blocks.binaryOperations.SUB import AST_SUBI
+from src.VYPcode.AST.blocks.class_block import AST_class
 from src.VYPcode.AST.blocks.declaration import AST_declaration
 from src.VYPcode.AST.blocks.expression import AST_expression
 from src.VYPcode.AST.blocks.function import AST_function
@@ -22,7 +23,7 @@ from src.VYPcode.AST.blocks.while_loop import AST_while
 from src.VYPcode.AST.blocks.word import AST_GETWORD, AST_SETWORD, AST_RESIZE, AST_COPY
 from src.VYPcode.Registers.Registers import VYPaRegister
 from src.VYPcode.Instructions.Instructions import WRITEI, WRITES, READI, GETSIZE, READS, GETWORD, RESIZE, DUMPSTACK, \
-    DUMPREGS, DUMPHEAP, SETWORD, COPY, CREATE, SET, ADDI
+    DUMPREGS, DUMPHEAP, SETWORD, COPY, CREATE, SET, ADDI, COMMENT
 from src.VYPcode.Types.VYPaInt import VYPaInt
 from src.VYPcode.Types.VYPaString import VYPaString
 from src.VYPcode.Types.VYPaVoid import VYPaVoid
@@ -34,6 +35,18 @@ class VYPaBuildInFunctionClass(AST_function):
         self.return_expression = None
         self.function = AST.get_root().add_function(self)
         self.label = f"buildIn_{name}"
+
+
+class VYPaBuildInObject(AST_class):
+    def __init__(self):
+        super().__init__("Object", None)
+        AST.get_root().add_class(self)
+        self.add_function(
+            AST_function(VYPaString(), "toString", [])
+        )
+        self.add_function(
+            AST_function(VYPaString(), "getClass", [])
+        )
 
 
 class PrintIntVYPa(VYPaBuildInFunctionClass):

@@ -18,6 +18,10 @@ class AST_declaration(AST_block):
         self.stack.push(str(0))
         return AST_variable(VYPaInt(), name)
 
+    def declare_class(self, name):
+        self.stack.push(str(0))
+        return AST_variable(self.type, name)
+
     def declare_string(self, name):
         self.instruction_tape.add(CREATE(VYPaRegister.DestinationReg, 1))
         self.instruction_tape.add(SETWORD(VYPaRegister.DestinationReg, 0, '""'))
@@ -33,6 +37,8 @@ class AST_declaration(AST_block):
                 parent.add_variable(self.declare_string(name))
             elif self.type == VYPaVoid():
                 Exit(Error.SemanticError, "Can not create void variable")
+            else:  # Class
+                parent.add_variable(self.declare_class(name))
 
         return self.instruction_tape
 

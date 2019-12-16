@@ -6,3 +6,6 @@ class AST_variable(AST_block):
         super().__init__()
         self.name = name
         self.type = type
+
+    def get_size(self):
+        return 1

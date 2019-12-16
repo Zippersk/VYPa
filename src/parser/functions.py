@@ -4,6 +4,7 @@ from src.VYPcode.AST.blocks.function import AST_function
 from src.VYPcode.AST.blocks.function_call import AST_function_call
 from src.VYPcode.AST.blocks.function_return import AST_return
 from src.VYPcode.AST.blocks.variable import AST_variable
+from src.common import CallType
 
 
 def p_function(t):
@@ -37,7 +38,7 @@ def p_functions_params(t):
 
 def p_function_call(t):
     '''function_call : NAME LPAREN function_params RPAREN'''
-    t[0] = AST_function_call(t[1], t[3])
+    t[0] = AST_function_call(t[1], t[3], CallType.SCOPE)
 
 
 def p_return(t):

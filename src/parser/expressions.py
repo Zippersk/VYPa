@@ -15,6 +15,7 @@ from src.VYPcode.AST.blocks.variable_call import AST_variable_call
 from src.VYPcode.Instructions.Instructions import ADDI, SUBI, DIVI, MULI
 from src.VYPcode.Types.VYPaInt import VYPaInt
 from src.VYPcode.Types.VYPaString import VYPaString
+from src.common import CallType
 
 
 def p_expression_plus(t):
@@ -103,12 +104,13 @@ def p_expression_number(t):
 
 def p_expression_variable(t):
     'expression : NAME'
-    t[0] = AST_variable_call(t[1])
+    t[0] = AST_variable_call(t[1], CallType.SCOPE)
 
 
 def p_expression_function_call(t):
     'expression : function_call'
     t[0] = t[1]
+
 
 def p_expression_cast(t):
     '''expression : LPAREN type RPAREN expression'''

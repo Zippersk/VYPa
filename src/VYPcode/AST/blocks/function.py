@@ -1,11 +1,14 @@
 from collections import OrderedDict
 
 from src.VYPcode.AST.blocks.base import AST_block
+from src.VYPcode.AST.blocks.class_block import AST_class
 from src.VYPcode.AST.blocks.program import AST_program
 from src.VYPcode.AST.blocks.value import AST_value
 from src.VYPcode.AST.blocks.variable import AST_variable
 from src.VYPcode.Instructions.Instructions import JUMP, COMMENT, LABEL
+from src.VYPcode.Types.VYPaClass import VYPaClass
 from src.VYPcode.Types.VYPaVoid import VYPaVoid
+from src.common import CallType
 from src.error import Exit, Error
 
 
@@ -18,11 +21,14 @@ class AST_function(AST_block):
         self.label = f"func_{name}"
 
         for param in params:
-            param.set_parent(self)
-            if self.params.get(param.name, None) is not None:
-                Exception(f"Param with name {name} already exists")
-            else:
-                self.params[param.name] = param
+            self.add_param(param)
+
+    def add_param(self, param):
+        param.set_parent(self)
+        if self.params.get(param.name, None) is not None:
+            Exception(f"Param with name {param.name} already exists")
+        else:
+            self.params[param.name] = param
 
     def add_variable(self, variable):
         if self.variables.get(variable.name, None) is None and \
@@ -41,7 +47,9 @@ class AST_function(AST_block):
         else:
             Exit(Error.SyntaxError, f"Variable {name} was not defined")
 
-    def get_variable_offset(self, name):
+    def get_variable_offset(self, name, call_type):
+        if call_type != CallType.SCOPE:
+            return super().get_variable_offset(name, call_type)
         if self.params.get(name, None) is not None:
             return len(self.variables) + list(self.params)[::-1].index(name)
         elif self.variables.get(name, None) is not None:

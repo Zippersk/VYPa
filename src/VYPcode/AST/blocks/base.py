@@ -1,4 +1,4 @@
-from collections import OrderedDict
+from src.common import CallType, VariablesStore
 
 
 class AST_block:
@@ -11,7 +11,7 @@ class AST_block:
         from src.VYPcode.Stack import Stack
         self.stack = Stack(self.instruction_tape)
         self.AST_blocks = []
-        self.variables = OrderedDict()
+        self.variables = VariablesStore()
 
     def add_block(self, block):
         self.AST_blocks.append(block)
@@ -42,8 +42,8 @@ class AST_block:
             return self.variables.get(name)
         return self.parent.get_variable(name)
 
-    def get_variable_offset(self, name):
-        if self.variables.get(name, None) is not None:
+    def get_variable_offset(self, name, call_type):
+        if call_type == CallType.SCOPE and self.variables.get(name, None) is not None:
             return list(self.variables)[::-1].index(name)
         else:
-            return len(self.variables) + self.parent.get_variable_offset(name)
+            return len(self.variables) + self.parent.get_variable_offset(name, call_type)

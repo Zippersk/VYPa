@@ -24,8 +24,8 @@ class AST_expression(AST_block):
     def add_expression_stack_offset(self):
         self.stack_offset += 1
 
-    def get_variable_offset(self, name):
-        return self.stack_offset + self.parent.get_variable_offset(name)
+    def get_variable_offset(self, name, call_type):
+        return self.stack_offset + self.parent.get_variable_offset(name, call_type)
 
     def __str__(self):
         return str(AST_value(self.type, str(VYPaRegister.Accumulator)))
