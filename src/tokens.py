@@ -7,7 +7,7 @@ tokens = (
     'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'ASSIGMENT',
     'LPAREN', 'RPAREN', 'CLASS', 'ELSE', 'IF', 'INT', 'NEW', 'RETURN', 'STRING', 'SUPER', 'THIS', 'VOID', 'WHILE',
     'LBRACKET', 'RBRACKET', 'NEGATION', 'LESS', 'LESSEQUAL', 'GREATER', 'GREATEREQUAL', 'EQUAL', 'NOTEQUAL',
-    'AND', 'OR', 'LINECOMMENT', 'BLOCKCOMMENT', 'WORD', 'COMMA', 'COLON', 'SEMICOLON'
+    'AND', 'OR', 'LINECOMMENT', 'BLOCKCOMMENT', 'WORD', 'COMMA', 'COLON', 'SEMICOLON', 'DOT'
 )
 
 # Tokens
@@ -45,6 +45,7 @@ t_OR = r'\|\|'
 t_COMMA = r','
 t_SEMICOLON = r';'
 t_COLON = r':'
+t_DOT = r'.'
 t_NUMBER = r'[0-9]+'
 
 # Ignored characters
