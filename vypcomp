@@ -1,0 +1,13 @@
+output="out.vc"
+#check number of arguments
+if [ $# -eq 1 ]; then
+    input=$1
+elif [ $# -eq 2 ]; then
+    input=$1
+    output=$2
+else
+    >&2 echo "Arguments: inputFile outputFile(optional)"
+    exit 1
+fi
+
+python3.6 app.py $input $output
