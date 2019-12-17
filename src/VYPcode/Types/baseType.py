@@ -1,10 +1,10 @@
-"""
+﻿"""
 |**********************************************************************;
 * Project           : VYPcode compiler 2019
 * Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
 |**********************************************************************;
 """
-﻿from src.VYPcode.Registers.Registers import RegisterBase
+from src.VYPcode.Registers.Registers import RegisterBase
 
 
 class VYPaBaseType:

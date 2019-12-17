@@ -4,17 +4,13 @@
 * Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
 |**********************************************************************;
 """
-from tests.testBase import TestBaseCases
+from src.VYPcode.Types.baseType import VYPaBaseType
 
 
-class TestsLength(TestBaseCases.TestBase):
-    STDIN = ""
-    source_code = """
-        void main(void) {
-            string b;
-            b = "hello world!";
-            print(length(b));
-        }
-    """
+class VYPaClass(VYPaBaseType):
+    def __init__(self, name):
+        super().__init__(name, 0)
 
-    STDOUT = "12"
+    def __eq__(self, other):
+        # TODO rewrite to compare with parent class also
+        return self.name == other.name

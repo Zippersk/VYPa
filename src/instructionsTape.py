@@ -40,7 +40,7 @@ class InstructionTape:
 
     def add_build_in_functions(self):
         from src.VYPcode.Functions.buildInFunctions import PrintIntVYPa, PrintStringVYPa, ReadIntVYPa, ReadStringVYPa, \
-            LengthVYPa, SubStrVYPa, StringsConcat
+            LengthVYPa, SubStrVYPa, StringsConcat, ObjectVYPa
         PrintIntVYPa()
         PrintStringVYPa()
         ReadIntVYPa()
@@ -48,6 +48,7 @@ class InstructionTape:
         LengthVYPa()
         SubStrVYPa()
         StringsConcat()
+        ObjectVYPa()
 
     def clear(self):
         self.__instructions.clear()

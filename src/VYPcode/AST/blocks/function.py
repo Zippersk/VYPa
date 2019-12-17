@@ -24,11 +24,20 @@ class AST_function(AST_block):
         self.label = f"func_{name}"
 
         for param in params:
-            param.set_parent(self)
-            if self.params.get(param.name, None) is not None:
-                Exception(f"Param with name {name} already exists")
-            else:
-                self.params[param.name] = param
+            self.add_param(param)
+
+    def set_label(self, label):
+        self.label = label
+
+    def set_name(self, name):
+        self.name = name
+
+    def add_param(self, param):
+        param.set_parent(self)
+        if self.params.get(param.name, None) is not None:
+            Exception(f"Param with name {param.name} already exists")
+        else:
+            self.params[param.name] = param
 
     def add_variable(self, variable):
         if self.variables.get(variable.name, None) is None and \

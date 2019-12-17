@@ -5,6 +5,7 @@
 |**********************************************************************;
 """
 from src.VYPcode.Instructions.Instructions import LABEL, COMMENT
+from src.VYPcode.Types.VYPaClass import VYPaClass
 from src.VYPcode.Types.VYPaVoid import VYPaVoid
 from src.error import Error, Exit
 from src.instructionsTape import MAIN_INSTRUCTION_TAPE
@@ -63,14 +64,16 @@ def p_global_function(t):
 def p_type(t):
     '''type : STRING
              | INT
-             | VOID'''
+             | VOID
+             | NAME'''
     if t[1] == "int":
         t[0] = VYPaInt()
     elif t[1] == "string":
         t[0] = VYPaString()
     elif t[1] == "void":
         t[0] = VYPaVoid()
-
+    else:
+        t[0] = VYPaClass(t[1])
 
 def p_error(t):
     print("Syntax error at '%s'" % t.value)

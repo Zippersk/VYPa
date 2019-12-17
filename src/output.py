@@ -10,8 +10,6 @@ from src.instructionsTape import MAIN_INSTRUCTION_TAPE
 
 
 class Printer:
-    file = None
-
     def __init__(self, file):
         self.file = file
 

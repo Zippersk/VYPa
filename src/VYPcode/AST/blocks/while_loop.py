@@ -1,10 +1,10 @@
-"""
+﻿"""
 |**********************************************************************;
 * Project           : VYPcode compiler 2019
 * Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
 |**********************************************************************;
 """
-﻿from collections import OrderedDict
+from collections import OrderedDict
 
 from src.VYPcode.AST.blocks.base import AST_block
 from src.VYPcode.AST.blocks.ifelse import AST_condition_body

@@ -10,6 +10,8 @@ import subprocess
 import uuid
 from subprocess import PIPE
 
+import sys
+
 from app import parser
 import src.output as printer
 from src.VYPcode.AST.AbstractSyntaxTree import AST, AbstractSyntaxTree
@@ -30,11 +32,11 @@ class TestBaseCases:
 
         def run_parser(self):
             printer.Output = printer.Printer(self.source_file_path)
-            parser.parse(self.source_code, debug=True)
+            parser.parse(self.source_code, debug=False)
             printer.Output.print()
             printer.Output.file = None
             print("\n\nRunning test with source code: \n")
-            printer.Output.print()
+            printer.Output._print(sys.stdout)
             AST.clear()
             MAIN_INSTRUCTION_TAPE.clear()
 

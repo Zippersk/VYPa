@@ -4,7 +4,7 @@
 * Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
 |**********************************************************************;
 """
-﻿from enum import Enum
+from enum import Enum
 
 
 class Error(Enum):

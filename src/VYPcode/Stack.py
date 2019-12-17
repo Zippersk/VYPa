@@ -1,10 +1,10 @@
-"""
+﻿"""
 |**********************************************************************;
 * Project           : VYPcode compiler 2019
 * Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
 |**********************************************************************;
 """
-﻿from src.VYPcode.AST.blocks.value import AST_value
+from src.VYPcode.AST.blocks.value import AST_value
 from src.VYPcode.Instructions.Instructions import SET, ADDI, SUBI, COMMENT
 from src.VYPcode.Registers.Registers import VYPaRegister
 from src.VYPcode.Types.VYPaInt import VYPaInt

@@ -4,10 +4,11 @@
 * Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
 |**********************************************************************;
 """
-﻿from src.VYPcode.AST.blocks.base import AST_block
+from src.VYPcode.AST.blocks.base import AST_block
 from src.VYPcode.AST.blocks.variable import AST_variable
 from src.VYPcode.Instructions.Instructions import SET, CREATE, SETWORD, DUMPSTACK, DUMPREGS
 from src.VYPcode.Registers.Registers import VYPaRegister
+from src.VYPcode.Types.VYPaClass import VYPaClass
 from src.VYPcode.Types.VYPaInt import VYPaInt
 from src.VYPcode.Types.VYPaString import VYPaString
 from src.VYPcode.Types.VYPaVoid import VYPaVoid
@@ -30,6 +31,10 @@ class AST_declaration(AST_block):
         self.stack.push(VYPaRegister.DestinationReg)
         return AST_variable(VYPaString(), name)
 
+    def declare_class_instance(self, name):
+        self.stack.push(str(0))
+        return AST_variable(VYPaClass(self.type), name)
+
     def get_instructions(self, parent):
         self.parent = parent
         for name in self.variable_names:
@@ -39,6 +44,8 @@ class AST_declaration(AST_block):
                 parent.add_variable(self.declare_string(name))
             elif self.type == VYPaVoid():
                 Exit(Error.SemanticError, "Can not create void variable")
+            else:
+                parent.add_variable(self.declare_class_instance(name))
 
         return self.instruction_tape
 

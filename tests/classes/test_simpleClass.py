@@ -7,14 +7,22 @@
 from tests.testBase import TestBaseCases
 
 
-class TestsLength(TestBaseCases.TestBase):
+class SimpleClassTest(TestBaseCases.TestBase):
     STDIN = ""
     source_code = """
+        class Shape: Object {
+          int id;
+          void Shape(void) {
+            print("constructor of Shape");
+          }
+          string toString(void) {
+            return "instance of Shape " + (string)(this.id);
+          }
+        }
         void main(void) {
-            string b;
-            b = "hello world!";
-            print(length(b));
+            Shape s;
+            s = new Shape;
         }
     """
 
-    STDOUT = "12"
+    STDOUT = "False"

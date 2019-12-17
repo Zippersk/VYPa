@@ -15,6 +15,7 @@ from src.VYPcode.AST.blocks.binaryOperations.LT import AST_LT
 from src.VYPcode.AST.blocks.binaryOperations.NOT import AST_NOT
 from src.VYPcode.AST.blocks.binaryOperations.OR import AST_OR
 from src.VYPcode.AST.blocks.binaryOperations.SUB import AST_SUBI
+from src.VYPcode.AST.blocks.class_block import AST_class
 from src.VYPcode.AST.blocks.declaration import AST_declaration
 from src.VYPcode.AST.blocks.expression import AST_expression
 from src.VYPcode.AST.blocks.function import AST_function
@@ -40,6 +41,20 @@ class VYPaBuildInFunctionClass(AST_function):
         self.return_expression = None
         self.function = AST.get_root().add_function(self)
         self.label = f"buildIn_{name}"
+
+
+class ObjectVYPa(AST_class):
+    def __init__(self):
+        super().__init__("Object", None)
+        to_string_function = AST_function(VYPaString(), "Object_toString", [AST_variable(VYPaInt(), "this")])
+        to_string_function.set_label(f"class_Object_func_toString")
+        AST.get_root().add_function(to_string_function)
+
+        get_class_function = AST_function(VYPaString(), "Object_getClass", [AST_variable(VYPaInt(), "this")])
+        get_class_function.set_label(f"class_Object_func_getClass")
+        AST.get_root().add_function(get_class_function)
+
+        AST.root.add_class(self)
 
 
 class PrintIntVYPa(VYPaBuildInFunctionClass):
