@@ -7,19 +7,22 @@
 from tests.testBase import TestBaseCases
 
 
-class SimpleClassTest(TestBaseCases.TestBase):
+class TestsVariableAssign(TestBaseCases.TestBase):
     STDIN = ""
     source_code = """
-        class Shape: Object {
-          int a, b;
-        }
         void main(void) {
-            Shape s;
-            s = new Shape;
-            s.a = 42;
-            s.b = 43;
-            print(s.a + s.b);
+          int a,b,c,d,e,f,g,h;
+          a = 1;
+          b = a;
+          c = b;
+          d = c;
+          e = d;
+          f = e;
+          g = f;
+          h = g;
+          print(h);
+
         }
     """
 
-    STDOUT = "85"
+    STDOUT = "1"

@@ -41,6 +41,8 @@ class AST_class_instance(AST_block):
             Exit(Error.SyntaxError, f"Variable {variable.name} already exists")
 
     def get_variable(self, name):
+        if name == "super":
+            return self.predecessor.get_variable("this")
         if self.variables.get(name, None) is not None:
             return self.variables[name]
         else:
@@ -67,8 +69,8 @@ class AST_class_instance(AST_block):
         for declaration in self.class_block.declarations:
             self.merge_instructions(declaration.get_instructions(self))
 
-        self.merge_instructions(AST_declaration(VYPaInt(), ["this"]).get_instructions(self))
-        self.merge_instructions(AST_assigment("this",
+        self.merge_instructions(AST_declaration(VYPaClass(self.name), ["this"]).get_instructions(self))
+        self.merge_instructions(AST_assigment(AST_variable_call("this"),
                                               AST_expression(
                                                   AST_SUBI(
                                                       AST_value(VYPaInt(), VYPaRegister.StackPointer),

@@ -30,6 +30,7 @@ from src.VYPcode.AST.blocks.word import AST_GETWORD, AST_SETWORD, AST_RESIZE, AS
 from src.VYPcode.Registers.Registers import VYPaRegister
 from src.VYPcode.Instructions.Instructions import WRITEI, WRITES, READI, GETSIZE, READS, GETWORD, RESIZE, DUMPSTACK, \
     DUMPREGS, DUMPHEAP, SETWORD, COPY, CREATE, SET, ADDI
+from src.VYPcode.Types.VYPaClass import VYPaClass
 from src.VYPcode.Types.VYPaInt import VYPaInt
 from src.VYPcode.Types.VYPaString import VYPaString
 from src.VYPcode.Types.VYPaVoid import VYPaVoid
@@ -46,11 +47,11 @@ class VYPaBuildInFunctionClass(AST_function):
 class ObjectVYPa(AST_class):
     def __init__(self):
         super().__init__("Object", None)
-        to_string_function = AST_function(VYPaString(), "Object_toString", [AST_variable(VYPaInt(), "this")])
+        to_string_function = AST_function(VYPaString(), "Object_toString", [AST_variable(VYPaClass("Object"), "this")])
         to_string_function.set_label(f"class_Object_func_toString")
         AST.get_root().add_function(to_string_function)
 
-        get_class_function = AST_function(VYPaString(), "Object_getClass", [AST_variable(VYPaInt(), "this")])
+        get_class_function = AST_function(VYPaString(), "Object_getClass", [AST_variable(VYPaClass("Object"), "this")])
         get_class_function.set_label(f"class_Object_func_getClass")
         AST.get_root().add_function(get_class_function)
 
@@ -119,7 +120,7 @@ class StringsConcat(VYPaBuildInFunctionClass):
             AST_condition_body([
                 AST_declaration(VYPaString(), ["new_string"]),
                 AST_COPY(AST_value(VYPaString(), VYPaRegister.DestinationReg), AST_variable_call("s1")),
-                AST_assigment("new_string", AST_value(VYPaString(), VYPaRegister.DestinationReg)),
+                AST_assigment(AST_variable_call("new_string"), AST_value(VYPaString(), VYPaRegister.DestinationReg)),
                 AST_RESIZE(AST_variable_call("new_string"),
                            AST_expression(AST_ADD(
                                AST_function_call("length", [AST_variable_call("s1")]),
@@ -144,7 +145,7 @@ class StringsConcat(VYPaBuildInFunctionClass):
                                             AST_variable_call("i"),
                                             AST_function_call("length", [AST_variable_call("s1")])),
                                     ), AST_value(VYPaInt(), str("$3"))),
-                        AST_assigment("i", AST_expression(
+                        AST_assigment(AST_variable_call("i"), AST_expression(
                             AST_ADD(AST_variable_call("i"), AST_value(VYPaInt(), 1))
                         ))
                     ]
@@ -215,7 +216,7 @@ class SubStrVYPa(VYPaBuildInFunctionClass):
                                 )
                             )),
                             AST_SETWORD(AST_variable_call("new_substr"), AST_variable_call("j"), VYPaRegister.DestinationReg),
-                            AST_assigment("j", AST_expression(
+                            AST_assigment(AST_variable_call("j"), AST_expression(
                                 AST_ADD(AST_variable_call("j"), AST_value(VYPaInt(), 1))
                             ))
                         ]

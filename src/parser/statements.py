@@ -11,6 +11,7 @@ from src.VYPcode.AST.blocks.declaration import AST_declaration
 from src.VYPcode.AST.blocks.expression import AST_expression
 from src.VYPcode.AST.blocks.ifelse import AST_ifelse
 from src.VYPcode.AST.blocks.variable import AST_variable
+from src.VYPcode.AST.blocks.variable_call import AST_variable_call
 from src.VYPcode.AST.blocks.while_loop import AST_while
 
 
@@ -65,7 +66,7 @@ def p_while_loop(t):
 
 def p_statement_assign(t):
     '''statement : NAME ASSIGMENT expression'''
-    t[0] = AST_assigment(t[1], AST_expression(t[3]))
+    t[0] = AST_assigment(AST_variable_call(t[1]), AST_expression(t[3]))
 
 
 def p_statement_declaration(t):

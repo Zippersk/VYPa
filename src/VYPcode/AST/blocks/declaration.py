@@ -33,7 +33,7 @@ class AST_declaration(AST_block):
 
     def declare_class_instance(self, name):
         self.stack.push(str(0))
-        return AST_variable(VYPaClass(self.type), name)
+        return AST_variable(self.type, name)
 
     def get_instructions(self, parent):
         self.parent = parent
