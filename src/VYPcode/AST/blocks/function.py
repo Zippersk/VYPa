@@ -10,7 +10,7 @@ from src.VYPcode.AST.blocks.base import AST_block
 from src.VYPcode.AST.blocks.program import AST_program
 from src.VYPcode.AST.blocks.value import AST_value
 from src.VYPcode.AST.blocks.variable import AST_variable
-from src.VYPcode.Instructions.Instructions import JUMP, COMMENT, LABEL
+from src.VYPcode.Instructions.Instructions import JUMP, COMMENT, LABEL, DUMPSTACK, DUMPREGS
 from src.VYPcode.Types.VYPaVoid import VYPaVoid
 from src.error import Exit, Error
 

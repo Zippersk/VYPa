@@ -11,15 +11,22 @@ class SimpleClassTest(TestBaseCases.TestBase):
     STDIN = ""
     source_code = """
         class Shape: Object {
-          int a, b;
+          int a;
+          void Shape(void) {
+            this.a = 16;
+          }
         }
+
+        class Rectangle: Shape {
+            void Rectangle(void) {
+            }
+        }
+
         void main(void) {
-            Shape s;
-            s = new Shape;
-            s.a = 42;
-            s.b = 43;
-            print(s.a);
+            Rectangle r;
+            r = new Rectangle;
+            print(r.a);
         }
     """
 
-    STDOUT = "42"
+    STDOUT = "16"

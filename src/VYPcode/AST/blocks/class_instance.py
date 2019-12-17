@@ -20,7 +20,7 @@ from collections import OrderedDict
 
 from src.VYPcode.AST.AbstractSyntaxTree import AST
 from src.VYPcode.AST.blocks.base import AST_block
-from src.VYPcode.Instructions.Instructions import JUMP, COMMENT, LABEL, DUMPSTACK, DUMPREGS
+from src.VYPcode.Instructions.Instructions import JUMP, COMMENT, LABEL, DUMPSTACK, DUMPREGS, SET
 from src.error import Exit, Error
 
 
@@ -70,20 +70,19 @@ class AST_class_instance(AST_block):
             self.merge_instructions(declaration.get_instructions(self))
 
         self.merge_instructions(AST_declaration(VYPaClass(self.name), ["this"]).get_instructions(self))
-        self.merge_instructions(AST_assigment(AST_variable_call("this"),
-                                              AST_expression(
-                                                  AST_SUBI(
-                                                      AST_value(VYPaInt(), VYPaRegister.StackPointer),
-                                                      AST_value(VYPaInt(), 1)
-                                                  ),
-                                              )).get_instructions(self))
+        self.merge_instructions(AST_assigment(
+            AST_variable_call("this"),
+            AST_value(VYPaInt(), VYPaRegister.StackPointer)).get_instructions(self))
 
         constructor = AST.root.functions.get(f"{self.name}_{self.name}", None)
-        if constructor and constructor.type == VYPaVoid() and len(constructor.params) == 0:
-            AST_function_call(f"{self.name}_{self.name}", [AST_variable_call("this")])
+        if constructor and constructor.type == VYPaVoid() and len(constructor.params) == 1:
+            self.merge_instructions(
+                AST_expression(
+                    AST_function_call(f"{self.name}_{self.name}", [AST_variable_call("this")])
+                ).get_instructions(self)
+            )
 
-        self.add_instruction(DUMPSTACK())
-        self.add_instruction(DUMPREGS())
+        self.add_instruction(SET(VYPaRegister.Accumulator, self.stack.top()))
         self.add_instruction(COMMENT(f"End of {self.name} constructor"))
 
         return self.instruction_tape

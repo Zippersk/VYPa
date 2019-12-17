@@ -5,6 +5,8 @@
 |**********************************************************************;
 """
 from src.VYPcode.AST.AbstractSyntaxTree import AST
+from src.VYPcode.AST.blocks.variable import AST_variable
+from src.VYPcode.Types.VYPaClass import VYPaClass
 from src.instructionsTape import InstructionTape
 from src.VYPcode.AST.blocks.base import AST_block
 from src.error import Exit, Error
@@ -37,19 +39,25 @@ class AST_class(AST_block):
             return self.variables[name]
         else:
             if self.name != "Object":
-                self.predecessor.get_variable(name)
+                return self.predecessor.get_variable(name)
             else:
                 Exit(Error.SyntaxError, f"Variable {name} was not defined")
 
     def get_variable_offset(self, name):
+        if name == "super":
+            return len(self.variables) + self.predecessor.get_variable_offset("this")
         if self.variables.get(name, None) is not None:
             return list(self.variables)[::-1].index(name)
         else:
-            Exit(Error.SyntaxError, f"Variable {name} not found in function scope")
+            if self.name != "Object":
+                return len(self.variables) + self.predecessor.get_variable_offset(name)
+            else:
+                Exit(Error.SyntaxError, f"Variable {name} was not defined")
 
     def get_instructions(self, parent):
         self.parent = parent
         if self.name != "Object":
             self.predecessor = AST.root.get_class(self.predecessor_name)
+        self.add_variable(AST_variable(VYPaClass(self.name), "this"))
         return InstructionTape()
 

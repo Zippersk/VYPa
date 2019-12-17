@@ -13,6 +13,7 @@ from src.VYPcode.Types.VYPaInt import VYPaInt
 from src.VYPcode.Types.VYPaString import VYPaString
 from src.VYPcode.Types.VYPaVoid import VYPaVoid
 from src.error import Exit, Error
+from src.instructionsTape import InstructionTape
 
 
 class AST_declaration(AST_block):
@@ -37,6 +38,7 @@ class AST_declaration(AST_block):
 
     def get_instructions(self, parent):
         self.parent = parent
+        self.instruction_tape.clear()
         for name in self.variable_names:
             if self.type == VYPaInt():
                 parent.add_variable(self.declare_integer(name))
