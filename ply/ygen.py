@@ -1,22 +1,3 @@
-﻿"""
-|**********************************************************************;
-* Project           : VYPcode compiler 2019
-* Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
-|**********************************************************************;
-"""
-﻿"""
-|**********************************************************************;
-* Project           : VYPcode compiler 2019
-* Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
-|**********************************************************************;
-"""
-﻿"""
-|**********************************************************************;
-* Project           : VYPcode compiler 2019
-* Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
-|**********************************************************************;
-"""
-
 # ply: ygen.py
 #
 # This is a support program that auto-generates different versions of the YACC parsing
