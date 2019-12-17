@@ -11,8 +11,11 @@ class TestsCastingToString(TestBaseCases.TestBase):
     STDIN = ""
     source_code = """
         void main(void) {
-            int a = 5;
-            string b = (string) a;
+            int a;
+            string b;
+
+            a = 5;
+            b = (string) a;
             print(b);
         }
     """
