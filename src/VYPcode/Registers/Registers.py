@@ -1,3 +1,9 @@
+"""
+|**********************************************************************;
+* Project           : VYPcode compiler 2019
+* Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
+|**********************************************************************;
+"""
 class RegisterBase:
     def __init__(self, name):
         self.name = name

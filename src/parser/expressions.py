@@ -1,3 +1,9 @@
+"""
+|**********************************************************************;
+* Project           : VYPcode compiler 2019
+* Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
+|**********************************************************************;
+"""
 from src.VYPcode.AST.AbstractSyntaxTree import AST
 from src.VYPcode.AST.blocks.binaryOperations.ADD import AST_ADD
 from src.VYPcode.AST.blocks.binaryOperations.AND import AST_AND

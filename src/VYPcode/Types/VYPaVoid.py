@@ -1,3 +1,9 @@
+"""
+|**********************************************************************;
+* Project           : VYPcode compiler 2019
+* Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
+|**********************************************************************;
+"""
 ﻿from src.VYPcode.Types.baseType import VYPaBaseType
 
 

@@ -1,3 +1,9 @@
+"""
+|**********************************************************************;
+* Project           : VYPcode compiler 2019
+* Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
+|**********************************************************************;
+"""
 from src.VYPcode.Registers.Registers import VYPaRegister
 from src.VYPcode.Instructions.InstructionsBaseClasses import *
 

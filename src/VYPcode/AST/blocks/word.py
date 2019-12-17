@@ -1,3 +1,9 @@
+"""
+|**********************************************************************;
+* Project           : VYPcode compiler 2019
+* Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
+|**********************************************************************;
+"""
 ﻿from src.VYPcode.AST.blocks.base import AST_block
 from src.VYPcode.Instructions.Instructions import GETWORD, SETWORD, DUMPHEAP, DUMPREGS, DUMPSTACK, EMPTYLINE, WRITES, \
     RESIZE, COPY

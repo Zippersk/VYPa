@@ -1,3 +1,10 @@
+"""
+|**********************************************************************;
+* Project           : VYPcode compiler 2019
+* Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
+|**********************************************************************;
+"""
+
 import sys
 import ply.lex as lex
 import ply.yacc as yacc

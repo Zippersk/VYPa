@@ -1,3 +1,9 @@
+"""
+|**********************************************************************;
+* Project           : VYPcode compiler 2019
+* Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
+|**********************************************************************;
+"""
 from src.VYPcode.Instructions.Instructions import LABEL, COMMENT
 from src.VYPcode.Types.VYPaVoid import VYPaVoid
 from src.error import Error, Exit

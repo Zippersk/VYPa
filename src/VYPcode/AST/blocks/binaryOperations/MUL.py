@@ -1,3 +1,9 @@
+"""
+|**********************************************************************;
+* Project           : VYPcode compiler 2019
+* Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
+|**********************************************************************;
+"""
 from src.VYPcode.AST.blocks.binaryOperations.binaryOperationBase import AST_binOperation
 from src.VYPcode.Instructions.Instructions import DIVI, MULI
 from src.VYPcode.Types.VYPaInt import VYPaInt
