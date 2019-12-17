@@ -26,11 +26,8 @@ class Printer:
             output_file.write(str(instrunction) + '\n')
 
     def print(self):
-        if self.file:
-            with open(self.file, 'x', encoding="utf-8") as output_file:
-                self._print(output_file)
-        else:
-            self._print(sys.stdout)
+        with open(self.file, 'x', encoding="utf-8") as output_file:
+            self._print(output_file)
 
 
-Output = Printer(sys.argv[2] if len(sys.argv) > 2 else None)
+Output = Printer(sys.argv[2] if len(sys.argv) > 2 else "out.vs")
