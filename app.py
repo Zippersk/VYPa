@@ -14,7 +14,7 @@ from src.tokens import *
 from src.parser.program import *
 
 lexer = lex.lex()
-parser = yacc.yacc(outputdir="generated", start="program")
+parser = yacc.yacc(outputdir="generated", start="program", errorlog=yacc.NullLogger())
 
 
 if __name__ == '__main__':

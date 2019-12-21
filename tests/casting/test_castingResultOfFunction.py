@@ -7,28 +7,20 @@
 from tests.testBase import TestBaseCases
 
 
-class SimpleClassTest(TestBaseCases.TestBase):
+class CastingResultOfFunction(TestBaseCases.TestBase):
     STDIN = ""
     source_code = """
-        class Shape: Object {
-          int a;
-          void Shape(void) {
-            this.a = 16;
-          }
+        int GetTen(void) {
+            return 10;
         }
 
-        class Rectangle: Shape {
-            int a;
-            void Rectangle(void) {
-                this.a = 17;
-            }
+        string GetWord(void) {
+            return "Ahoj";
         }
 
         void main(void) {
-            Rectangle r;
-            r = new Rectangle;
-            print(r.a);
+            print(GetWord() + "test" + (string)(GetTen()));
         }
     """
 
-    STDOUT = "17"
+    STDOUT = "Ahojtest10"

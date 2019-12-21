@@ -19,6 +19,7 @@ class AST_GT(AST_binOperation):
 
     def get_instructions(self, parent):
         self.parent = parent
+        self.stack_offset += parent.stack_offset
         self.instruction_tape.merge(self.left.get_instructions(self))
         self.instruction_tape.merge(self.right.get_instructions(self))
 

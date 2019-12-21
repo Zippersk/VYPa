@@ -7,20 +7,24 @@
 from tests.testBase import TestBaseCases
 
 
-class SimpleClassTest(TestBaseCases.TestBase):
+class ClassFunctionTest(TestBaseCases.TestBase):
     STDIN = ""
     source_code = """
         class Shape: Object {
-          int a, b;
-          void Shape(void) {
-            this.a = 42;
+          int a;
+          void setA(int value) {
+            this.a = value;
+          }
+          int getA(void) {
+            return this.a;
           }
         }
         void main(void) {
             Shape s;
             s = new Shape;
-            print(s.a);
+            s.setA(5);
+            print(s.getA());
         }
     """
 
-    STDOUT = "42"
+    STDOUT = "5"

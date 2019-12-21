@@ -6,6 +6,7 @@
 """
 from src.VYPcode.AST.blocks.base import AST_block
 from src.VYPcode.AST.blocks.binaryOperations.NOT import AST_NOT
+from src.VYPcode.AST.blocks.binaryOperations.cast import AST_cast
 from src.VYPcode.AST.blocks.value import AST_value
 from src.VYPcode.Instructions.Instructions import WRITES, WRITEI
 from src.VYPcode.Registers.Registers import VYPaRegister
@@ -23,6 +24,7 @@ class AST_binOperation(AST_block):
 
     def get_instructions(self, parent):
         self.parent = parent
+        self.stack_offset += parent.stack_offset
         self.instruction_tape.merge(self.left.get_instructions(self))
         self.instruction_tape.merge(self.right.get_instructions(self))
         self.type = VYPaInt()
@@ -37,9 +39,7 @@ class AST_binOperation(AST_block):
         self.parent.add_expression_stack_offset()
 
     def __str__(self):
-        if not isinstance(self.parent, AST_NOT) and self.parent.left == self and isinstance(self.parent.right, AST_binOperation):
-            return str(AST_value(self.type, self.stack.get(self.stack_offset - self.parent.stack_offset)))
-        return str(AST_value(self.type, self.stack.get()))
+        return self.stack.get(self.stack_offset - self.parent.stack_offset)
 
     def check_types(self):
         pass

@@ -34,6 +34,7 @@ class AST_function_call(AST_binOperation):
 
     def get_instructions(self, parent):
         self.parent = parent
+        self.stack_offset += parent.stack_offset
 
         # print is a special function which can be called with multiple parameters
         # so internally we call PrintInt or PrintString for each parameter...
@@ -62,7 +63,8 @@ class AST_function_call(AST_binOperation):
             self.type = function.type
 
             for offset, param in enumerate(self.calling_params, 3):
-                self.instruction_tape.merge(param.get_instructions(self))
+                if self.name != "stringConcat":  # string concat has already merged instructions
+                    self.instruction_tape.merge(param.get_instructions(self))
                 self.stack.set(param, offset)
 
             self.check_params(function)

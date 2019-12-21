@@ -7,14 +7,14 @@
 from tests.testBase import TestBaseCases
 
 
-class IterativeFactorialComputation(TestBaseCases.TestBase):
+class ProgramwithClassesandObjects(TestBaseCases.TestBase):
     STDIN = "5"
     source_code = """
         /* Program 4: Program with Classes and Objects */
         class Shape: Object {
           int id;
           void Shape(void) {
-            print("constructor of Shape");
+            // print("constructor of Shape");
           }
           string toString(void) {
             return "instance of Shape " + (string)(this.id);
@@ -26,24 +26,22 @@ class IterativeFactorialComputation(TestBaseCases.TestBase):
             return super.toString() +
               " - rectangle " + (string)(this.area());
           }
-          int area() {
+          int area(void) {
             return this.height * this.width;
           }
         }
         void main(void) {
           Rectangle r;
           r = new Rectangle;
+          r.height = 10;
+          r.width = 5;
           r.id = 42;
-          r.width = readInt();
-          r.height = readInt();
-          Shape s;
-          s = r;
-          print(s.toString());
+
+
+          print(r.toString());
         } // end of main
     """
 
-    STDOUT = """Enter an integer to compute its factorial:
-The result is: 120
-"""
+    STDOUT = """instance of Shape 5 - rectangle 25"""
 
 

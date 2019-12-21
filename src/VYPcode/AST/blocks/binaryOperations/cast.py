@@ -23,6 +23,7 @@ class AST_cast(AST_block):
 
     def get_instructions(self, parent):
         self.parent = parent
+        self.stack_offset += parent.stack_offset
         self.instruction_tape.merge(self.expression.get_instructions(self))
         self.type = VYPaString()
         self.check_types()

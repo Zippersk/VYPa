@@ -7,6 +7,7 @@
 from src.VYPcode.AST.AbstractSyntaxTree import AST
 from src.VYPcode.AST.blocks.assigment import AST_assigment
 from src.VYPcode.AST.blocks.class_block import AST_class
+from src.VYPcode.AST.blocks.class_function_call import AST_class_function_call
 from src.VYPcode.AST.blocks.class_instance import AST_class_instance
 from src.VYPcode.AST.blocks.class_variable_call import AST_class_variable_call
 from src.VYPcode.AST.blocks.declaration import AST_declaration
@@ -25,6 +26,7 @@ def p_class(t):
     for statement in t[5]:
         if isinstance(statement, AST_function):
             statement.add_param(AST_variable(VYPaClass(t[2]), "this"))
+            statement.params.move_to_end("this", last=False)
             statement.set_label(f"class_{t[2]}_func_{statement.name}")
             statement.set_name(f"{t[2]}_{statement.name}")
             AST.root.add_function(statement)
@@ -65,6 +67,23 @@ def p_expression_new_class_instance(t):
     t[0] = AST_class_instance(t[2])
 
 
+def p_expression_class_function_call(t):
+    '''expression : class_function_call'''
+    t[0] = t[1]
+
+
+def p_statement_class_function_call(t):
+    '''statement : class_function_call'''
+    t[0] = AST_expression(t[1])
+
+
+def p_class_function_call(t):
+    '''class_function_call : NAME DOT NAME LPAREN function_params RPAREN
+                           | THIS DOT NAME LPAREN function_params RPAREN
+                           | SUPER DOT NAME LPAREN function_params RPAREN'''
+    t[0] = AST_class_function_call(t[1], t[3], t[5])
+
+
 def p_expression_class_variable_call(t):
     '''expression : class_variable_call'''
     t[0] = t[1]
@@ -82,16 +101,4 @@ def p_statement_class_variable_assign(t):
     t[0] = AST_assigment(t[1], AST_expression(t[3]))
 
 
-def p_class_function_call(t):
-    '''expression : NAME DOT NAME LPAREN function_params RPAREN'''
-    t[0] = AST_function_call(t[5], t[6])
 
-
-def p_class_this_function_call(t):
-    '''expression : THIS DOT NAME LPAREN function_params RPAREN'''
-    t[0] = AST_function_call(t[3], t[5])
-
-
-def p_class_super_function_call(t):
-    '''expression : SUPER DOT NAME LPAREN function_params RPAREN'''
-    t[0] = AST_function_call(t[3], t[5])

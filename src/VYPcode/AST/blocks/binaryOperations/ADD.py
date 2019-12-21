@@ -34,6 +34,7 @@ class AST_ADD(AST_binOperation):
 
     def get_instructions(self, parent):
         self.parent = parent
+        self.stack_offset += parent.stack_offset
         self.instruction_tape.merge(self.left.get_instructions(self))
         self.instruction_tape.merge(self.right.get_instructions(self))
 
@@ -48,12 +49,9 @@ class AST_ADD(AST_binOperation):
             self.check_types()
             self.type = VYPaString()
             self.instruction_tape.merge(
-                AST_expression(
-                    AST_function_call("stringConcat", [self.left, self.right])
-                ).get_instructions(self)
+                AST_function_call("stringConcat", [self.left, self.right]).get_instructions(self)
             )
-            self.add_instruction(DUMPHEAP())
-            self.add_instruction(DUMPSTACK())
-            self.add_instruction(DUMPREGS())
+        else:
+            Exit(Error.SemanticError, "Can not add other types as primitives")
 
         return self.instruction_tape
