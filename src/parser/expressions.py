@@ -119,3 +119,11 @@ def p_expression_function_call(t):
 def p_expression_cast(t):
     '''expression : LPAREN type RPAREN expression'''
     t[0] = AST_cast(t[2], t[4])
+
+def p_expr_uminus(t):
+    'expression : MINUS expression %prec UMINUS'
+    t[0] = AST_SUBI(AST_value(VYPaInt(), 0), t[2])
+
+def p_expr_uplus(t):
+    'expression : PLUS expression %prec UMINUS'
+    t[0] = AST_ADD(AST_value(VYPaInt(), 0), t[2])
