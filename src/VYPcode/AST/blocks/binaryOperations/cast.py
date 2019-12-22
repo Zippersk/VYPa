@@ -54,6 +54,6 @@ class AST_cast(AST_block):
         return str(AST_value(self.type, self.stack.get()))
 
     def check_types(self):
-        if (self.expression.type != VYPaInt() and self.casting_type != VYPaString()) and \
-                (not isinstance(self.expression.type, VYPaClass) and not AST.root.classes.get(self.casting_type.name, False)):
+        if not ((self.expression.type == VYPaInt() and self.casting_type == VYPaString()) or
+                (isinstance(self.expression.type, VYPaClass) and AST.root.classes.get(self.casting_type.name, False))):
             Exit(Error.TypesIncompatibility, "Type check error!")

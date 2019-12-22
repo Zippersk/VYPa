@@ -35,24 +35,27 @@ class AST_class_function_call(AST_binOperation):
         self.parent = parent
         self.stack_offset += parent.stack_offset
 
+        this_offset = 0
         if self.class_variable_name == "super":
             this_variable = AST_variable_call("this")
             self.instruction_tape.merge(this_variable.get_instructions(self))
-            self.stack.set(self.stack.get(- len(AST.root.get_class(this_variable.type.name).variables), VYPaRegister.Accumulator), 3)
+            this_offset += len(AST.root.get_class(this_variable.type.name).variables)
             class_name = AST.root.get_class(this_variable.type.name).predecessor_name
             self.class_variable_name = "this"
         else:
             this_variable = AST_variable_call(self.class_variable_name)
             self.instruction_tape.merge(this_variable.get_instructions(self))
-            self.stack.set(this_variable, 3)
             class_name = this_variable.type.name
 
         function = None
         while function is None:
             if AST.root.functions.get(f"{class_name}_{self.name}", None):
+                self.stack.set(self.stack.get(- this_offset, VYPaRegister.Accumulator), 3)
                 function = AST.root.get_function(f"{class_name}_{self.name}")
             else:
+                this_offset += len(AST.root.get_class(class_name).variables)
                 class_name = AST.root.get_class(class_name).predecessor_name
+
 
         self.type = function.type
 

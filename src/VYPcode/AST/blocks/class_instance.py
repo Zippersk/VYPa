@@ -14,6 +14,7 @@ from src.VYPcode.AST.blocks.variable_call import AST_variable_call
 from src.VYPcode.Registers.Registers import VYPaRegister
 from src.VYPcode.Types.VYPaClass import VYPaClass
 from src.VYPcode.Types.VYPaInt import VYPaInt
+from src.VYPcode.Types.VYPaString import VYPaString
 from src.VYPcode.Types.VYPaVoid import VYPaVoid
 from src.instructionsTape import InstructionTape
 from collections import OrderedDict
@@ -68,6 +69,13 @@ class AST_class_instance(AST_block):
         self.add_instruction(COMMENT(f"Constructor of class {self.name}"))
         for declaration in self.class_block.declarations:
             self.merge_instructions(declaration.get_instructions(self))
+
+        if self.name == "Object":
+            top_most_children = self
+            while isinstance(top_most_children.parent, AST_class_instance):
+                top_most_children = top_most_children.parent
+            self.merge_instructions(
+                AST_assigment(AST_variable_call("**runtime_name**"), AST_value(VYPaString(), f'"{top_most_children.name}"')).get_instructions(self))
 
         self.merge_instructions(AST_declaration(VYPaClass(self.name), ["this"]).get_instructions(self))
         self.merge_instructions(AST_assigment(

@@ -60,7 +60,13 @@ class AST_function(AST_block):
         if self.params.get(name, None) is not None:
             return len(self.variables) + list(self.params)[::-1].index(name)
         elif self.variables.get(name, None) is not None:
-            return list(self.variables)[::-1].index(name)
+            offset = 0
+            for variable in list(self.variables.values())[::-1]:
+                if variable.name == name:
+                    return offset
+                else:
+                    offset += variable.get_size()
+
         else:
             Exit(Error.SemanticError, f"Variable {name} not found in function scope")
 

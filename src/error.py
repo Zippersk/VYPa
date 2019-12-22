@@ -20,5 +20,5 @@ class Error(Enum):
 
 
 def Exit(code, reason):
-    # print(reason) # remove error message before Assignment
-    os._exit(code.value)
+    print(reason) # remove error message before Assignment
+    #os._exit(code.value)

@@ -61,3 +61,8 @@ class AST_class(AST_block):
         self.add_variable(AST_variable(VYPaClass(self.name), "this"))
         return InstructionTape()
 
+    def get_size(self):
+        if self.predecessor is None:
+            return len(self.variables)
+        return len(self.variables) + self.predecessor.get_size()
+

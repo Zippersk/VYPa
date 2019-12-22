@@ -15,6 +15,7 @@ from src.VYPcode.Types.VYPaClass import VYPaClass
 from src.VYPcode.Types.VYPaInt import VYPaInt
 from src.error import Exit, Error
 
+CLASS_INSTANCE_COUNTS = 1
 
 class AST_assigment(AST_block):
     def __init__(self, variable_call, expression):
@@ -24,10 +25,18 @@ class AST_assigment(AST_block):
 
     def get_instructions(self, parent):
         self.parent = parent
+        global CLASS_INSTANCE_COUNTS
         self.instruction_tape.merge(self.expression.get_instructions(self))
         self.variables["_"] = AST_variable(VYPaInt(), "_")
         self.stack.push(AST_value(self.expression.type, VYPaRegister.Accumulator))
         self.instruction_tape.merge(self.variable.get_instructions(self))
+
+        from src.VYPcode.AST.blocks.class_instance import AST_class_instance
+        if hasattr(self.expression, "expression_root") and isinstance(self.expression.expression_root, AST_class_instance):
+            class_instance_variable = AST_variable(VYPaClass(self.expression.type.name), f"instance of {self.expression.type.name} {CLASS_INSTANCE_COUNTS}")
+            class_instance_variable.set_size(AST.root.get_class(self.expression.type.name).get_size())
+            self.variable.variable.parent.add_variable(class_instance_variable)
+            CLASS_INSTANCE_COUNTS += 1
 
         if self.variable.type != self.expression.type:
             if self.variable.name != "this":
@@ -40,6 +49,7 @@ class AST_assigment(AST_block):
             while self.variable.type.name != class_name:
                 this_offset -= len(AST.root.get_class(class_name).variables)
                 class_name = AST.root.get_class(class_name).predecessor_name
+
             self.instruction_tape.add(SET(self.variable, self.stack.get(this_offset, VYPaRegister.ClassCallReg)))
         else:
             self.instruction_tape.add(SET(self.variable, self.stack.top()))
