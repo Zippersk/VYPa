@@ -41,7 +41,7 @@ class TestBaseCases:
             MAIN_INSTRUCTION_TAPE.clear()
 
         def run_vypa_interpreter(self):
-            process = subprocess.run(f"java -jar {self.interpreter_path} {self.source_file_path}", stdout=PIPE, input=self.STDIN, encoding='UTF-8')
+            process = subprocess.run(f"java -jar {self.interpreter_path} {self.source_file_path}", stdout=PIPE, input=self.STDIN, encoding='UTF-8', shell=True)
             self.assertEqual(self.STDERR, process.stderr)
             self.assertEqual(self.STDOUT, process.stdout)
             self.assertEqual(self.return_code, process.returncode)
