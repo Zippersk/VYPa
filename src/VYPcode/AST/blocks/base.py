@@ -4,7 +4,7 @@
 * Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
 |**********************************************************************;
 """
-from collections import OrderedDict
+from src.common import VariablesStore
 
 
 class AST_block:
@@ -17,7 +17,7 @@ class AST_block:
         from src.VYPcode.Stack import Stack
         self.stack = Stack(self.instruction_tape)
         self.AST_blocks = []
-        self.variables = OrderedDict()
+        self.variables = VariablesStore()
 
     def add_block(self, block):
         self.AST_blocks.append(block)

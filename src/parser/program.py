@@ -4,6 +4,8 @@
 * Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
 |**********************************************************************;
 """
+from src.VYPcode.Functions.buildInFunctions import PrintIntVYPa, PrintStringVYPa, ReadIntVYPa, ReadStringVYPa, \
+    LengthVYPa, SubStrVYPa, StringsConcat, ObjectVYPa
 from src.VYPcode.Instructions.Instructions import LABEL, COMMENT
 from src.VYPcode.Types.VYPaClass import VYPaClass
 from src.VYPcode.Types.VYPaVoid import VYPaVoid
@@ -41,7 +43,14 @@ def p_program(t):
 
 def p_init(t):
     '''init : '''
-    MAIN_INSTRUCTION_TAPE.add_build_in_functions()
+    PrintIntVYPa()
+    PrintStringVYPa()
+    ReadIntVYPa()
+    ReadStringVYPa()
+    LengthVYPa()
+    SubStrVYPa()
+    StringsConcat()
+    ObjectVYPa()
 
 
 def p_program_body_empty(t):

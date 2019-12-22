@@ -26,7 +26,7 @@ class AST_class_variable_call(AST_block):
         self.parent = parent
         self.class_variable = AST_variable_call(self.class_variable_name)
         self.instruction_tape.merge(self.class_variable.get_instructions(self))
-        self.add_instruction(SET(VYPaRegister.DestinationReg, self.class_variable))
+        self.add_instruction(SET(VYPaRegister.ClassCallReg, self.class_variable))
 
         self.variable = AST.root.get_class(self.class_variable.type.name).get_variable(self.name)
         self.type = self.variable.type
@@ -35,6 +35,6 @@ class AST_class_variable_call(AST_block):
 
     def __str__(self):
         self.stack_offset = AST.root.get_class(self.class_variable.type.name).get_variable_offset(self.name)
-        return self.stack.get(-self.stack_offset, VYPaRegister.DestinationReg)
+        return self.stack.get(-self.stack_offset, VYPaRegister.ClassCallReg)
 
 

@@ -14,7 +14,7 @@ class ProgramwithClassesandObjects(TestBaseCases.TestBase):
         class Shape: Object {
           int id;
           void Shape(void) {
-            // print("constructor of Shape");
+            print("constructor of Shape");
           }
           string toString(void) {
             return "instance of Shape " + (string)(this.id);
@@ -33,15 +33,15 @@ class ProgramwithClassesandObjects(TestBaseCases.TestBase):
         void main(void) {
           Rectangle r;
           r = new Rectangle;
-          r.height = 10;
-          r.width = 5;
           r.id = 42;
-
-
-          print(r.toString());
+          r.width = readInt();
+          r.height = 10;
+          Shape s;
+          s = r;
+          print(s.toString());
         } // end of main
     """
 
-    STDOUT = """instance of Shape 5 - rectangle 25"""
+    STDOUT = """constructor of Shapeinstance of Shape 5"""
 
 

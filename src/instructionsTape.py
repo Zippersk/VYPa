@@ -35,20 +35,9 @@ class InstructionTape:
         constants_instructions_tape = InstructionTape()
         constants_instructions_tape.add(ALIAS(VYPaRegister.Accumulator.name, "$1"))
         constants_instructions_tape.add(ALIAS(VYPaRegister.DestinationReg.name, "$2"))
+        constants_instructions_tape.add(ALIAS(VYPaRegister.ClassCallReg.name, "$4"))
         constants_instructions_tape.add(JUMP("func_main"))
         self.__instructions = constants_instructions_tape.merge(MAIN_INSTRUCTION_TAPE).get_instructions()
-
-    def add_build_in_functions(self):
-        from src.VYPcode.Functions.buildInFunctions import PrintIntVYPa, PrintStringVYPa, ReadIntVYPa, ReadStringVYPa, \
-            LengthVYPa, SubStrVYPa, StringsConcat, ObjectVYPa
-        PrintIntVYPa()
-        PrintStringVYPa()
-        ReadIntVYPa()
-        ReadStringVYPa()
-        LengthVYPa()
-        SubStrVYPa()
-        StringsConcat()
-        ObjectVYPa()
 
     def clear(self):
         self.__instructions.clear()
