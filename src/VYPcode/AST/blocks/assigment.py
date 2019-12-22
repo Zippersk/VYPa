@@ -31,7 +31,7 @@ class AST_assigment(AST_block):
 
         if self.variable.type != self.expression.type:
             if self.variable.name != "this":
-                Exit(Error.SemanticError, "Type check error!")
+                Exit(Error.TypesIncompatibility, "Type check error!")
 
         if isinstance(self.variable.type, VYPaClass) and self.variable.name != "this":
             this_offset = 0

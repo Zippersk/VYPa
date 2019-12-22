@@ -18,4 +18,4 @@ class AST_OR(AST_binOperation):
 
     def check_types(self):
         if self.left.type != VYPaInt() or self.right.type != VYPaInt():
-            Exit(Error.SemanticError, "Type check error!")
+            Exit(Error.TypesIncompatibility, "Type check error!")

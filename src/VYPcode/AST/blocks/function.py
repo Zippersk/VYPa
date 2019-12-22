@@ -35,7 +35,7 @@ class AST_function(AST_block):
     def add_param(self, param):
         param.set_parent(self)
         if self.params.get(param.name, None) is not None:
-            Exception(f"Param with name {param.name} already exists")
+            Exit(Error.SemanticError, f"Param with name {param.name} already exists")
         else:
             self.params[param.name] = param
 
@@ -46,7 +46,7 @@ class AST_function(AST_block):
             self.variables[variable.name] = variable
             return variable
         else:
-            Exception(f"Variable {variable.name} already exists")
+            Exit(Error.SemanticError, f"Variable {variable.name} already exists")
 
     def get_variable(self, name):
         if self.variables.get(name, None) is not None:
@@ -54,7 +54,7 @@ class AST_function(AST_block):
         elif self.params.get(name, None) is not None:
             return self.params[name]
         else:
-            Exit(Error.SyntaxError, f"Variable {name} was not defined")
+            Exit(Error.SemanticError, f"Variable {name} was not defined")
 
     def get_variable_offset(self, name):
         if self.params.get(name, None) is not None:
@@ -62,7 +62,7 @@ class AST_function(AST_block):
         elif self.variables.get(name, None) is not None:
             return list(self.variables)[::-1].index(name)
         else:
-            Exception(f"Variable {name} not found in function scope")
+            Exit(Error.SemanticError, f"Variable {name} not found in function scope")
 
     def get_instructions(self, parent):
         self.parent = parent

@@ -64,7 +64,10 @@ def t_WORD(t):
     hexChars = [x for x in re.findall(r'\\x[A-Fa-f0-9]{6}', t.value)]
 
     for hexChar in hexChars:
-        unicode_char = chr(int(hexChar[2:], 16))
+        try:
+            unicode_char = chr(int(hexChar[2:], 16))
+        except ValueError:
+            Exit(Error.LexicalError, "unicode character not in range of unicode characters")
         t.value = t.value.replace(hexChar, unicode_char)
 
     return t

@@ -56,4 +56,4 @@ class AST_cast(AST_block):
     def check_types(self):
         if (self.expression.type != VYPaInt() and self.casting_type != VYPaString()) and \
                 (not isinstance(self.expression.type, VYPaClass) and not AST.root.classes.get(self.casting_type.name, False)):
-            Exit(Error.SemanticError, "Type check error!")
+            Exit(Error.TypesIncompatibility, "Type check error!")

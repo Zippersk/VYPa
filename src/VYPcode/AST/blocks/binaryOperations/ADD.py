@@ -30,7 +30,7 @@ class AST_ADD(AST_binOperation):
 
     def check_types(self):
         if self.left.type != self.right.type:
-            Exit(Error.SemanticError, "Type check error!")
+            Exit(Error.TypesIncompatibility, "Type check error!")
 
     def get_instructions(self, parent):
         self.parent = parent
@@ -52,6 +52,6 @@ class AST_ADD(AST_binOperation):
                 AST_function_call("stringConcat", [self.left, self.right]).get_instructions(self)
             )
         else:
-            Exit(Error.SemanticError, "Can not add other types as primitives")
+            Exit(Error.TypesIncompatibility, "Can not add other types as primitives")
 
         return self.instruction_tape

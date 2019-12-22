@@ -39,4 +39,4 @@ class AST_NOT(AST_block):
 
     def check_types(self):
         if self.expression.type != VYPaInt():
-            Exit(Error.SemanticError, "Type check error!")
+            Exit(Error.TypesIncompatibility, "Type check error!")

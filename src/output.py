@@ -34,4 +34,4 @@ class Printer:
             self._print(output_file)
 
 
-Output = Printer(sys.argv[2] if len(sys.argv) > 2 else "out.vs")
+Output = Printer(sys.argv[2] if len(sys.argv) > 2 else "out.vc")

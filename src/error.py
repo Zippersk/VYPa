@@ -4,7 +4,10 @@
 * Authors           : Michal Horky (xhorky23), Matus Mucka (xmucka03)
 |**********************************************************************;
 """
+import os
 from enum import Enum
+
+import sys
 
 
 class Error(Enum):
@@ -17,5 +20,5 @@ class Error(Enum):
 
 
 def Exit(code, reason):
-    print(reason)
-    exit(code)
+    # print(reason) # remove error message before Assignment
+    os._exit(code.value)
