@@ -24,6 +24,7 @@ precedence = (
     ('left', 'PLUS', 'MINUS'),
     ('left', 'TIMES', 'DIVIDE'),
     ('right', 'NEGATION'),
+    ('right', 'UMINUS'),
 )
 
 # dictionary of names
