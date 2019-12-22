@@ -34,14 +34,12 @@ class ProgramwithClassesandObjects(TestBaseCases.TestBase):
           Rectangle r;
           r = new Rectangle;
           r.id = 42;
-          r.width = readInt();
-          r.height = 10;
           Shape s;
           s = r;
           print(s.toString());
         } // end of main
     """
 
-    STDOUT = """constructor of Shapeinstance of Shape 5"""
+    STDOUT = """constructor of Shapeinstance of Shape 42"""
 
 
