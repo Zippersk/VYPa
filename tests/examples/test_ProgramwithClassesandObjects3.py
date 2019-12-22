@@ -7,7 +7,7 @@
 from tests.testBase import TestBaseCases
 
 
-class ProgramwithClassesandObjects2(TestBaseCases.TestBase):
+class ProgramwithClassesandObjects3(TestBaseCases.TestBase):
     STDIN = "5"
     source_code = """
     /* Program 4: Program with Classes and Objects */
@@ -37,7 +37,7 @@ class ProgramwithClassesandObjects2(TestBaseCases.TestBase):
       r.width = readInt();
       r.height = 10;
       Shape s;
-      s = (Shape) r;
+      s = r;
       print(r.toString());
     } // end of main
     """
