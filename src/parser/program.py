@@ -86,4 +86,4 @@ def p_type(t):
         t[0] = VYPaClass(t[1])
 
 def p_error(t):
-    print("Syntax error at '%s'" % t.value)
+    Exit(Error.SyntaxError, "Syntax error. Can not parse")
